@@ -55,7 +55,7 @@ export default function Navbar() {
                 alt="GGE"
                 fill
                 className="object-contain"
-                style={{ filter: "brightness(0) invert(1)" }}
+                style={{ filter: "brightness(0) invert(1)" }} 
               />
             </div>
             <div>
