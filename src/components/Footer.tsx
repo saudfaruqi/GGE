@@ -1,215 +1,149 @@
-// components/Footer.tsx  —  Global Green Exports
 import Link from "next/link";
-import Image from "next/image";
-import { MapPin, Phone, Mail, Globe, ArrowUpRight } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
 
-const footerLinks = {
-  company: [
-    { href: "/about", label: "About Us" },
-    { href: "/products", label: "Our Products" },
-    { href: "/wholesale", label: "Wholesale" },
-    { href: "/escrow", label: "Escrow Services" },
-    { href: "/gallery", label: "Gallery" },
-    { href: "/contact", label: "Contact" },
-  ],
-  services: [
-    { href: "/products", label: "Premium Flower" },
-    { href: "/products", label: "Full-Spectrum Extracts" },
-    { href: "/products", label: "Isolated Cannabinoids" },
-    { href: "/products", label: "Hemp Products" },
-    { href: "/wholesale", label: "Bulk Wholesale" },
-    { href: "/escrow", label: "Trade Escrow" },
-  ],
-};
+const col1 = [
+  { href: "/about", label: "About" },
+  { href: "/products", label: "Products" },
+  { href: "/wholesale", label: "Wholesale" },
+  { href: "/escrow", label: "Escrow" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/contact", label: "Contact" },
+];
 
-const certBadges = [
-  "GACP Certified",
-  "Export Licensed",
-  "CoA Guaranteed",
-  "Escrow Protected",
+const col2 = [
+  { href: "/products", label: "Whole Flower" },
+  { href: "/products", label: "Full-Spectrum Extracts" },
+  { href: "/products", label: "Cannabinoid Isolates" },
+  { href: "/products", label: "Hemp Products" },
+  { href: "/wholesale", label: "Bulk Wholesale" },
+  { href: "/escrow", label: "Trade Escrow" },
 ];
 
 export default function Footer() {
   return (
     <footer
       style={{
-        background: "#080f09",
-        borderTop: "1px solid rgba(201,168,76,0.15)",
+        background: "#07120a",
+        borderTop: "1px solid rgba(184,146,58,0.12)",
       }}
     >
-      {/* Top gold line */}
-      <div style={{ height: "2px", background: "var(--gold)" }} />
+      <div style={{ height: "1px", background: "var(--gold, #b8923a)", opacity: 0.5 }} />
 
-      {/* Badge strip */}
       <div
         style={{
-          borderBottom: "1px solid rgba(201,168,76,0.1)",
-          padding: "14px 0",
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "72px 40px 56px",
         }}
       >
         <div
-          className="max-w-7xl mx-auto px-8"
-          style={{ display: "flex", flexWrap: "wrap", gap: "24px", justifyContent: "center" }}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "48px",
+          }}
         >
-          {certBadges.map((badge) => (
-            <span
-              key={badge}
-              style={{
-                fontSize: "0.6rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "rgba(201,168,76,0.5)",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                fontWeight: 500,
-              }}
-            >
-              <span
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ background: "var(--gold)", opacity: 0.6 }}
-              />
-              {badge}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Main footer grid */}
-      <div className="max-w-7xl mx-auto px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-
           {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="relative w-10 h-10">
-                <Image
-                  src="/images/logo-white.png"
-                  alt="GGE"
-                  fill
-                  className="object-contain"
-                  style={{ filter: "brightness(0) invert(1)" }}
-                />
-              </div>
-              <div>
-                <div
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "0.95rem",
-                    fontWeight: 700,
-                    color: "#fff",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  Global Green Exports
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.55rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: "rgba(201,168,76,0.5)",
-                    fontWeight: 500,
-                  }}
-                >
-                  Thailand · Est. 2024
-                </div>
-              </div>
-            </div>
-
+          <div style={{ gridColumn: "span 1" }}>
             <p
               style={{
-                fontSize: "0.8rem",
-                lineHeight: 1.75,
-                color: "rgba(255,255,255,0.35)",
-                fontWeight: 300,
+                fontFamily: "'Playfair Display', serif",
+                fontSize: "1rem",
+                fontWeight: 500,
+                color: "#fff",
+                marginBottom: "4px",
+                letterSpacing: "0.01em",
+              }}
+            >
+              Global Green Exports
+            </p>
+            <p
+              style={{
+                fontSize: "0.57rem",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "rgba(184,146,58,0.45)",
                 marginBottom: "20px",
               }}
             >
-              Thailand's licensed exporter of GACP-certified medicinal cannabis
-              and hemp products. Connecting compliant growers with global markets.
+              Bangkok · Est. 2024
             </p>
-
-            <div
-              className="flex items-center gap-2"
+            <p
               style={{
-                fontSize: "0.6rem",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: "rgba(201,168,76,0.6)",
-                fontWeight: 600,
+                fontSize: "0.8rem",
+                lineHeight: 1.8,
+                color: "rgba(255,255,255,0.3)",
+                fontWeight: 300,
+                maxWidth: "260px",
               }}
             >
-              <Globe size={11} />
-              Licensed Thai Cannabis Exporter
-            </div>
+              Licensed Thai exporter of GACP-certified medicinal cannabis and
+              hemp products. Connecting compliant growers with global markets.
+            </p>
           </div>
 
           {/* Company */}
           <div>
-            <h4
+            <p
               style={{
                 fontSize: "0.6rem",
-                letterSpacing: "0.22em",
+                letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "var(--gold)",
-                fontWeight: 700,
+                color: "var(--gold, #b8923a)",
+                fontWeight: 500,
                 marginBottom: "20px",
                 paddingBottom: "12px",
-                borderBottom: "1px solid rgba(201,168,76,0.15)",
+                borderBottom: "1px solid rgba(184,146,58,0.12)",
               }}
             >
               Company
-            </h4>
-            <ul style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              {footerLinks.company.map((link) => (
-                <li key={link.label}>
+            </p>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
+              {col1.map((l) => (
+                <li key={l.label}>
                   <Link
-                    href={link.href}
-                    className="group inline-flex items-center gap-1"
+                    href={l.href}
                     style={{
-                      fontSize: "0.82rem",
-                      color: "rgba(255,255,255,0.38)",
+                      fontSize: "0.83rem",
+                      color: "rgba(255,255,255,0.32)",
                       fontWeight: 300,
-                      transition: "color 0.2s",
                     }}
                   >
-                    {link.label}
+                    {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Products */}
           <div>
-            <h4
+            <p
               style={{
                 fontSize: "0.6rem",
-                letterSpacing: "0.22em",
+                letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "var(--gold)",
-                fontWeight: 700,
+                color: "var(--gold, #b8923a)",
+                fontWeight: 500,
                 marginBottom: "20px",
                 paddingBottom: "12px",
-                borderBottom: "1px solid rgba(201,168,76,0.15)",
+                borderBottom: "1px solid rgba(184,146,58,0.12)",
               }}
             >
-              Products & Services
-            </h4>
-            <ul style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              {footerLinks.services.map((link) => (
-                <li key={link.label}>
+              Products &amp; Services
+            </p>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
+              {col2.map((l) => (
+                <li key={l.label}>
                   <Link
-                    href={link.href}
+                    href={l.href}
                     style={{
-                      fontSize: "0.82rem",
-                      color: "rgba(255,255,255,0.38)",
+                      fontSize: "0.83rem",
+                      color: "rgba(255,255,255,0.32)",
                       fontWeight: 300,
-                      transition: "color 0.2s",
                     }}
                   >
-                    {link.label}
+                    {l.label}
                   </Link>
                 </li>
               ))}
@@ -218,55 +152,99 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4
+            <p
               style={{
                 fontSize: "0.6rem",
-                letterSpacing: "0.22em",
+                letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "var(--gold)",
-                fontWeight: 700,
+                color: "var(--gold, #b8923a)",
+                fontWeight: 500,
                 marginBottom: "20px",
                 paddingBottom: "12px",
-                borderBottom: "1px solid rgba(201,168,76,0.15)",
+                borderBottom: "1px solid rgba(184,146,58,0.12)",
               }}
             >
               Contact
-            </h4>
-            <ul style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <li className="flex items-start gap-3">
-                <MapPin size={13} style={{ color: "var(--gold)", marginTop: "2px", flexShrink: 0 }} />
-                <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.38)", fontWeight: 300, lineHeight: 1.6 }}>
-                  Bangkok, Thailand<br />Export Operations Hub
+            </p>
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "14px" }}>
+              <li
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "10px",
+                }}
+              >
+                <MapPin
+                  size={12}
+                  style={{ color: "var(--gold, #b8923a)", marginTop: "3px", flexShrink: 0 }}
+                />
+                <span
+                  style={{
+                    fontSize: "0.82rem",
+                    color: "rgba(255,255,255,0.32)",
+                    fontWeight: 300,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Bangkok, Thailand
+                  <br />
+                  Export Operations
                 </span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone size={13} style={{ color: "var(--gold)", flexShrink: 0 }} />
-                <a href="tel:+66000000000" style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.38)", fontWeight: 300 }}>
+              <li style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <Phone size={12} style={{ color: "var(--gold, #b8923a)", flexShrink: 0 }} />
+                <a
+                  href="tel:+66000000000"
+                  style={{
+                    fontSize: "0.82rem",
+                    color: "rgba(255,255,255,0.32)",
+                    fontWeight: 300,
+                  }}
+                >
                   +66 (0) 00 000 0000
                 </a>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail size={13} style={{ color: "var(--gold)", flexShrink: 0 }} />
-                <a href="mailto:info@globalgreen.export" style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.38)", fontWeight: 300 }}>
+              <li style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <Mail size={12} style={{ color: "var(--gold, #b8923a)", flexShrink: 0 }} />
+                <a
+                  href="mailto:info@globalgreen.export"
+                  style={{
+                    fontSize: "0.82rem",
+                    color: "rgba(255,255,255,0.32)",
+                    fontWeight: 300,
+                  }}
+                >
                   info@globalgreen.export
                 </a>
               </li>
             </ul>
 
-            {/* Licence status */}
             <div
               style={{
                 marginTop: "24px",
-                padding: "12px 16px",
-                border: "1px solid rgba(201,168,76,0.15)",
-                background: "rgba(201,168,76,0.04)",
-                textAlign: "center",
+                padding: "12px 14px",
+                border: "1px solid rgba(184,146,58,0.14)",
               }}
             >
-              <p style={{ fontSize: "0.6rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 700, marginBottom: "3px" }}>
+              <p
+                style={{
+                  fontSize: "0.6rem",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(184,146,58,0.6)",
+                  fontWeight: 500,
+                  marginBottom: "3px",
+                }}
+              >
                 Export Licence Pending
               </p>
-              <p style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.25)", fontWeight: 300 }}>
+              <p
+                style={{
+                  fontSize: "0.65rem",
+                  color: "rgba(255,255,255,0.2)",
+                  fontWeight: 300,
+                }}
+              >
                 Full licensure expected shortly
               </p>
             </div>
@@ -277,22 +255,41 @@ export default function Footer() {
       {/* Bottom bar */}
       <div
         style={{
-          borderTop: "1px solid rgba(201,168,76,0.08)",
-          padding: "20px 0",
+          borderTop: "1px solid rgba(255,255,255,0.05)",
+          padding: "18px 0",
         }}
       >
         <div
-          className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-3"
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "0 40px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "8px",
+          }}
         >
-          <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.2)", letterSpacing: "0.06em" }}>
+          <p
+            style={{
+              fontSize: "0.72rem",
+              color: "rgba(255,255,255,0.16)",
+              fontWeight: 300,
+            }}
+          >
             © {new Date().getFullYear()} Global Green Exports. All rights reserved.
           </p>
-          <div className="flex gap-8">
-            {["Privacy Policy", "Terms of Service", "Legal Notice"].map((t) => (
+          <div style={{ display: "flex", gap: "24px" }}>
+            {["Privacy Policy", "Terms", "Legal Notice"].map((t) => (
               <Link
                 key={t}
                 href="/contact"
-                style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.2)", transition: "color 0.2s" }}
+                style={{
+                  fontSize: "0.7rem",
+                  color: "rgba(255,255,255,0.16)",
+                  fontWeight: 300,
+                }}
               >
                 {t}
               </Link>

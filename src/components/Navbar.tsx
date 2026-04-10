@@ -1,11 +1,8 @@
-// components/Navbar.tsx  —  Global Green Exports
 "use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -22,177 +19,199 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 48);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   return (
-    <>
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400`}
+    <nav
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        height: "90px",
+        background: scrolled ? "white" : "white",
+        borderBottom: scrolled ? "1px solid rgba(184,146,58,0.15)" : "none",
+        backdropFilter: scrolled ? "blur(16px)" : "none",
+        transition: "background 0.5s, border-color 0.5s, backdrop-filter 0.5s",
+      }}
+    >
+      <div
         style={{
-          background: scrolled ? "rgba(10,26,13,0.98)" : "rgba(10,26,13,0.85)",
-          backdropFilter: "blur(12px)",
-          borderBottom: scrolled ? "1px solid rgba(201,168,76,0.2)" : "1px solid rgba(201,168,76,0.1)",
-          boxShadow: scrolled ? "0 4px 40px rgba(0,0,0,0.4)" : "none",
-          transition: "background 0.4s, border-color 0.4s, box-shadow 0.4s",
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: "0 40px",
+          height: "90px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          overflow: "hidden",
         }}
       >
+        {/* Wordmark */}
+        <Link href="/" style={{ width: "70px", margin: "auto 10px" }}>
+        <img src="/logo1.png" alt="" />
+        </Link>
+
+        {/* Desktop nav */}
         <div
-          className="max-w-7xl mx-auto px-8 flex items-center justify-between"
-          style={{ height: "76px" }}
+          className="hidden lg:flex"
+          style={{ alignItems: "center", gap: "2px" }}
         >
-          {/* ── Logo ── */}
-          <Link href="/" className="flex items-center gap-4 shrink-0 group">
-            <div className="relative w-10 h-10">
-              <Image
-                src="/images/logo-white.png"
-                alt="GGE"
-                fill
-                className="object-contain"
-                style={{ filter: "brightness(0) invert(1)" }} 
-              />
-            </div>
-            <div>
-              <div
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  color: "#ffffff",
-                  letterSpacing: "0.03em",
-                  lineHeight: 1.1,
-                }}
-              >
-                Global Green Exports
-              </div>
-              <div
-                style={{
-                  fontSize: "0.55rem",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "rgba(201,168,76,0.6)",
-                  fontWeight: 500,
-                  lineHeight: 1,
-                  marginTop: "2px",
-                }}
-              >
-                Thailand · Est. 2024
-              </div>
-            </div>
-          </Link>
-
-          {/* ── Desktop Nav ── */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const active = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  style={{
-                    fontSize: "0.68rem",
-                    fontWeight: active ? 600 : 400,
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    color: active ? "var(--gold)" : "rgba(255,255,255,0.65)",
-                    padding: "8px 14px",
-                    transition: "color 0.2s",
-                    borderBottom: active ? "1px solid var(--gold)" : "1px solid transparent",
-                  }}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* ── CTA + Mobile Toggle ── */}
-          <div className="flex items-center gap-4">
-            <Link
-              href="/contact"
-              className="hidden lg:inline-flex items-center"
-              style={{
-                background: "var(--gold)",
-                color: "var(--green-dark)",
-                padding: "10px 22px",
-                fontSize: "0.65rem",
-                fontWeight: 700,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                transition: "background 0.2s",
-              }}
-            >
-              Get Quote
-            </Link>
-
-            <button
-              className="lg:hidden"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
-              style={{ color: "white", padding: "8px", background: "none", border: "none", cursor: "pointer" }}
-            >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
-        </div>
-
-        {/* ── Mobile Menu ── */}
-        <div
-          style={{
-            maxHeight: mobileOpen ? "500px" : "0",
-            opacity: mobileOpen ? 1 : 0,
-            overflow: "hidden",
-            transition: "max-height 0.35s ease, opacity 0.25s ease",
-            background: "rgba(10,26,13,0.99)",
-            borderTop: "1px solid rgba(201,168,76,0.12)",
-          }}
-        >
-          <div style={{ padding: "16px 24px 24px" }}>
-            {navLinks.map((link) => (
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
               <Link
                 key={link.href}
                 href={link.href}
                 style={{
-                  display: "block",
-                  color: pathname === link.href ? "var(--gold)" : "rgba(255,255,255,0.65)",
-                  padding: "12px 0",
-                  fontSize: "0.85rem",
-                  fontWeight: pathname === link.href ? 600 : 400,
-                  letterSpacing: "0.12em",
+                  fontSize: "0.72rem",
+                  letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  borderBottom: "1px solid rgba(255,255,255,0.05)",
-                  transition: "color 0.2s",
+                  fontWeight: active ? 500 : 300,
+                  color: active ? "var(--gold-light, #d4a84e)" : "black",
+                  padding: "6px 16px",
+                  position: "relative",
                 }}
               >
                 {link.label}
+                {active && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: "16px",
+                      right: "16px",
+                      height: "1px",
+                      background: "var(--gold, #b8923a)",
+                    }}
+                  />
+                )}
               </Link>
-            ))}
-            <Link
-              href="/contact"
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          <Link
+            href="/contact"
+            className="hidden lg:inline-block"
+            style={{
+              fontSize: "0.67rem",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              fontWeight: 500,
+              color: "var(--forest, #0d1f12)",
+              background: "var(--gold, #b8923a)",
+              padding: "9px 20px",
+            }}
+          >
+            Enquire
+          </Link>
+
+          {/* Mobile toggle */}
+          <button
+            className="lg:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: "4px",
+              color: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+              width: "22px",
+            }}
+            aria-label="Menu"
+          >
+            <span
               style={{
                 display: "block",
-                textAlign: "center",
-                marginTop: "16px",
-                background: "var(--gold)",
-                color: "var(--green-dark)",
-                padding: "13px",
-                fontSize: "0.68rem",
-                fontWeight: 700,
-                letterSpacing: "0.18em",
+                width: "22px",
+                height: "1px",
+                background: "#fff",
+                transform: mobileOpen ? "rotate(45deg) translate(4px, 4px)" : "none",
+              }}
+            />
+            <span
+              style={{
+                display: "block",
+                width: "14px",
+                height: "1px",
+                background: "#fff",
+                opacity: mobileOpen ? 0 : 1,
+              }}
+            />
+            <span
+              style={{
+                display: "block",
+                width: "22px",
+                height: "1px",
+                background: "#fff",
+                transform: mobileOpen ? "rotate(-45deg) translate(3px, -3px)" : "none",
+              }}
+            />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile drawer */}
+      <div
+        style={{
+          background: "rgba(13,31,18,0.99)",
+          borderTop: "1px solid rgba(184,146,58,0.1)",
+          maxHeight: mobileOpen ? "420px" : "0",
+          opacity: mobileOpen ? 1 : 0,
+          overflow: "hidden",
+          transition: "max-height 0.3s ease, opacity 0.2s ease",
+        }}
+      >
+        <div style={{ padding: "20px 32px 28px" }}>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                display: "block",
+                padding: "13px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.05)",
+                fontSize: "0.85rem",
+                letterSpacing: "0.1em",
                 textTransform: "uppercase",
+                color: pathname === link.href ? "var(--gold-light, #d4a84e)" : "rgba(255,255,255,0.55)",
+                fontWeight: pathname === link.href ? 500 : 300,
               }}
             >
-              Get Quote
+              {link.label}
             </Link>
-          </div>
+          ))}
+          <Link
+            href="/contact"
+            style={{
+              display: "block",
+              textAlign: "center",
+              marginTop: "20px",
+              padding: "13px",
+              background: "var(--gold, #b8923a)",
+              color: "var(--forest, #0d1f12)",
+              fontSize: "0.68rem",
+              fontWeight: 500,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+            }}
+          >
+            Enquire
+          </Link>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 }

@@ -1,212 +1,347 @@
-// app/page.tsx  —  Global Green Exports · Home
-
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { Shield, Globe, Award, Truck, ArrowRight, Leaf, CheckCircle, ArrowUpRight } from "lucide-react";
-import SectionHeader from "@/components/SectionHeader";
+import { ArrowRight, ArrowUpRight, Check, MapPin, ShieldCheck, FlaskConical, Truck, FileText, Scale, Globe } from "lucide-react";
 
-const highlights = [
+const pillars = [
   {
-    icon: <Shield size={20} />,
-    title: "Fully Licensed",
-    desc: "Thai government export licences with full regulatory compliance at every stage of the supply chain.",
+    id: "01",
+    title: "GACP Cultivation",
+    body: "Every gram originates from growers operating under Thailand's GACP framework. We audit suppliers directly — no intermediaries.",
   },
   {
-    icon: <Leaf size={20} />,
-    title: "GACP Standards",
-    desc: "We work exclusively with GACP-certified growers producing fully compliant medicinal cannabis products.",
+    id: "02",
+    title: "Export Licensing",
+    body: "Operating under Thai government export authorisation with full phytosanitary and customs documentation prepared in-house.",
   },
   {
-    icon: <Globe size={20} />,
-    title: "Global Reach",
-    desc: "Secure, compliant delivery to any country where cannabis is legal for medical or research use.",
+    id: "03",
+    title: "Escrow Trade",
+    body: "A dedicated escrow mechanism protects buyer and seller equally. Funds are only released upon verified delivery.",
   },
   {
-    icon: <Award size={20} />,
-    title: "Quality Assured",
-    desc: "Rigorous third-party testing and CoA documentation accompanies every shipment we dispatch.",
-  },
-  {
-    icon: <Truck size={20} />,
-    title: "End-to-End Logistics",
-    desc: "From farm to destination — we handle documentation, phytosanitary, and customs coordination.",
-  },
-  {
-    icon: <Shield size={20} />,
-    title: "Escrow Protection",
-    desc: "Trade with confidence via our dedicated escrow service, protecting both buyers and sellers globally.",
+    id: "04",
+    title: "CoA Guarantee",
+    body: "Independent third-party lab analysis accompanies every order. Cannabinoid profile, terpene analysis, and residual solvent testing.",
   },
 ];
 
 const products = [
   {
-    title: "Premium Flower",
-    desc: "GACP-certified whole flower cannabis from Thailand's finest licensed growers. Full cannabinoid and terpene profiles available.",
-    tags: ["Indoor", "Greenhouse", "Sun-Grown"],
-    num: "01",
+    cat: "Whole Flower",
+    desc: "Indoor and greenhouse-cultivated whole flower. Full terpene expression, consistent cannabinoid ratios, medical-grade presentation.",
+    spec: ["THC variants", "CBD-dominant", "Balanced profiles"],
+    detail: "Available in 5g, 100g, 500g, and 1kg units. Vacuum-sealed, nitrogen-flushed packaging.",
   },
   {
-    title: "Extracts & Distillates",
-    desc: "Full-spectrum, broad-spectrum, and isolated extracts preserving the complete cannabinoid profile at 80–99% purity.",
-    tags: ["Full-Spectrum", "Broad-Spectrum", "Isolate"],
-    num: "02",
+    cat: "Extracts",
+    desc: "Full-spectrum, broad-spectrum, and isolated cannabinoid extracts at 80–99% purity. Suitable for pharmaceutical reformulation.",
+    spec: ["Full-spectrum", "Broad-spectrum", "Single-molecule isolate"],
+    detail: "Available as distillate, crude, or winterised oil. Custom formulation on request.",
   },
   {
-    title: "Hemp Products",
-    desc: "Compliant hemp-derived CBD, CBG, CBN products for wellness, research, and pharmaceutical applications.",
-    tags: ["CBD", "CBG", "CBN"],
-    num: "03",
+    cat: "Hemp Derivatives",
+    desc: "CBD, CBG, and CBN products for wellness, nutraceutical, and research applications. EU-compliant THC thresholds available.",
+    spec: ["CBD", "CBG", "CBN"],
+    detail: "Crystalline isolate, raw paste, and water-soluble formats available.",
   },
+];
+
+const process = [
+  {
+    step: "01",
+    title: "Initial Enquiry",
+    desc: "Submit your requirements — product type, volume, target market, and regulatory context. We respond within 48 hours.",
+    icon: FileText,
+  },
+  {
+    step: "02",
+    title: "Compliance Review",
+    desc: "We assess your destination country's import regulations and confirm export feasibility under Thai law.",
+    icon: Scale,
+  },
+  {
+    step: "03",
+    title: "Sample & CoA",
+    desc: "Receive a representative sample alongside a full Certificate of Analysis from an accredited third-party laboratory.",
+    icon: FlaskConical,
+  },
+  {
+    step: "04",
+    title: "Escrow & Order",
+    desc: "A secure escrow arrangement is established. Funds are held by a neutral third party until delivery is verified.",
+    icon: ShieldCheck,
+  },
+  {
+    step: "05",
+    title: "Export & Logistics",
+    desc: "Full export documentation prepared in-house. Phytosanitary certificates, customs declarations, and freight coordination handled end-to-end.",
+    icon: Truck,
+  },
+  {
+    step: "06",
+    title: "Delivery & Release",
+    desc: "Upon confirmed receipt and quality verification by the buyer, escrow funds are released. Documentation archive provided.",
+    icon: Globe,
+  },
+];
+
+const destinations = [
+  "Germany", "Australia", "United Kingdom", "Switzerland",
+  "Netherlands", "New Zealand", "Canada",
+  "Czech Republic", "Denmark", "Portugal", "Poland",
+];
+
+const compliance = [
+  {
+    label: "GACP Certification",
+    body: "All supply partners operate under Good Agricultural and Collection Practice standards — the baseline for medical cannabis quality globally.",
+  },
+  {
+    label: "Thai FDA Export Licence",
+    body: "We operate under authorisation from the Thai Food and Drug Administration. Every shipment is accompanied by official export permits.",
+  },
+  {
+    label: "Phytosanitary Certificates",
+    body: "Issued by the Thai Department of Agriculture. Required for legal import in most destination markets.",
+  },
+  {
+    label: "Third-Party Lab Testing",
+    body: "Independent CoA analysis for every batch. Cannabinoid and terpene profiles, heavy metals, pesticides, and residual solvents.",
+  },
+  {
+    label: "Chain of Custody",
+    body: "Documented provenance from cultivation site through to final delivery. Full audit trail available to buyers on request.",
+  },
+  {
+    label: "Import Compliance Assistance",
+    body: "Our team prepares destination-country documentation — DEA import permits, EMA filings, TGA applications — as part of the service.",
+  },
+];
+
+const faqs = [
+  {
+    q: "Who can purchase from Global Green Exports?",
+    a: "We supply licensed importers, pharmaceutical companies, research institutions, and government health agencies. All buyers must demonstrate valid import authorisation in their jurisdiction.",
+  },
+  {
+    q: "What is the minimum order quantity?",
+    a: "Minimum orders vary by product. Whole flower starts at 1kg; extracts at 500g; hemp derivatives at 1kg. Contact us for custom volume arrangements.",
+  },
+  {
+    q: "How long does a typical order take to deliver?",
+    a: "From signed agreement to delivery, typical lead time is 4–8 weeks depending on export documentation and destination country import processing times.",
+  },
+  {
+    q: "Is the escrow mechanism mandatory?",
+    a: "For first-time buyers, yes. For established clients, we offer direct invoice terms after successful completion of two escrow-protected orders.",
+  },
+  {
+    q: "Can you provide custom cannabinoid profiles?",
+    a: "Yes, for extract and hemp derivative orders of sufficient volume. We work with growers to source or blend profiles to specification.",
+  },
+  {
+    q: "What documentation is provided with each order?",
+    a: "Every order includes a Certificate of Analysis, phytosanitary certificate, export permit, commercial invoice, packing list, and bill of lading.",
+  },
+];
+
+const whyUs = [
+  { label: "Direct grower relationships", sub: "No broker markups. We work with farms directly." },
+  { label: "In-house documentation", sub: "Every export doc prepared by our compliance team." },
+  { label: "Escrow on every new trade", sub: "Buyer and seller protected from day one." },
+  { label: "Dedicated account manager", sub: "One point of contact from enquiry to delivery." },
+  { label: "Batch traceability", sub: "Full chain of custody from field to freight." },
+  { label: "Custom formulation support", sub: "Extract specifications tailored to your market." },
 ];
 
 export default function Home() {
   return (
     <>
-      {/* ── HERO ── */}
+      {/* ─── HERO ─── */}
       <section
-        className="relative min-h-screen flex items-end overflow-hidden"
         style={{
-          background: "linear-gradient(160deg, #0a1a0d 0%, #122318 50%, #0f1e13 100%)",
+          minHeight: "100svh",
+          background: "#0a0a0a",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
-        {/* Fine grid overlay */}
+        {/* Grid texture */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          aria-hidden
           style={{
-            backgroundImage: `linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            pointerEvents: "none",
           }}
         />
 
-        {/* Large decorative numeral */}
+        {/* Vertical accent line */}
         <div
-          className="absolute right-0 top-0 pointer-events-none select-none leading-none"
           style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: "calc(40px + (100% - 80px) * 0.6)",
+            width: "1px",
+            background:
+              "linear-gradient(to bottom, transparent 0%, rgba(58,128,66,0.25) 25%, rgba(58,128,66,0.25) 75%, transparent 100%)",
+          }}
+        />
+
+        {/* Large decorative wordmark */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "8vh",
+            right: "-2vw",
             fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(280px, 40vw, 480px)",
-            color: "rgba(201,168,76,0.04)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            fontSize: "clamp(80px, 16vw, 200px)",
+            color: "rgba(255,255,255,0.02)",
             lineHeight: 1,
-            right: "-4vw",
-            top: "5vh",
-            fontWeight: 700,
+            userSelect: "none",
+            pointerEvents: "none",
+            letterSpacing: "-0.03em",
           }}
         >
-          GGX
+          GGE
         </div>
 
-        {/* Gold diagonal line accent */}
+        {/* Green orb */}
         <div
-          className="absolute pointer-events-none"
+          aria-hidden
           style={{
-            top: 0,
-            right: "38%",
-            width: "1px",
-            height: "40vh",
-            background: "linear-gradient(to bottom, transparent, rgba(201,168,76,0.35), transparent)",
+            position: "absolute",
+            bottom: "-20%",
+            left: "-10%",
+            width: "60vw",
+            height: "60vw",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(26,61,30,0.35) 0%, transparent 70%)",
+            pointerEvents: "none",
           }}
         />
 
-        <div className="max-w-7xl mx-auto px-8 pb-20 pt-44 w-full relative z-10">
-          <div className="grid lg:grid-cols-12 gap-8 items-end">
-            {/* Left: main copy */}
-            <div className="lg:col-span-7">
+        <div
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            width: "100%",
+            padding: "160px 40px 80px",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <div
+            style={{ display: "grid", gridTemplateColumns: "1fr", gap: "0" }}
+            className="lg:grid-cols-[1fr_360px] lg:gap-16"
+          >
+            {/* Left */}
+            <div>
               <div
-                className="inline-flex items-center gap-3 mb-10"
                 style={{
-                  borderTop: "1px solid rgba(201,168,76,0.5)",
-                  borderBottom: "1px solid rgba(201,168,76,0.5)",
-                  padding: "9px 0",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  border: "1px solid rgba(58,128,66,0.3)",
+                  padding: "6px 14px 6px 8px",
+                  marginBottom: "40px",
                 }}
               >
                 <span
-                  className="w-6 h-px"
-                  style={{ background: "var(--gold)" }}
+                  style={{
+                    width: "6px",
+                    height: "6px",
+                    borderRadius: "50%",
+                    background: "#3a8042",
+                    display: "inline-block",
+                  }}
                 />
                 <span
                   style={{
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.22em",
+                    fontSize: "0.62rem",
+                    letterSpacing: "0.2em",
                     textTransform: "uppercase",
-                    color: "var(--gold)",
-                    fontWeight: 600,
+                    color: "#3a8042",
+                    fontWeight: 500,
                   }}
                 >
-                  Thailand's Premier Medicinal Cannabis Exporter
+                  Licensed Thai Cannabis Exporter
                 </span>
               </div>
 
               <h1
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(3.2rem, 6.5vw, 5.5rem)",
-                  fontWeight: 600,
+                  fontSize: "clamp(3.2rem, 6.5vw, 5.8rem)",
+                  fontWeight: 400,
                   color: "#ffffff",
-                  lineHeight: 1.0,
-                  letterSpacing: "-0.01em",
-                  marginBottom: "2rem",
+                  lineHeight: 1.02,
+                  letterSpacing: "-0.025em",
+                  marginBottom: "36px",
                 }}
               >
-                Exporting{" "}
-                <span
-                  style={{
-                    color: "var(--gold)",
-                    fontStyle: "italic",
-                  }}
-                >
-                  Premium
-                </span>
+                Thai cannabis,
                 <br />
-                Thai Cannabis
+                <em style={{ color: "rgba(255,255,255,0.35)" }}>precisely</em>
                 <br />
-                <span style={{ color: "rgba(255,255,255,0.35)", fontStyle: "italic", fontWeight: 400 }}>
-                  to the World
-                </span>
+                delivered.
               </h1>
 
               <p
                 style={{
-                  fontSize: "1rem",
+                  fontSize: "1.05rem",
                   fontWeight: 300,
-                  lineHeight: 1.75,
-                  color: "rgba(255,255,255,0.55)",
-                  maxWidth: "480px",
-                  marginBottom: "2.5rem",
-                  letterSpacing: "0.01em",
+                  lineHeight: 1.85,
+                  color: "rgba(255,255,255,0.4)",
+                  maxWidth: "460px",
+                  marginBottom: "52px",
                 }}
               >
                 Global Green Exports connects GACP-certified Thai growers with
-                international medical and research markets — with full
-                compliance, quality assurance, and escrow-protected trade.
+                international medical and research markets — with rigorous
+                compliance, full documentation, and escrow-protected trade.
               </p>
 
-              <div className="flex flex-wrap gap-4 mb-16">
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", marginBottom: "64px" }}>
                 <Link
                   href="/contact"
-                  className="group inline-flex items-center gap-3"
                   style={{
-                    background: "var(--gold)",
-                    color: "var(--green-dark)",
-                    padding: "14px 28px",
-                    fontSize: "0.7rem",
-                    fontWeight: 700,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    background: "#ffffff",
+                    color: "#0a0a0a",
+                    padding: "16px 32px",
+                    fontSize: "0.68rem",
+                    fontWeight: 600,
                     letterSpacing: "0.18em",
                     textTransform: "uppercase",
                   }}
                 >
-                  Contact Us Today
-                  <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                  Start an Enquiry <ArrowRight size={12} />
                 </Link>
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-3"
                   style={{
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    color: "rgba(255,255,255,0.7)",
-                    padding: "14px 28px",
-                    fontSize: "0.7rem",
-                    fontWeight: 500,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    border: "1px solid rgba(255,255,255,0.15)",
+                    color: "rgba(255,255,255,0.5)",
+                    padding: "16px 32px",
+                    fontSize: "0.68rem",
+                    fontWeight: 400,
                     letterSpacing: "0.18em",
                     textTransform: "uppercase",
                   }}
@@ -214,67 +349,98 @@ export default function Home() {
                   View Products
                 </Link>
               </div>
-            </div>
 
-            {/* Right: badge card */}
-            <div className="lg:col-span-5 hidden lg:flex justify-end">
+              {/* Inline stats */}
               <div
                 style={{
-                  width: "320px",
-                  border: "1px solid rgba(201,168,76,0.2)",
-                  background: "rgba(255,255,255,0.025)",
-                  backdropFilter: "blur(8px)",
-                  padding: "36px",
+                  display: "flex",
+                  gap: "40px",
+                  flexWrap: "wrap",
+                  paddingTop: "40px",
+                  borderTop: "1px solid rgba(255,255,255,0.07)",
                 }}
               >
-                <div
+                {[
+                  { n: "30+", l: "Export destinations" },
+                  { n: "100%", l: "GACP-sourced" },
+                  { n: "CoA", l: "Every batch tested" },
+                ].map((s) => (
+                  <div key={s.l}>
+                    <p
+                      style={{
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontSize: "2rem",
+                        fontWeight: 400,
+                        color: "#fff",
+                        lineHeight: 1,
+                        marginBottom: "6px",
+                      }}
+                    >
+                      {s.n}
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "0.65rem",
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "rgba(255,255,255,0.28)",
+                        fontWeight: 300,
+                      }}
+                    >
+                      {s.l}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: compliance card */}
+            <div className="hidden lg:block" style={{ alignSelf: "flex-end" }}>
+              <div
+                style={{
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  padding: "32px",
+                  background: "rgba(255,255,255,0.025)",
+                }}
+              >
+                <p
                   style={{
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.22em",
+                    fontSize: "0.58rem",
+                    letterSpacing: "0.24em",
                     textTransform: "uppercase",
-                    color: "var(--gold)",
-                    fontWeight: 600,
-                    marginBottom: "20px",
+                    color: "rgba(255,255,255,0.2)",
+                    fontWeight: 500,
+                    marginBottom: "24px",
                     paddingBottom: "16px",
-                    borderBottom: "1px solid rgba(201,168,76,0.15)",
+                    borderBottom: "1px solid rgba(255,255,255,0.06)",
                   }}
                 >
-                  Compliance Summary
-                </div>
+                  Compliance Status
+                </p>
                 {[
-                  { label: "GACP Certification", value: "Active" },
-                  { label: "Thai Export Licence", value: "In Process" },
-                  { label: "Third-Party Lab Testing", value: "Mandatory" },
-                  { label: "Escrow Services", value: "Available" },
-                  { label: "Global Shipping", value: "30+ Countries" },
-                ].map((item) => (
+                  ["GACP Certification", "Active"],
+                  ["Thai Export Licence", "In Process"],
+                  ["Third-Party Lab Testing", "Mandatory"],
+                  ["Escrow Services", "Available"],
+                  ["Phytosanitary Certs", "In-house"],
+                  ["Destination Countries", "30+"],
+                ].map(([label, value]) => (
                   <div
-                    key={item.label}
-                    className="flex items-center justify-between"
+                    key={label}
                     style={{
-                      padding: "10px 0",
-                      borderBottom: "1px solid rgba(255,255,255,0.05)",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "11px 0",
+                      borderBottom: "1px solid rgba(255,255,255,0.04)",
                     }}
                   >
-                    <span style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.5)" }}>
-                      {item.label}
+                    <span style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.28)", fontWeight: 300 }}>
+                      {label}
                     </span>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="w-1.5 h-1.5 rounded-full"
-                        style={{ background: "var(--gold)" }}
-                      />
-                      <span
-                        style={{
-                          fontSize: "0.72rem",
-                          fontWeight: 600,
-                          color: "var(--gold-light)",
-                          letterSpacing: "0.04em",
-                        }}
-                      >
-                        {item.value}
-                      </span>
-                    </div>
+                    <span style={{ fontSize: "0.7rem", fontWeight: 500, color: "#ffffff", letterSpacing: "0.04em" }}>
+                      {value}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -282,32 +448,32 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom ticker */}
-        <div
-          className="absolute bottom-0 left-0 right-0"
-          style={{ borderTop: "1px solid rgba(201,168,76,0.15)" }}
-        >
-          <div className="max-w-7xl mx-auto px-8 py-4 flex flex-wrap gap-x-10 gap-y-2">
-            {[
-              "GACP Certified Growers Only",
-              "Thai Export Licensed",
-              "Worldwide Compliant Shipping",
-              "Escrow-Protected Trade",
-              "Full CoA & Lab Testing",
-            ].map((item) => (
+        {/* Bottom strip */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <div
+            style={{
+              maxWidth: "1280px",
+              margin: "0 auto",
+              padding: "18px 40px",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "8px 36px",
+            }}
+          >
+            {["GACP-only network", "Thai export licensed", "Compliant global delivery", "Escrow-protected trade", "CoA with every order"].map((item) => (
               <span
                 key={item}
                 style={{
-                  fontSize: "0.62rem",
-                  letterSpacing: "0.18em",
+                  fontSize: "0.6rem",
+                  letterSpacing: "0.15em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.3)",
+                  color: "rgba(255,255,255,0.16)",
                   display: "flex",
                   alignItems: "center",
                   gap: "8px",
                 }}
               >
-                <span style={{ color: "var(--gold)", opacity: 0.7 }}>✦</span>
+                <span style={{ width: "3px", height: "3px", borderRadius: "50%", background: "#3a8042", flexShrink: 0 }} />
                 {item}
               </span>
             ))}
@@ -315,418 +481,335 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── GOLD DIVIDER ── */}
-      <div style={{ background: "var(--gold)", height: "2px" }} />
-
-      {/* ── WHY GGE ── */}
-      <section className="py-32" style={{ background: "var(--green-dark)" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid lg:grid-cols-12 gap-16">
-            <div className="lg:col-span-4">
-              <div
-                style={{
-                  fontSize: "0.62rem",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--gold)",
-                  fontWeight: 600,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginBottom: "20px",
-                }}
-              >
-                <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
-                Why Global Green Exports
-              </div>
-              <h2
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2.4rem, 3.5vw, 3.2rem)",
-                  fontWeight: 600,
-                  color: "#ffffff",
-                  lineHeight: 1.1,
-                  marginBottom: "20px",
-                }}
-              >
-                Your Trusted Partner in{" "}
-                <em style={{ color: "var(--gold)", fontStyle: "normal" }}>
-                  Compliant Cannabis Trade
-                </em>
-              </h2>
+      {/* ─── INTRO STATEMENT ─── */}
+      <section style={{ background: "#ffffff", padding: "80px 0", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ display: "grid", gap: "64px", alignItems: "center" }} className="lg:grid-cols-[1fr_1fr]">
+            <div>
               <p
                 style={{
-                  fontSize: "0.9rem",
-                  lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.45)",
-                  fontWeight: 300,
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
+                  fontWeight: 400,
+                  color: "#0a0a0a",
+                  lineHeight: 1.45,
+                  letterSpacing: "-0.01em",
                 }}
               >
-                We operate at the intersection of Thai regulatory excellence and global
-                market access — giving buyers confidence and growers a premium export channel.
+                "Thailand is one of the first Asian nations to legalise medical
+                cannabis export — and we are positioned at the centre of that
+                supply chain."
+              </p>
+              <div style={{ width: "40px", height: "2px", background: "#0a0a0a", marginTop: "32px" }} />
+            </div>
+            <div>
+              <p style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "rgba(0,0,0,0.5)", fontWeight: 300, marginBottom: "20px" }}>
+                Since Thailand's landmark cannabis legislation, Global Green Exports has been building the infrastructure to move Thai cannabis into international medical markets — legally, safely, and reliably.
+              </p>
+              <p style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "rgba(0,0,0,0.5)", fontWeight: 300 }}>
+                We are not a broker. We hold direct relationships with GACP-certified cultivation facilities, prepare all export documentation in-house, and operate an escrow-protected trading model that gives both buyers and sellers full protection.
               </p>
             </div>
-
-            <div className="lg:col-span-8">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px" style={{ background: "rgba(201,168,76,0.12)" }}>
-                {highlights.map((h, i) => (
-                  <div
-                    key={h.title}
-                    className="group"
-                    style={{
-                      background: "var(--green-dark)",
-                      padding: "32px",
-                      transition: "background 0.3s",
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = "#1e4425")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "var(--green-dark)")}
-                  >
-                    <div
-                      style={{
-                        width: "40px",
-                        height: "40px",
-                        border: "1px solid rgba(201,168,76,0.3)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "var(--gold)",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      {h.icon}
-                    </div>
-                    <h3
-                      style={{
-                        fontFamily: "'Cormorant Garamond', serif",
-                        fontSize: "1.15rem",
-                        fontWeight: 600,
-                        color: "#ffffff",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      {h.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: "0.82rem",
-                        lineHeight: 1.7,
-                        color: "rgba(255,255,255,0.42)",
-                        fontWeight: 300,
-                      }}
-                    >
-                      {h.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ── PRODUCTS ── */}
-      <section className="py-32" style={{ background: "var(--cream)" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="flex items-end justify-between mb-16">
-            <div>
+      {/* ─── PILLARS ─── */}
+      <section style={{ background: "#0a0a0a", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ marginBottom: "64px" }}>
+            <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
+              How We Operate
+            </p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "#ffffff", lineHeight: 1.1, letterSpacing: "-0.015em" }}>
+              The infrastructure of{" "}
+              <em style={{ color: "rgba(255,255,255,0.35)" }}>trustworthy trade</em>
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+            {pillars.map((p, i) => (
               <div
+                key={p.id}
                 style={{
-                  fontSize: "0.62rem",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--gold)",
-                  fontWeight: 600,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginBottom: "16px",
+                  padding: "40px 32px",
+                  borderRight: i < pillars.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+                  borderBottom: "1px solid rgba(255,255,255,0.06)",
                 }}
               >
-                <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
-                Our Product Range
+                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.7rem", color: "rgba(255,255,255,0.15)", fontStyle: "italic", marginBottom: "20px" }}>{p.id}</p>
+                <h3 style={{ fontSize: "1rem", fontWeight: 400, color: "#ffffff", marginBottom: "14px", fontFamily: "'Cormorant Garamond', serif" }}>{p.title}</h3>
+                <p style={{ fontSize: "0.83rem", lineHeight: 1.8, color: "rgba(255,255,255,0.35)", fontWeight: 300 }}>{p.body}</p>
               </div>
-              <h2
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2.4rem, 3.5vw, 3.2rem)",
-                  fontWeight: 600,
-                  color: "var(--green-dark)",
-                  lineHeight: 1.1,
-                }}
-              >
-                Premium Cannabis &{" "}
-                <span style={{ color: "var(--gold)" }}>Hemp Products</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── PRODUCTS ─── */}
+      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "56px", flexWrap: "wrap", gap: "16px" }}>
+            <div>
+              <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "14px", display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
+                Product Range
+              </p>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "#0a0a0a", lineHeight: 1.1, letterSpacing: "-0.015em" }}>
+                Cannabis & <em style={{ color: "#1a3d1e" }}>hemp products</em>
               </h2>
             </div>
-            <Link
-              href="/products"
-              className="hidden md:inline-flex items-center gap-2 group"
-              style={{
-                fontSize: "0.68rem",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: "var(--green-dark)",
-                fontWeight: 600,
-                borderBottom: "1px solid var(--green-dark)",
-                paddingBottom: "2px",
-              }}
-            >
-              View All Products
-              <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            <Link href="/products" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "0.68rem", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 500, color: "#0a0a0a", borderBottom: "1px solid rgba(0,0,0,0.3)", paddingBottom: "2px" }}>
+              All products <ArrowUpRight size={12} />
             </Link>
           </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1px", background: "rgba(0,0,0,0.08)" }}>
+            {products.map((p, i) => (
+              <div key={p.cat} style={{ background: "#ffffff", padding: "44px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", paddingBottom: "20px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontWeight: 400, color: "#0a0a0a" }}>{p.cat}</h3>
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "0.8rem", color: "rgba(0,0,0,0.12)" }}>{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <p style={{ fontSize: "0.85rem", lineHeight: 1.8, color: "rgba(0,0,0,0.5)", fontWeight: 300, marginBottom: "16px" }}>{p.desc}</p>
+                <p style={{ fontSize: "0.78rem", lineHeight: 1.7, color: "rgba(0,0,0,0.32)", fontWeight: 300, marginBottom: "24px", fontStyle: "italic" }}>{p.detail}</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                  {p.spec.map((s) => (
+                    <span key={s} style={{ fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 500, padding: "4px 10px", border: "1px solid rgba(0,0,0,0.1)", color: "rgba(0,0,0,0.4)" }}>{s}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {products.map((p) => (
-              <div
-                key={p.title}
-                className="group relative"
-                style={{
-                  background: "#ffffff",
-                  border: "1px solid rgba(26,58,31,0.1)",
-                }}
+      {/* ─── PROCESS ─── */}
+      <section style={{ background: "#ffffff", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ marginBottom: "72px" }}>
+            <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
+              How It Works
+            </p>
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "#0a0a0a", lineHeight: 1.1, letterSpacing: "-0.015em" }}>
+                From first contact to <em style={{ color: "#1a3d1e" }}>final delivery</em>
+              </h2>
+              <p style={{ fontSize: "0.85rem", color: "rgba(0,0,0,0.4)", fontWeight: 300, maxWidth: "320px", lineHeight: 1.7 }}>
+                A transparent, step-by-step process designed around your regulatory requirements.
+              </p>
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "1px", background: "rgba(0,0,0,0.07)" }}>
+            {process.map((p) => {
+              const Icon = p.icon;
+              return (
+                <div key={p.step} style={{ background: "#ffffff", padding: "40px" }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "24px" }}>
+                    <span style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", fontWeight: 400, color: "rgba(0,0,0,0.06)", lineHeight: 1 }}>{p.step}</span>
+                    <Icon size={18} strokeWidth={1.2} color="rgba(0,0,0,0.22)" />
+                  </div>
+                  <h3 style={{ fontSize: "0.95rem", fontWeight: 500, color: "#0a0a0a", marginBottom: "12px", letterSpacing: "0.01em" }}>{p.title}</h3>
+                  <p style={{ fontSize: "0.82rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>{p.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── WHY US ─── */}
+      <section style={{ background: "#0d1f0f", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ display: "grid", gap: "80px", alignItems: "start" }} className="lg:grid-cols-[1fr_1fr]">
+            <div>
+              <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
+                Why Global Green Exports
+              </p>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "#ffffff", lineHeight: 1.15, letterSpacing: "-0.015em", marginBottom: "28px" }}>
+                Built for the demands of{" "}
+                <em style={{ color: "rgba(255,255,255,0.35)" }}>regulated markets</em>
+              </h2>
+              <p style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "rgba(255,255,255,0.35)", fontWeight: 300, marginBottom: "40px" }}>
+                Medical and pharmaceutical cannabis buyers operate under strict regulatory scrutiny. Every supplier they work with must meet the same standard. We are built from the ground up for that environment.
+              </p>
+              <Link
+                href="/about"
+                style={{ display: "inline-flex", alignItems: "center", gap: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", padding: "14px 28px", fontSize: "0.68rem", fontWeight: 400, letterSpacing: "0.16em", textTransform: "uppercase" }}
               >
-                {/* Top decoration */}
+                About Us <ArrowRight size={12} />
+              </Link>
+            </div>
+            <div>
+              {whyUs.map((w, i) => (
                 <div
+                  key={w.label}
                   style={{
-                    height: "3px",
-                    background: "linear-gradient(90deg, var(--gold), var(--green-mid))",
-                  }}
-                />
-                <div
-                  style={{
-                    height: "200px",
-                    background: "linear-gradient(145deg, var(--green-dark), #1e4425)",
                     display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    position: "relative",
-                    overflow: "hidden",
+                    alignItems: "flex-start",
+                    gap: "20px",
+                    padding: "24px 0",
+                    borderBottom: i < whyUs.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
                   }}
                 >
-                  {/* Large number */}
-                  <span
-                    style={{
-                      fontFamily: "'Cormorant Garamond', serif",
-                      fontSize: "7rem",
-                      fontWeight: 700,
-                      color: "rgba(255,255,255,0.04)",
-                      position: "absolute",
-                      bottom: "-10px",
-                      right: "20px",
-                      lineHeight: 1,
-                    }}
-                  >
-                    {p.num}
-                  </span>
-                  <Leaf
-                    size={40}
-                    style={{ color: "rgba(201,168,76,0.3)", position: "relative", zIndex: 1 }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "12px",
-                      left: "16px",
-                      fontSize: "0.6rem",
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "var(--gold)",
-                      fontWeight: 600,
-                      padding: "5px 10px",
-                      border: "1px solid rgba(201,168,76,0.3)",
-                      background: "rgba(201,168,76,0.1)",
-                    }}
-                  >
-                    GACP Certified
+                  <div style={{ width: "20px", height: "20px", border: "1px solid rgba(58,128,66,0.4)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "2px" }}>
+                    <Check size={10} strokeWidth={2} color="#3a8042" />
+                  </div>
+                  <div>
+                    <p style={{ fontSize: "0.9rem", fontWeight: 400, color: "#ffffff", marginBottom: "4px" }}>{w.label}</p>
+                    <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.3)", fontWeight: 300, lineHeight: 1.6 }}>{w.sub}</p>
                   </div>
                 </div>
-                <div style={{ padding: "28px" }}>
-                  <h3
-                    style={{
-                      fontFamily: "'Cormorant Garamond', serif",
-                      fontSize: "1.4rem",
-                      fontWeight: 600,
-                      color: "var(--green-dark)",
-                      marginBottom: "12px",
-                    }}
-                  >
-                    {p.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "0.83rem",
-                      lineHeight: 1.7,
-                      color: "#6a6a6a",
-                      fontWeight: 300,
-                      marginBottom: "20px",
-                    }}
-                  >
-                    {p.desc}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {p.tags.map((t) => (
-                      <span
-                        key={t}
-                        style={{
-                          fontSize: "0.65rem",
-                          letterSpacing: "0.1em",
-                          textTransform: "uppercase",
-                          padding: "4px 10px",
-                          background: "var(--cream)",
-                          color: "var(--green-mid)",
-                          border: "1px solid rgba(26,58,31,0.15)",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12 md:hidden">
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2"
-              style={{
-                background: "var(--green-dark)",
-                color: "white",
-                padding: "14px 32px",
-                fontSize: "0.68rem",
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                fontWeight: 600,
-              }}
-            >
-              View All Products
-              <ArrowRight size={13} />
-            </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── TRUST BAR ── */}
-      <section style={{ background: "var(--green-dark)", borderTop: "1px solid rgba(201,168,76,0.15)", borderBottom: "1px solid rgba(201,168,76,0.15)" }}>
-        <div className="max-w-7xl mx-auto px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { val: "100%", label: "GACP-only network" },
-              { val: "CoA", label: "With every shipment" },
-              { val: "End-to-End", label: "Logistics managed" },
-              { val: "Escrow", label: "Payment protection" },
-            ].map((item) => (
-              <div key={item.label} className="text-center">
-                <div
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "1.8rem",
-                    fontWeight: 700,
-                    color: "var(--gold)",
-                    lineHeight: 1,
-                    marginBottom: "8px",
-                  }}
-                >
-                  {item.val}
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.68rem",
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.35)",
-                  }}
-                >
-                  {item.label}
-                </div>
+      {/* ─── COMPLIANCE ─── */}
+      <section style={{ background: "#ffffff", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ marginBottom: "64px" }}>
+            <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
+              Compliance Framework
+            </p>
+            <div style={{ display: "grid", gap: "24px" }} className="lg:grid-cols-[1fr_1fr]">
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "#0a0a0a", lineHeight: 1.1, letterSpacing: "-0.015em" }}>
+                Regulatory rigour at <em style={{ color: "#1a3d1e" }}>every stage</em>
+              </h2>
+              <p style={{ fontSize: "0.92rem", lineHeight: 1.85, color: "rgba(0,0,0,0.45)", fontWeight: 300, alignSelf: "end" }}>
+                Our documentation and certification framework is designed to satisfy regulators in the most demanding markets globally — from the TGA in Australia to the German BfArM.
+              </p>
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1px", background: "rgba(0,0,0,0.07)" }}>
+            {compliance.map((c) => (
+              <div key={c.label} style={{ background: "#ffffff", padding: "36px 40px" }}>
+                <div style={{ width: "32px", height: "1px", background: "#0a0a0a", marginBottom: "20px" }} />
+                <h3 style={{ fontSize: "0.88rem", fontWeight: 500, color: "#0a0a0a", marginBottom: "12px", letterSpacing: "0.01em" }}>{c.label}</h3>
+                <p style={{ fontSize: "0.82rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>{c.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section
-        className="py-32 relative overflow-hidden"
-        style={{ background: "#0a1a0d" }}
-      >
+      {/* ─── DESTINATIONS ─── */}
+      <section style={{ background: "#0a0a0a", padding: "80px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "48px", flexWrap: "wrap", gap: "20px" }}>
+            <div>
+              <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "12px", display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
+                Export Markets
+              </p>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", fontWeight: 400, color: "#ffffff", lineHeight: 1.1, letterSpacing: "-0.015em" }}>
+                30+ countries. Growing.
+              </h2>
+            </div>
+            <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.3)", fontWeight: 300, maxWidth: "320px", lineHeight: 1.7 }}>
+              We hold or are pursuing export authorisation for the following markets. Contact us to confirm eligibility for your jurisdiction.
+            </p>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+            {destinations.map((d) => (
+              <div key={d} style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px 18px", border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}>
+                <MapPin size={10} strokeWidth={1.5} color="#3a8042" />
+                <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.5)", fontWeight: 300, letterSpacing: "0.04em" }}>{d}</span>
+              </div>
+            ))}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px 18px", border: "1px solid rgba(255,255,255,0.04)" }}>
+              <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.2)", fontWeight: 300, fontStyle: "italic" }}>+ more on request</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── STAT BAR ─── */}
+      <section style={{ background: "#f5f5f5", borderTop: "1px solid rgba(0,0,0,0.07)", borderBottom: "1px solid rgba(0,0,0,0.07)", padding: "56px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "32px" }}>
+          {[
+            { n: "100%", l: "GACP-only supply" },
+            { n: "CoA", l: "Every batch, mandatory" },
+            { n: "End-to-end", l: "Logistics & compliance" },
+            { n: "Escrow", l: "Protected transactions" },
+            { n: "48hr", l: "Enquiry response" },
+          ].map((s) => (
+            <div key={s.l} style={{ textAlign: "center" }}>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.7rem", fontWeight: 400, color: "#0a0a0a", marginBottom: "6px", letterSpacing: "-0.01em" }}>{s.n}</p>
+              <p style={{ fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)", fontWeight: 400 }}>{s.l}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── FAQ ─── */}
+      <section style={{ background: "#ffffff", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ marginBottom: "64px" }}>
+            <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
+              Common Questions
+            </p>
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "#0a0a0a", lineHeight: 1.1, letterSpacing: "-0.015em" }}>
+                Frequently asked
+              </h2>
+              <Link href="/faq" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "0.68rem", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 500, color: "#0a0a0a", borderBottom: "1px solid rgba(0,0,0,0.3)", paddingBottom: "2px" }}>
+                All FAQs <ArrowUpRight size={12} />
+              </Link>
+            </div>
+          </div>
+          <div style={{ display: "grid", gap: "1px", background: "rgba(0,0,0,0.07)" }} className="lg:grid-cols-2">
+            {faqs.map((f) => (
+              <div key={f.q} style={{ background: "#ffffff", padding: "36px 40px" }}>
+                <p style={{ fontSize: "0.88rem", fontWeight: 500, color: "#0a0a0a", marginBottom: "14px", lineHeight: 1.5 }}>{f.q}</p>
+                <p style={{ fontSize: "0.83rem", lineHeight: 1.85, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>{f.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CTA ─── */}
+      <section style={{ background: "#0a0a0a", padding: "112px 0", position: "relative", overflow: "hidden" }}>
         <div
-          className="absolute inset-0 pointer-events-none"
+          aria-hidden
           style={{
-            backgroundImage: `linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+            pointerEvents: "none",
           }}
         />
-        <div className="max-w-4xl mx-auto px-8 text-center relative">
-          <div
-            style={{
-              fontSize: "0.62rem",
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "var(--gold)",
-              fontWeight: 600,
-              marginBottom: "20px",
-            }}
-          >
-            Ready to Source?
-          </div>
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(2.4rem, 4.5vw, 3.8rem)",
-              fontWeight: 600,
-              color: "#ffffff",
-              lineHeight: 1.1,
-              marginBottom: "20px",
-            }}
-          >
-            Start Your Export Journey with{" "}
-            <span style={{ color: "var(--gold)" }}>Global Green Exports</span>
-          </h2>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              lineHeight: 1.8,
-              color: "rgba(255,255,255,0.45)",
-              fontWeight: 300,
-              maxWidth: "560px",
-              margin: "0 auto 40px",
-            }}
-          >
-            Contact our team to discuss your medicinal cannabis requirements,
-            explore wholesale pricing, or set up secure escrow-protected trade.
+        <div
+          aria-hidden
+          style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "60vw", height: "60vw", borderRadius: "50%", background: "radial-gradient(circle, rgba(13,31,15,0.7) 0%, transparent 70%)", pointerEvents: "none" }}
+        />
+        <div style={{ maxWidth: "720px", margin: "0 auto", padding: "0 40px", textAlign: "center", position: "relative", zIndex: 1 }}>
+          <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "28px" }}>
+            Ready to Source
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 4.5vw, 3.6rem)", fontWeight: 400, color: "#ffffff", lineHeight: 1.05, letterSpacing: "-0.025em", marginBottom: "24px" }}>
+            Begin a conversation with{" "}
+            <em style={{ color: "rgba(255,255,255,0.3)" }}>Global Green Exports</em>
+          </h2>
+          <p style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "rgba(255,255,255,0.3)", fontWeight: 300, marginBottom: "48px" }}>
+            We work with medical distributors, pharmaceutical formulators, and licensed research institutions. Contact us to discuss pricing, compliance documentation, or escrow arrangements.
+          </p>
+          <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "12px" }}>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-3"
-              style={{
-                background: "var(--gold)",
-                color: "var(--green-dark)",
-                padding: "16px 36px",
-                fontSize: "0.68rem",
-                fontWeight: 700,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-              }}
+              style={{ display: "inline-flex", alignItems: "center", gap: "10px", background: "#ffffff", color: "#0a0a0a", padding: "17px 36px", fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" }}
             >
-              Get Started Today
-              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+              Get in Touch <ArrowRight size={12} />
             </Link>
             <Link
               href="/wholesale"
-              style={{
-                border: "1px solid rgba(255,255,255,0.2)",
-                color: "rgba(255,255,255,0.65)",
-                padding: "16px 36px",
-                fontSize: "0.68rem",
-                fontWeight: 500,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-              }}
+              style={{ display: "inline-flex", alignItems: "center", padding: "17px 36px", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.4)", fontSize: "0.68rem", fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase" }}
             >
               Wholesale Enquiry
             </Link>
