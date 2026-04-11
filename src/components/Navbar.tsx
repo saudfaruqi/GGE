@@ -55,10 +55,10 @@ export default function Navbar() {
       }}
     >
       <div
+      className="px-[10px] lg:px-[40px]"
         style={{
           maxWidth: "1280px",
           margin: "0 auto",
-          padding: "0 40px",
           height: "80px",
           display: "flex",
           alignItems: "center",
