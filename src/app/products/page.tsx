@@ -1,7 +1,7 @@
-// app/products/page.tsx  —  Global Green Exports · Products
+// app/products/page.tsx — Global Green Exports · Products
 
 import type { Metadata } from "next";
-import { ArrowRight, Leaf } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -44,32 +44,51 @@ const terpenes = [
 
 const categories = [
   {
-    emoji: "🌸",
     num: "01",
     title: "Premium Whole Flower",
     desc: "GACP-certified whole flower cannabis from Thailand's finest licensed indoor and greenhouse cultivators. Available in multiple strains with detailed cannabinoid and terpene profiles.",
+    detail: "Available in 5g, 100g, 500g, and 1kg units. Vacuum-sealed, nitrogen-flushed packaging.",
     tags: ["Indoor", "Greenhouse", "Sun-Grown", "Multiple Strains"],
   },
   {
-    emoji: "⚗️",
     num: "02",
     title: "Extracts & Distillates",
     desc: "High-quality full-spectrum, broad-spectrum, and isolated extracts. Our extraction processes preserve the complete cannabinoid and terpene profile at 80–99% purity levels.",
+    detail: "Available as distillate, crude, or winterised oil. Custom formulation on request.",
     tags: ["Full-Spectrum", "Broad-Spectrum", "Isolate", "80–99% Purity"],
   },
   {
-    emoji: "🌿",
     num: "03",
     title: "Hemp-Derived Products",
     desc: "Compliant hemp-derived CBD, CBG, CBN, and blended wellness products for pharmaceutical, research, and consumer wellness applications.",
+    detail: "Crystalline isolate, raw paste, and water-soluble formats available.",
     tags: ["CBD", "CBG", "CBN", "Wellness"],
   },
 ];
 
-const strainTypeColor: Record<string, { bg: string; color: string }> = {
-  Sativa: { bg: "rgba(201,168,76,0.12)", color: "var(--gold)" },
-  Indica: { bg: "rgba(26,58,31,0.12)", color: "var(--green-dark)" },
-  Hybrid: { bg: "rgba(74,140,85,0.12)", color: "var(--green-mid)" },
+const strainTypeStyle: Record<string, React.CSSProperties> = {
+  Sativa: { background: "rgba(0,0,0,0.04)", color: "#0a0a0a" },
+  Indica: { background: "#0a0a0a", color: "#ffffff" },
+  Hybrid: { background: "rgba(26,61,30,0.08)", color: "#1a3d1e" },
+};
+
+const TAG: React.CSSProperties = {
+  fontSize: "0.65rem",
+  letterSpacing: "0.22em",
+  textTransform: "uppercase",
+  color: "#3a8042",
+  fontWeight: 500,
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  marginBottom: "16px",
+};
+const LINE: React.CSSProperties = {
+  width: "28px",
+  height: "1px",
+  background: "#3a8042",
+  display: "inline-block",
+  flexShrink: 0,
 };
 
 export default function ProductsPage() {
@@ -77,76 +96,217 @@ export default function ProductsPage() {
     <>
       {/* ── HERO ── */}
       <section
-        className="relative pt-40 pb-28 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #0a1a0d 0%, #122318 50%, #0f1e13 100%)" }}
+        style={{
+          background: "#0a0a0a",
+          minHeight: "58vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          position: "relative",
+          overflow: "hidden",
+          paddingTop: "160px",
+          paddingBottom: "80px",
+        }}
       >
         <div
-          className="absolute inset-0 pointer-events-none"
+          aria-hidden
           style={{
-            backgroundImage: `linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            pointerEvents: "none",
           }}
         />
-        <div className="max-w-5xl mx-auto px-8 text-center relative z-10">
-          <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, marginBottom: "20px" }}>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            width: "1px",
+            height: "120px",
+            background: "linear-gradient(to bottom, rgba(58,128,66,0.4), transparent)",
+          }}
+        />
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: "-20%",
+            right: "-10%",
+            width: "50vw",
+            height: "50vw",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(13,31,15,0.5) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+
+        <div
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "0 40px",
+            width: "100%",
+            position: "relative",
+            zIndex: 1,
+            textAlign: "center",
+          }}
+        >
+          <p style={{ ...TAG, justifyContent: "center", marginBottom: "20px" }}>
             Our Products
-          </div>
+          </p>
           <h1
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "clamp(3rem, 6vw, 5rem)",
-              fontWeight: 600,
+              fontWeight: 400,
               color: "#ffffff",
               lineHeight: 1.05,
+              letterSpacing: "-0.025em",
               marginBottom: "24px",
             }}
           >
             Premium{" "}
-            <span style={{ color: "var(--gold)" }}>GACP-Certified</span>
-            <br />Cannabis & Hemp Products
+            <em style={{ color: "rgba(255,255,255,0.35)" }}>GACP-Certified</em>
+            <br />
+            Cannabis &amp; Hemp Products
           </h1>
-          <p style={{ fontSize: "0.95rem", lineHeight: 1.8, color: "rgba(255,255,255,0.5)", fontWeight: 300, maxWidth: "560px", margin: "0 auto" }}>
-            Every product ships with full Certificate of Analysis, GACP documentation,
-            and export compliance paperwork. We work exclusively with certified growers.
+          <p
+            style={{
+              fontSize: "0.95rem",
+              lineHeight: 1.85,
+              color: "rgba(255,255,255,0.38)",
+              fontWeight: 300,
+              maxWidth: "560px",
+              margin: "0 auto",
+            }}
+          >
+            Every product ships with full Certificate of Analysis, GACP documentation, and export
+            compliance paperwork. We work exclusively with certified growers.
           </p>
         </div>
       </section>
 
-      <div style={{ background: "var(--gold)", height: "2px" }} />
+      <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
 
       {/* ── CATEGORY CARDS ── */}
-      <section className="py-32" style={{ background: "var(--cream)" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="max-w-xl mb-16">
-            <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-              <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
+      <section style={{ background: "#ffffff", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ maxWidth: "560px", marginBottom: "64px" }}>
+            <p style={TAG}>
+              <span style={LINE} />
               Product Categories
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 3.5vw, 3rem)", fontWeight: 600, color: "var(--green-dark)", lineHeight: 1.1 }}>
-              Three Core{" "}<span style={{ color: "var(--gold)" }}>Product Lines</span>
+            </p>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                fontWeight: 400,
+                color: "#0a0a0a",
+                lineHeight: 1.1,
+                letterSpacing: "-0.015em",
+              }}
+            >
+              Three core <em style={{ color: "#1a3d1e" }}>product lines</em>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-px" style={{ background: "rgba(26,58,31,0.1)" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "1px",
+              background: "rgba(0,0,0,0.08)",
+            }}
+          >
             {categories.map((cat) => (
               <div
                 key={cat.title}
-                style={{ background: "#fff", padding: "40px 32px", position: "relative", overflow: "hidden" }}
+                style={{
+                  background: "#ffffff",
+                  padding: "44px",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
               >
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "var(--gold)" }} />
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "5rem", fontWeight: 700, color: "rgba(26,58,31,0.04)", position: "absolute", bottom: "-8px", right: "20px", lineHeight: 1 }}>
+                {/* Large number watermark */}
+                <span
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    bottom: "-8px",
+                    right: "20px",
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: "6rem",
+                    fontWeight: 400,
+                    color: "rgba(0,0,0,0.04)",
+                    lineHeight: 1,
+                    userSelect: "none",
+                  }}
+                >
                   {cat.num}
+                </span>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: "20px",
+                    paddingBottom: "20px",
+                    borderBottom: "1px solid rgba(0,0,0,0.07)",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "1.3rem",
+                      fontWeight: 400,
+                      color: "#0a0a0a",
+                    }}
+                  >
+                    {cat.title}
+                  </h3>
                 </div>
-                <div style={{ fontSize: "2.5rem", marginBottom: "16px" }}>{cat.emoji}</div>
-                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.45rem", fontWeight: 600, color: "var(--green-dark)", marginBottom: "14px" }}>
-                  {cat.title}
-                </h3>
-                <p style={{ fontSize: "0.85rem", lineHeight: 1.75, color: "#777", fontWeight: 300, marginBottom: "20px" }}>
+                <p
+                  style={{
+                    fontSize: "0.85rem",
+                    lineHeight: 1.8,
+                    color: "rgba(0,0,0,0.48)",
+                    fontWeight: 300,
+                    marginBottom: "16px",
+                  }}
+                >
                   {cat.desc}
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <p
+                  style={{
+                    fontSize: "0.78rem",
+                    lineHeight: 1.7,
+                    color: "rgba(0,0,0,0.32)",
+                    fontWeight: 300,
+                    fontStyle: "italic",
+                    marginBottom: "24px",
+                  }}
+                >
+                  {cat.detail}
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                   {cat.tags.map((t) => (
-                    <span key={t} style={{ fontSize: "0.62rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "4px 10px", background: "var(--cream)", color: "var(--green-mid)", border: "1px solid rgba(26,58,31,0.15)", fontWeight: 500 }}>
+                    <span
+                      key={t}
+                      style={{
+                        fontSize: "0.6rem",
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        padding: "4px 10px",
+                        border: "1px solid rgba(0,0,0,0.1)",
+                        color: "rgba(0,0,0,0.4)",
+                        fontWeight: 500,
+                      }}
+                    >
                       {t}
                     </span>
                   ))}
@@ -158,38 +318,58 @@ export default function ProductsPage() {
       </section>
 
       {/* ── CANNABINOIDS TABLE ── */}
-      <section className="py-28" style={{ background: "#ffffff" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid lg:grid-cols-12 gap-12 items-end mb-12">
-            <div className="lg:col-span-6">
-              <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-                <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
+      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div
+            style={{ display: "grid", gap: "40px", marginBottom: "48px" }}
+            className="lg:grid-cols-2"
+          >
+            <div>
+              <p style={TAG}>
+                <span style={LINE} />
                 Cannabinoid Catalogue
-              </div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 3.5vw, 3rem)", fontWeight: 600, color: "var(--green-dark)", lineHeight: 1.1 }}>
-                Pure Isolated{" "}<span style={{ color: "var(--gold)" }}>Cannabinoids</span>
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                  fontWeight: 400,
+                  color: "#0a0a0a",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.015em",
+                }}
+              >
+                Pure isolated <em style={{ color: "#1a3d1e" }}>cannabinoids</em>
               </h2>
             </div>
-            <div className="lg:col-span-6">
-              <p style={{ fontSize: "0.85rem", lineHeight: 1.8, color: "#777", fontWeight: 300 }}>
-                Available as isolates, distillates, or full-spectrum extracts. Custom formulations available on request.
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
+              <p style={{ fontSize: "0.88rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
+                Available as isolates, distillates, or full-spectrum extracts. Custom formulations
+                available on request for sufficient order volumes.
               </p>
             </div>
           </div>
 
-          <div style={{ border: "1px solid rgba(26,58,31,0.12)", overflow: "hidden" }}>
+          <div style={{ border: "1px solid rgba(0,0,0,0.08)", overflow: "hidden" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <tr style={{ background: "var(--green-dark)" }}>
-                  <th style={{ textAlign: "left", padding: "16px 24px", fontSize: "0.62rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600 }}>
-                    Cannabinoid
-                  </th>
-                  <th style={{ textAlign: "left", padding: "16px 24px", fontSize: "0.62rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600 }}>
-                    Primary Applications
-                  </th>
-                  <th style={{ textAlign: "left", padding: "16px 24px", fontSize: "0.62rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600 }}>
-                    Max Purity
-                  </th>
+                <tr style={{ background: "#0a0a0a" }}>
+                  {["Cannabinoid", "Primary Applications", "Max Purity"].map((h) => (
+                    <th
+                      key={h}
+                      style={{
+                        textAlign: "left",
+                        padding: "16px 24px",
+                        fontSize: "0.6rem",
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                        color: "rgba(255,255,255,0.4)",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
@@ -197,18 +377,41 @@ export default function ProductsPage() {
                   <tr
                     key={c.name}
                     style={{
-                      background: i % 2 === 0 ? "#ffffff" : "var(--cream)",
-                      borderBottom: "1px solid rgba(26,58,31,0.07)",
+                      background: i % 2 === 0 ? "#ffffff" : "#fafafa",
+                      borderBottom: "1px solid rgba(0,0,0,0.05)",
                     }}
                   >
-                    <td style={{ padding: "16px 24px", fontSize: "0.88rem", fontWeight: 600, color: "var(--green-dark)" }}>
+                    <td
+                      style={{
+                        padding: "16px 24px",
+                        fontSize: "0.88rem",
+                        fontWeight: 500,
+                        color: "#0a0a0a",
+                      }}
+                    >
                       {c.name}
                     </td>
-                    <td style={{ padding: "16px 24px", fontSize: "0.83rem", color: "#777", fontWeight: 300 }}>
+                    <td
+                      style={{
+                        padding: "16px 24px",
+                        fontSize: "0.83rem",
+                        color: "rgba(0,0,0,0.45)",
+                        fontWeight: 300,
+                      }}
+                    >
                       {c.use}
                     </td>
                     <td style={{ padding: "16px 24px" }}>
-                      <span style={{ fontSize: "0.72rem", fontWeight: 700, padding: "4px 12px", background: "rgba(74,140,85,0.1)", color: "var(--green-mid)", letterSpacing: "0.08em" }}>
+                      <span
+                        style={{
+                          fontSize: "0.7rem",
+                          fontWeight: 600,
+                          padding: "4px 12px",
+                          background: "rgba(26,61,30,0.07)",
+                          color: "#1a3d1e",
+                          letterSpacing: "0.06em",
+                        }}
+                      >
                         {c.purity}
                       </span>
                     </td>
@@ -221,79 +424,167 @@ export default function ProductsPage() {
       </section>
 
       {/* ── STRAINS ── */}
-      <section className="py-28" style={{ background: "var(--cream)" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="max-w-xl mb-12">
-            <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-              <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
+      <section style={{ background: "#ffffff", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ maxWidth: "560px", marginBottom: "56px" }}>
+            <p style={TAG}>
+              <span style={LINE} />
               Cannabis Strains
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 3.5vw, 3rem)", fontWeight: 600, color: "var(--green-dark)", lineHeight: 1.1 }}>
-              GACP-Certified{" "}<span style={{ color: "var(--gold)" }}>Strain Selection</span>
+            </p>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                fontWeight: 400,
+                color: "#0a0a0a",
+                lineHeight: 1.1,
+                letterSpacing: "-0.015em",
+                marginBottom: "12px",
+              }}
+            >
+              GACP-certified <em style={{ color: "#1a3d1e" }}>strain selection</em>
             </h2>
-            <p style={{ fontSize: "0.85rem", lineHeight: 1.8, color: "#777", fontWeight: 300, marginTop: "12px" }}>
-              Each strain grown under GACP conditions with full cannabinoid and terpene profiles available on request.
+            <p style={{ fontSize: "0.88rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
+              Each strain grown under GACP conditions with full cannabinoid and terpene profiles
+              available on request.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {strains.map((s) => {
-              const col = strainTypeColor[s.type];
-              return (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gap: "1px",
+              background: "rgba(0,0,0,0.07)",
+            }}
+          >
+            {strains.map((s) => (
+              <div
+                key={s.name}
+                style={{
+                  background: "#ffffff",
+                  padding: "28px",
+                }}
+              >
                 <div
-                  key={s.name}
-                  className="group"
-                  style={{ background: "#fff", border: "1px solid rgba(26,58,31,0.1)", padding: "24px", transition: "box-shadow 0.2s, transform 0.2s" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "space-between",
+                    marginBottom: "16px",
+                    gap: "12px",
+                  }}
                 >
-                  <div className="flex items-start justify-between mb-10">
-                    <h4 style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--green-dark)" }}>
-                      {s.name}
-                    </h4>
-                    <span style={{ fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", background: col.bg, color: col.color }}>
-                      {s.type}
-                    </span>
-                  </div>
-                  <p style={{ fontSize: "0.78rem", lineHeight: 1.65, color: "#888", fontWeight: 300 }}>
-                    {s.notes}
-                  </p>
+                  <h4
+                    style={{
+                      fontSize: "0.95rem",
+                      fontWeight: 500,
+                      color: "#0a0a0a",
+                      letterSpacing: "0.01em",
+                    }}
+                  >
+                    {s.name}
+                  </h4>
+                  <span
+                    style={{
+                      fontSize: "0.55rem",
+                      fontWeight: 600,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      padding: "3px 8px",
+                      flexShrink: 0,
+                      ...strainTypeStyle[s.type],
+                    }}
+                  >
+                    {s.type}
+                  </span>
                 </div>
-              );
-            })}
+                <p style={{ fontSize: "0.78rem", lineHeight: 1.7, color: "rgba(0,0,0,0.4)", fontWeight: 300 }}>
+                  {s.notes}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ── TERPENES ── */}
-      <section className="py-28" style={{ background: "#fff" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="max-w-xl mb-12">
-            <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-              <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
-              Terpenes & Flavonoids
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 3.5vw, 3rem)", fontWeight: 600, color: "var(--green-dark)", lineHeight: 1.1 }}>
-              Steam-Distilled{" "}<span style={{ color: "var(--gold)" }}>Terpene Collection</span>
+      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ maxWidth: "560px", marginBottom: "56px" }}>
+            <p style={TAG}>
+              <span style={LINE} />
+              Terpenes &amp; Flavonoids
+            </p>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                fontWeight: 400,
+                color: "#0a0a0a",
+                lineHeight: 1.1,
+                letterSpacing: "-0.015em",
+                marginBottom: "12px",
+              }}
+            >
+              Steam-distilled <em style={{ color: "#1a3d1e" }}>terpene collection</em>
             </h2>
-            <p style={{ fontSize: "0.85rem", lineHeight: 1.8, color: "#777", fontWeight: 300, marginTop: "12px" }}>
-              Premium terpene isolates steam-distilled at 90–99% purity for research, formulation, and product development.
+            <p style={{ fontSize: "0.88rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
+              Premium terpene isolates at 90–99% purity for research, formulation, and product
+              development.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 mb-20">
-            {terpenes.map((t) => (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(12, 1fr)",
+              gap: "1px",
+              background: "rgba(0,0,0,0.07)",
+              marginBottom: "80px",
+            }}
+          >
+            {terpenes.map((t, i) => (
               <div
                 key={t.name}
-                style={{ background: "var(--cream)", borderLeft: "3px solid var(--gold)", padding: "20px 24px" }}
+                style={{
+                  background: "#ffffff",
+                  padding: "28px 24px",
+                  borderLeft: i === 0 || i === 4 ? "none" : "1px solid #1a3d1e",
+                  gridColumn: i < 4 ? "span 3" : "span 4",
+                }}
               >
-                <div style={{ fontSize: "0.92rem", fontWeight: 600, color: "var(--green-dark)", marginBottom: "6px" }}>
+                <p
+                  style={{
+                    fontSize: "0.92rem",
+                    fontWeight: 500,
+                    color: "#0a0a0a",
+                    marginBottom: "6px",
+                  }}
+                >
                   {t.name}
-                </div>
-                <div style={{ fontSize: "0.78rem", color: "#888", fontWeight: 300, marginBottom: "10px" }}>
+                </p>
+                <p
+                  style={{
+                    fontSize: "0.78rem",
+                    color: "rgba(0,0,0,0.4)",
+                    fontWeight: 300,
+                    marginBottom: "10px",
+                  }}
+                >
                   {t.effect}
-                </div>
-                <div style={{ fontSize: "0.65rem", fontWeight: 700, color: "var(--gold)", letterSpacing: "0.08em" }}>
+                </p>
+                <p
+                  style={{
+                    fontSize: "0.62rem",
+                    fontWeight: 600,
+                    color: "#3a8042",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                  }}
+                >
                   Purity: {t.purity}
-                </div>
+                </p>
               </div>
             ))}
           </div>
@@ -301,7 +592,7 @@ export default function ProductsPage() {
           {/* CTA Banner */}
           <div
             style={{
-              background: "var(--green-dark)",
+              background: "#0a0a0a",
               padding: "52px 48px",
               position: "relative",
               overflow: "hidden",
@@ -313,26 +604,78 @@ export default function ProductsPage() {
               flexWrap: "wrap",
             }}
           >
-            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "var(--gold)" }} />
-            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "5rem", fontWeight: 700, color: "rgba(201,168,76,0.05)", position: "absolute", bottom: "-15px", right: "20px", lineHeight: 1 }}>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: "2px",
+                background: "#1a3d1e",
+              }}
+            />
+            <span
+              aria-hidden
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "6rem",
+                fontWeight: 400,
+                color: "rgba(255,255,255,0.03)",
+                position: "absolute",
+                bottom: "-12px",
+                right: "20px",
+                lineHeight: 1,
+                userSelect: "none",
+              }}
+            >
               CUSTOM
-            </div>
-            <div>
-              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem", fontWeight: 600, color: "var(--gold-light)", marginBottom: "12px" }}>
+            </span>
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <h3
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "1.8rem",
+                  fontWeight: 400,
+                  color: "#ffffff",
+                  marginBottom: "12px",
+                }}
+              >
                 Custom Formulations Available
               </h3>
-              <p style={{ fontSize: "0.88rem", lineHeight: 1.75, color: "rgba(255,255,255,0.55)", fontWeight: 300, maxWidth: "520px" }}>
-                We create custom cannabinoid, terpene, and flavonoid profiles to meet your exact research
-                or medical requirements. Our experienced team develops products that match your specifications.
+              <p
+                style={{
+                  fontSize: "0.88rem",
+                  lineHeight: 1.75,
+                  color: "rgba(255,255,255,0.38)",
+                  fontWeight: 300,
+                  maxWidth: "520px",
+                }}
+              >
+                We create custom cannabinoid, terpene, and flavonoid profiles to meet your exact
+                research or medical requirements.
               </p>
             </div>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-3 shrink-0"
-              style={{ background: "var(--gold)", color: "var(--green-dark)", padding: "15px 30px", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase" }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                background: "#ffffff",
+                color: "#0a0a0a",
+                padding: "15px 30px",
+                fontSize: "0.68rem",
+                fontWeight: 600,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                position: "relative",
+                zIndex: 1,
+                flexShrink: 0,
+              }}
             >
               Request Custom Quote
-              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={12} />
             </Link>
           </div>
         </div>

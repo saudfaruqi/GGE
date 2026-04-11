@@ -1,4 +1,4 @@
-// app/about/page.tsx  —  Global Green Exports · About
+// app/about/page.tsx — Global Green Exports · About
 
 import type { Metadata } from "next";
 import { Shield, Leaf, Globe, Award, CheckCircle, ArrowRight } from "lucide-react";
@@ -11,17 +11,45 @@ export const metadata: Metadata = {
 };
 
 const certifications = [
-  { icon: "🌿", label: "GACP Compliant", desc: "All growers meet Good Agricultural and Collection Practices standards" },
-  { icon: "📋", label: "Thai Export Licensed", desc: "Operating under Thai FDA and relevant governmental export frameworks" },
-  { icon: "🔬", label: "3rd Party Lab Tested", desc: "Every product batch independently tested with full CoA documentation" },
-  { icon: "🌍", label: "Global Compliance", desc: "Products meet destination country import requirements" },
+  {
+    label: "GACP Compliant",
+    desc: "All growers meet Good Agricultural and Collection Practices standards — the global baseline for medical cannabis quality.",
+  },
+  {
+    label: "Thai Export Licensed",
+    desc: "Operating under Thai FDA and relevant governmental export frameworks with full phytosanitary documentation.",
+  },
+  {
+    label: "3rd Party Lab Tested",
+    desc: "Every product batch independently tested with full CoA documentation covering cannabinoids, terpenes, and residuals.",
+  },
+  {
+    label: "Global Compliance",
+    desc: "Products are prepared to meet destination country import requirements from the TGA to the German BfArM.",
+  },
 ];
 
 const values = [
-  { icon: <Shield size={20} />, title: "Integrity", desc: "We operate transparently with all stakeholders — growers, buyers, and regulators." },
-  { icon: <Leaf size={20} />, title: "Sustainability", desc: "Supporting sustainable farming practices that protect Thailand's agricultural heritage." },
-  { icon: <Globe size={20} />, title: "Global Access", desc: "Breaking down barriers to legal medicinal cannabis access worldwide." },
-  { icon: <Award size={20} />, title: "Excellence", desc: "Uncompromising quality standards at every stage of the supply chain." },
+  {
+    icon: Shield,
+    title: "Integrity",
+    desc: "We operate transparently with all stakeholders — growers, buyers, and regulators.",
+  },
+  {
+    icon: Leaf,
+    title: "Sustainability",
+    desc: "Supporting sustainable farming practices that protect Thailand's agricultural heritage.",
+  },
+  {
+    icon: Globe,
+    title: "Global Access",
+    desc: "Breaking down barriers to legal medicinal cannabis access worldwide.",
+  },
+  {
+    icon: Award,
+    title: "Excellence",
+    desc: "Uncompromising quality standards at every stage of the supply chain.",
+  },
 ];
 
 const commitments = [
@@ -32,67 +60,114 @@ const commitments = [
   "No compromise on product quality or regulatory adherence",
 ];
 
+const TAG = {
+  fontSize: "0.65rem",
+  letterSpacing: "0.22em",
+  textTransform: "uppercase" as const,
+  color: "#3a8042",
+  fontWeight: 500,
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  marginBottom: "16px",
+};
+
+const LINE = {
+  width: "28px",
+  height: "1px",
+  background: "#3a8042",
+  display: "inline-block",
+  flexShrink: 0,
+};
+
 export default function AboutPage() {
   return (
     <>
       {/* ── HERO ── */}
       <section
-        className="relative pt-40 pb-28 overflow-hidden"
         style={{
-          background: "linear-gradient(160deg, #0a1a0d 0%, #122318 50%, #0f1e13 100%)",
+          background: "#0a0a0a",
+          minHeight: "60vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          position: "relative",
+          overflow: "hidden",
+          paddingTop: "160px",
+          paddingBottom: "80px",
         }}
       >
+        {/* Grid */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          aria-hidden
           style={{
-            backgroundImage: `linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            pointerEvents: "none",
           }}
         />
-
-        {/* Vertical accent line */}
+        {/* Green glow */}
         <div
-          className="absolute left-1/2 top-0 pointer-events-none"
+          aria-hidden
           style={{
+            position: "absolute",
+            top: "-20%",
+            right: "-10%",
+            width: "50vw",
+            height: "50vw",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(13,31,15,0.6) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+        {/* Vertical accent */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
             width: "1px",
             height: "120px",
-            background: "linear-gradient(to bottom, rgba(201,168,76,0.5), transparent)",
+            background: "linear-gradient(to bottom, rgba(58,128,66,0.4), transparent)",
           }}
         />
 
-        <div className="max-w-5xl mx-auto px-8 text-center relative z-10">
-          <div
-            style={{
-              fontSize: "0.62rem",
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "var(--gold)",
-              fontWeight: 600,
-              marginBottom: "20px",
-            }}
-          >
+        <div
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "0 40px",
+            width: "100%",
+            position: "relative",
+            zIndex: 1,
+            textAlign: "center",
+          }}
+        >
+          <p style={{ ...TAG, justifyContent: "center", marginBottom: "20px" }}>
             About Us
-          </div>
+          </p>
           <h1
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "clamp(3rem, 6vw, 5rem)",
-              fontWeight: 600,
+              fontWeight: 400,
               color: "#ffffff",
               lineHeight: 1.05,
+              letterSpacing: "-0.025em",
               marginBottom: "24px",
             }}
           >
             Rooted in Thailand.{" "}
-            <em style={{ color: "var(--gold)", fontStyle: "italic" }}>
-              Reaching the World.
-            </em>
+            <em style={{ color: "rgba(255,255,255,0.35)" }}>Reaching the World.</em>
           </h1>
           <p
             style={{
               fontSize: "1rem",
-              lineHeight: 1.8,
-              color: "rgba(255,255,255,0.5)",
+              lineHeight: 1.85,
+              color: "rgba(255,255,255,0.38)",
               fontWeight: 300,
               maxWidth: "600px",
               margin: "0 auto",
@@ -105,43 +180,35 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Gold divider */}
-      <div style={{ background: "var(--gold)", height: "2px" }} />
+      {/* Divider */}
+      <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
 
       {/* ── STORY ── */}
-      <section className="py-32" style={{ background: "var(--cream)" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid lg:grid-cols-12 gap-20 items-start">
-            {/* Left col: story */}
-            <div className="lg:col-span-6">
-              <div
-                style={{
-                  fontSize: "0.62rem",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--gold)",
-                  fontWeight: 600,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginBottom: "20px",
-                }}
-              >
-                <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
+      <section style={{ background: "#ffffff", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div
+            style={{ display: "grid", gap: "80px", alignItems: "start" }}
+            className="lg:grid-cols-2"
+          >
+            {/* Left: story */}
+            <div>
+              <p style={TAG}>
+                <span style={LINE} />
                 Our Story
-              </div>
+              </p>
               <h2
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
                   fontSize: "clamp(2.2rem, 3.5vw, 3rem)",
-                  fontWeight: 600,
-                  color: "var(--green-dark)",
+                  fontWeight: 400,
+                  color: "#0a0a0a",
                   lineHeight: 1.1,
-                  marginBottom: "32px",
+                  letterSpacing: "-0.015em",
+                  marginBottom: "36px",
                 }}
               >
-                Built on Compliance,{" "}
-                <span style={{ color: "var(--gold)" }}>Driven by Quality</span>
+                Built on compliance,{" "}
+                <em style={{ color: "#1a3d1e" }}>driven by quality</em>
               </h2>
 
               <div
@@ -149,20 +216,21 @@ export default function AboutPage() {
                   display: "flex",
                   flexDirection: "column",
                   gap: "20px",
-                  fontSize: "0.9rem",
+                  fontSize: "0.92rem",
                   lineHeight: 1.85,
-                  color: "#666",
+                  color: "rgba(0,0,0,0.48)",
                   fontWeight: 300,
                 }}
               >
                 <p>
-                  Global Green Exports (GGE) operates from Thailand — a country that has emerged
-                  as one of Asia's most progressive and well-regulated medicinal cannabis markets.
-                  We work exclusively with{" "}
-                  <strong style={{ color: "var(--green-dark)", fontWeight: 600 }}>
+                  Global Green Exports operates from Thailand — a country that has emerged as one
+                  of Asia's most progressive and well-regulated medicinal cannabis markets. We work
+                  exclusively with{" "}
+                  <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>
                     GACP-certified growers
                   </strong>{" "}
-                  whose products meet the stringent requirements of international medical cannabis standards.
+                  whose products meet the stringent requirements of international medical cannabis
+                  standards.
                 </p>
                 <p>
                   Our mission is simple: to be the most trusted export partner for buyers seeking
@@ -178,21 +246,22 @@ export default function AboutPage() {
                 </p>
                 <p>
                   We believe that{" "}
-                  <strong style={{ color: "var(--green-dark)", fontWeight: 600 }}>
+                  <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>
                     access to medicinal cannabis
                   </strong>{" "}
                   should not be limited by geography. Our network connects compliant products with
-                  patients, researchers, and medical professionals across Europe, Australasia, and beyond.
+                  patients, researchers, and medical professionals across Europe, Australasia, and
+                  beyond.
                 </p>
               </div>
             </div>
 
-            {/* Right col: commitment + note */}
-            <div className="lg:col-span-6 flex flex-col gap-6">
+            {/* Right: commitment + stats */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               {/* Commitment card */}
               <div
                 style={{
-                  background: "var(--green-dark)",
+                  background: "#0a0a0a",
                   padding: "40px",
                   position: "relative",
                   overflow: "hidden",
@@ -205,15 +274,15 @@ export default function AboutPage() {
                     left: 0,
                     right: 0,
                     height: "2px",
-                    background: "var(--gold)",
+                    background: "#1a3d1e",
                   }}
                 />
                 <h3
                   style={{
                     fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "1.6rem",
-                    fontWeight: 600,
-                    color: "var(--gold-light)",
+                    fontSize: "1.5rem",
+                    fontWeight: 400,
+                    color: "#ffffff",
                     marginBottom: "24px",
                   }}
                 >
@@ -223,18 +292,30 @@ export default function AboutPage() {
                   {commitments.map((item) => (
                     <li
                       key={item}
-                      className="flex items-start gap-3"
                       style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "14px",
                         fontSize: "0.85rem",
-                        color: "rgba(255,255,255,0.7)",
+                        color: "rgba(255,255,255,0.5)",
                         fontWeight: 300,
                         lineHeight: 1.6,
                       }}
                     >
-                      <CheckCircle
-                        size={14}
-                        style={{ color: "var(--gold)", marginTop: "3px", flexShrink: 0 }}
-                      />
+                      <div
+                        style={{
+                          width: "18px",
+                          height: "18px",
+                          border: "1px solid rgba(58,128,66,0.4)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                          marginTop: "1px",
+                        }}
+                      >
+                        <CheckCircle size={10} style={{ color: "#3a8042" }} />
+                      </div>
                       {item}
                     </li>
                   ))}
@@ -244,9 +325,8 @@ export default function AboutPage() {
               {/* Compliance note */}
               <div
                 style={{
-                  background: "#ffffff",
-                  border: "1px solid rgba(26,58,31,0.12)",
-                  borderLeft: "3px solid var(--gold)",
+                  background: "#f5f5f5",
+                  borderLeft: "3px solid #1a3d1e",
                   padding: "24px 28px",
                 }}
               >
@@ -254,21 +334,26 @@ export default function AboutPage() {
                   style={{
                     fontSize: "0.85rem",
                     lineHeight: 1.75,
-                    color: "#666",
+                    color: "rgba(0,0,0,0.5)",
                     fontWeight: 300,
                   }}
                 >
-                  <strong style={{ color: "var(--green-dark)", fontWeight: 600 }}>
-                    Based in Thailand,
-                  </strong>{" "}
-                  we operate with deep knowledge of Thai cannabis regulation and have built
-                  direct relationships with licensed cultivators across the country — ensuring
-                  product authenticity, traceability, and consistent supply.
+                  <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>Based in Thailand,</strong>{" "}
+                  we operate with deep knowledge of Thai cannabis regulation and have built direct
+                  relationships with licensed cultivators across the country — ensuring product
+                  authenticity, traceability, and consistent supply.
                 </p>
               </div>
 
-              {/* Country stat blocks */}
-              <div className="grid grid-cols-3 gap-px" style={{ background: "rgba(26,58,31,0.12)" }}>
+              {/* Stat blocks */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3, 1fr)",
+                  gap: "1px",
+                  background: "rgba(0,0,0,0.08)",
+                }}
+              >
                 {[
                   { val: "30+", label: "Countries Reached" },
                   { val: "100%", label: "GACP Certified" },
@@ -276,31 +361,35 @@ export default function AboutPage() {
                 ].map((s) => (
                   <div
                     key={s.label}
-                    className="text-center"
-                    style={{ background: "var(--cream)", padding: "24px 16px" }}
+                    style={{
+                      textAlign: "center",
+                      background: "#ffffff",
+                      padding: "28px 16px",
+                    }}
                   >
-                    <div
+                    <p
                       style={{
                         fontFamily: "'Cormorant Garamond', serif",
                         fontSize: "2rem",
-                        fontWeight: 700,
-                        color: "var(--green-dark)",
+                        fontWeight: 400,
+                        color: "#0a0a0a",
                         lineHeight: 1,
                         marginBottom: "6px",
                       }}
                     >
                       {s.val}
-                    </div>
-                    <div
+                    </p>
+                    <p
                       style={{
-                        fontSize: "0.62rem",
+                        fontSize: "0.6rem",
                         letterSpacing: "0.12em",
                         textTransform: "uppercase",
-                        color: "#888",
+                        color: "rgba(0,0,0,0.35)",
+                        fontWeight: 400,
                       }}
                     >
                       {s.label}
-                    </div>
+                    </p>
                   </div>
                 ))}
               </div>
@@ -310,81 +399,94 @@ export default function AboutPage() {
       </section>
 
       {/* ── CERTIFICATIONS ── */}
-      <section className="py-28" style={{ background: "#ffffff" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid lg:grid-cols-12 gap-12 items-center mb-16">
-            <div className="lg:col-span-6">
-              <div
-                style={{
-                  fontSize: "0.62rem",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--gold)",
-                  fontWeight: 600,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  marginBottom: "16px",
-                }}
-              >
-                <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
-                Certifications & Standards
-              </div>
+      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div
+            style={{ display: "grid", gap: "40px", marginBottom: "56px" }}
+            className="lg:grid-cols-2"
+          >
+            <div>
+              <p style={TAG}>
+                <span style={LINE} />
+                Certifications &amp; Standards
+              </p>
               <h2
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2.2rem, 3.5vw, 3rem)",
-                  fontWeight: 600,
-                  color: "var(--green-dark)",
+                  fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                  fontWeight: 400,
+                  color: "#0a0a0a",
                   lineHeight: 1.1,
+                  letterSpacing: "-0.015em",
                 }}
               >
-                Our Quality{" "}
-                <span style={{ color: "var(--gold)" }}>Framework</span>
+                Our quality <em style={{ color: "#1a3d1e" }}>framework</em>
               </h2>
             </div>
-            <div className="lg:col-span-6">
+            <div style={{ display: "flex", alignItems: "flex-end" }}>
               <p
                 style={{
-                  fontSize: "0.9rem",
+                  fontSize: "0.92rem",
                   lineHeight: 1.8,
-                  color: "#777",
+                  color: "rgba(0,0,0,0.45)",
                   fontWeight: 300,
                 }}
               >
                 Every product that leaves our supply chain is backed by documentation,
-                certification, and third-party verification. We set a high bar — and hold
-                every grower partner to it.
+                certification, and third-party verification. We set a high bar — and hold every
+                grower partner to it.
               </p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px" style={{ background: "rgba(26,58,31,0.1)" }}>
-            {certifications.map((c) => (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "1px",
+              background: "rgba(0,0,0,0.08)",
+            }}
+          >
+            {certifications.map((c, i) => (
               <div
                 key={c.label}
-                style={{
-                  background: "var(--cream)",
-                  padding: "36px 28px",
-                }}
+                style={{ background: "#ffffff", padding: "40px 32px" }}
               >
-                <div style={{ fontSize: "2.5rem", marginBottom: "16px" }}>{c.icon}</div>
-                <h3
+                <p
                   style={{
                     fontFamily: "'Cormorant Garamond', serif",
+                    fontStyle: "italic",
                     fontSize: "1.2rem",
-                    fontWeight: 600,
-                    color: "var(--green-dark)",
-                    marginBottom: "10px",
+                    color: "rgba(0,0,0,0.4)",
+                    marginBottom: "16px",
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <div
+                  style={{
+                    width: "28px",
+                    height: "1px",
+                    background: "#0a0a0a",
+                    marginBottom: "20px",
+                  }}
+                />
+                <h3
+                  style={{
+                    fontSize: "0.92rem",
+                    fontWeight: 500,
+                    color: "#0a0a0a",
+                    marginBottom: "12px",
+                    letterSpacing: "0.01em",
                   }}
                 >
                   {c.label}
                 </h3>
                 <p
                   style={{
-                    fontSize: "0.8rem",
-                    lineHeight: 1.7,
-                    color: "#777",
+                    fontSize: "0.82rem",
+                    lineHeight: 1.8,
+                    color: "rgba(0,0,0,0.45)",
                     fontWeight: 300,
                   }}
                 >
@@ -397,142 +499,161 @@ export default function AboutPage() {
       </section>
 
       {/* ── VALUES ── */}
-      <section className="py-28" style={{ background: "var(--cream)" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="max-w-xl mb-16">
-            <div
-              style={{
-                fontSize: "0.62rem",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "var(--gold)",
-                fontWeight: 600,
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                marginBottom: "16px",
-              }}
-            >
-              <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
+      <section style={{ background: "#ffffff", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ maxWidth: "560px", marginBottom: "64px" }}>
+            <p style={TAG}>
+              <span style={LINE} />
               Our Values
-            </div>
+            </p>
             <h2
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(2.2rem, 3.5vw, 3rem)",
-                fontWeight: 600,
-                color: "var(--green-dark)",
+                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                fontWeight: 400,
+                color: "#0a0a0a",
                 lineHeight: 1.1,
+                letterSpacing: "-0.015em",
               }}
             >
-              The Principles Behind{" "}
-              <span style={{ color: "var(--gold)" }}>Global Green Exports</span>
+              The principles behind{" "}
+              <em style={{ color: "#1a3d1e" }}>Global Green Exports</em>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((v) => (
-              <div
-                key={v.title}
-                style={{
-                  background: "#ffffff",
-                  border: "1px solid rgba(26,58,31,0.1)",
-                  borderTop: "2px solid var(--gold)",
-                  padding: "28px",
-                }}
-              >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: "1px",
+              background: "rgba(0,0,0,0.08)",
+            }}
+          >
+            {values.map((v) => {
+              const Icon = v.icon;
+              return (
                 <div
+                  key={v.title}
                   style={{
-                    width: "38px",
-                    height: "38px",
-                    border: "1px solid rgba(201,168,76,0.3)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "var(--green-mid)",
-                    marginBottom: "16px",
+                    background: "#ffffff",
+                    padding: "40px 32px",
+                    borderTop: "2px solid #f5f5f5",
                   }}
                 >
-                  {v.icon}
+                  <div
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      border: "1px solid rgba(0,0,0,0.1)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    <Icon size={18} strokeWidth={1.2} color="#1a3d1e" />
+                  </div>
+                  <h3
+                    style={{
+                      fontSize: "0.92rem",
+                      fontWeight: 500,
+                      color: "#0a0a0a",
+                      marginBottom: "10px",
+                      letterSpacing: "0.01em",
+                    }}
+                  >
+                    {v.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: "0.82rem",
+                      lineHeight: 1.75,
+                      color: "rgba(0,0,0,0.45)",
+                      fontWeight: 300,
+                    }}
+                  >
+                    {v.desc}
+                  </p>
                 </div>
-                <h3
-                  style={{
-                    fontSize: "0.9rem",
-                    fontWeight: 600,
-                    color: "var(--green-dark)",
-                    marginBottom: "8px",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  {v.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: "0.8rem",
-                    lineHeight: 1.7,
-                    color: "#777",
-                    fontWeight: 300,
-                  }}
-                >
-                  {v.desc}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ── CTA ── */}
       <section
-        className="py-24 relative overflow-hidden"
-        style={{ background: "var(--green-dark)" }}
+        style={{
+          background: "#0a0a0a",
+          padding: "96px 0",
+          position: "relative",
+          overflow: "hidden",
+        }}
       >
         <div
-          className="absolute inset-0 pointer-events-none"
+          aria-hidden
           style={{
-            backgroundImage: `linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+            pointerEvents: "none",
           }}
         />
-        <div className="max-w-3xl mx-auto px-8 text-center relative z-10">
+        <div
+          style={{
+            maxWidth: "640px",
+            margin: "0 auto",
+            padding: "0 40px",
+            textAlign: "center",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
           <h2
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "clamp(2rem, 4vw, 3rem)",
-              fontWeight: 600,
+              fontWeight: 400,
               color: "#ffffff",
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
               marginBottom: "16px",
             }}
           >
-            Ready to Work Together?
+            Ready to work together?
           </h2>
           <p
             style={{
-              fontSize: "0.9rem",
-              lineHeight: 1.8,
-              color: "rgba(255,255,255,0.5)",
+              fontSize: "0.92rem",
+              lineHeight: 1.85,
+              color: "rgba(255,255,255,0.32)",
               fontWeight: 300,
-              marginBottom: "36px",
+              marginBottom: "40px",
             }}
           >
-            Reach out to our team to discuss your sourcing needs and how
-            Global Green Exports can serve you.
+            Reach out to our team to discuss your sourcing needs and how Global
+            Green Exports can serve you.
           </p>
           <Link
             href="/contact"
-            className="group inline-flex items-center gap-3"
             style={{
-              background: "var(--gold)",
-              color: "var(--green-dark)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              background: "#ffffff",
+              color: "#0a0a0a",
               padding: "16px 36px",
               fontSize: "0.68rem",
-              fontWeight: 700,
+              fontWeight: 600,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
+              textDecoration: "none",
             }}
           >
             Contact Us
-            <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            <ArrowRight size={12} />
           </Link>
         </div>
       </section>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail, ArrowUpRight } from "lucide-react";
 
 const col1 = [
   { href: "/about", label: "About" },
@@ -23,11 +23,12 @@ export default function Footer() {
   return (
     <footer
       style={{
-        background: "#07120a",
-        borderTop: "1px solid rgba(184,146,58,0.12)",
+        background: "#0a0a0a",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
       }}
     >
-      <div style={{ height: "1px", background: "var(--gold, #b8923a)", opacity: 0.5 }} />
+      {/* Top accent line — dark green */}
+      <div style={{ height: "2px", background: "#1a3d1e" }} />
 
       <div
         style={{
@@ -43,36 +44,20 @@ export default function Footer() {
             gap: "48px",
           }}
         >
-          {/* Brand */}
-          <div style={{ gridColumn: "span 1" }}>
-            <p
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "1rem",
-                fontWeight: 500,
-                color: "#fff",
-                marginBottom: "4px",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Global Green Exports
-            </p>
-            <p
-              style={{
-                fontSize: "0.57rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "rgba(184,146,58,0.45)",
-                marginBottom: "20px",
-              }}
-            >
-              Bangkok · Est. 2024
-            </p>
+          {/* Brand column */}
+          <div>
+            {/* Logo */}
+            <img
+              src="/logo1.png"
+              alt="Global Green Exports"
+              style={{ width: "120px", marginBottom: "20px", opacity: 0.85, filter: "invert(1)" }}
+            />
+
             <p
               style={{
                 fontSize: "0.8rem",
                 lineHeight: 1.8,
-                color: "rgba(255,255,255,0.3)",
+                color: "rgba(255,255,255,0.5)",
                 fontWeight: 300,
                 maxWidth: "260px",
               }}
@@ -82,18 +67,18 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Company */}
+          {/* Company links */}
           <div>
             <p
               style={{
                 fontSize: "0.6rem",
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "var(--gold, #b8923a)",
+                color: "rgba(255,255,255,0.5)",
                 fontWeight: 500,
                 marginBottom: "20px",
                 paddingBottom: "12px",
-                borderBottom: "1px solid rgba(184,146,58,0.12)",
+                borderBottom: "1px solid rgba(255,255,255,0.07)",
               }}
             >
               Company
@@ -104,9 +89,11 @@ export default function Footer() {
                   <Link
                     href={l.href}
                     style={{
-                      fontSize: "0.83rem",
-                      color: "rgba(255,255,255,0.32)",
+                      fontSize: "0.82rem",
+                      color: "rgba(255,255,255,0.4)",
                       fontWeight: 300,
+                      textDecoration: "none",
+                      transition: "color 0.2s",
                     }}
                   >
                     {l.label}
@@ -116,18 +103,18 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Products */}
+          {/* Products & Services links */}
           <div>
             <p
               style={{
                 fontSize: "0.6rem",
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "var(--gold, #b8923a)",
+                color: "rgba(255,255,255,0.5)",
                 fontWeight: 500,
                 marginBottom: "20px",
                 paddingBottom: "12px",
-                borderBottom: "1px solid rgba(184,146,58,0.12)",
+                borderBottom: "1px solid rgba(255,255,255,0.07)",
               }}
             >
               Products &amp; Services
@@ -138,9 +125,11 @@ export default function Footer() {
                   <Link
                     href={l.href}
                     style={{
-                      fontSize: "0.83rem",
-                      color: "rgba(255,255,255,0.32)",
+                      fontSize: "0.82rem",
+                      color: "rgba(255,255,255,0.4)",
                       fontWeight: 300,
+                      textDecoration: "none",
+                      transition: "color 0.2s",
                     }}
                   >
                     {l.label}
@@ -157,31 +146,25 @@ export default function Footer() {
                 fontSize: "0.6rem",
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "var(--gold, #b8923a)",
+                color: "rgba(255,255,255,0.5)",
                 fontWeight: 500,
                 marginBottom: "20px",
                 paddingBottom: "12px",
-                borderBottom: "1px solid rgba(184,146,58,0.12)",
+                borderBottom: "1px solid rgba(255,255,255,0.07)",
               }}
             >
               Contact
             </p>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "14px" }}>
-              <li
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: "10px",
-                }}
-              >
+            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "16px" }}>
+              <li style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
                 <MapPin
                   size={12}
-                  style={{ color: "var(--gold, #b8923a)", marginTop: "3px", flexShrink: 0 }}
+                  style={{ color: "#3a8042", marginTop: "3px", flexShrink: 0 }}
                 />
                 <span
                   style={{
                     fontSize: "0.82rem",
-                    color: "rgba(255,255,255,0.32)",
+                    color: "rgba(255,255,255,0.4)",
                     fontWeight: 300,
                     lineHeight: 1.6,
                   }}
@@ -191,27 +174,29 @@ export default function Footer() {
                   Export Operations
                 </span>
               </li>
-              <li style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <Phone size={12} style={{ color: "var(--gold, #b8923a)", flexShrink: 0 }} />
+              <li style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <Phone size={12} style={{ color: "#3a8042", flexShrink: 0 }} />
                 <a
                   href="tel:+66000000000"
                   style={{
                     fontSize: "0.82rem",
-                    color: "rgba(255,255,255,0.32)",
+                    color: "rgba(255,255,255,0.4)",
                     fontWeight: 300,
+                    textDecoration: "none",
                   }}
                 >
                   +66 (0) 00 000 0000
                 </a>
               </li>
-              <li style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <Mail size={12} style={{ color: "var(--gold, #b8923a)", flexShrink: 0 }} />
+              <li style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <Mail size={12} style={{ color: "#3a8042", flexShrink: 0 }} />
                 <a
                   href="mailto:info@globalgreen.export"
                   style={{
                     fontSize: "0.82rem",
-                    color: "rgba(255,255,255,0.32)",
+                    color: "rgba(255,255,255,0.4)",
                     fontWeight: 300,
+                    textDecoration: "none",
                   }}
                 >
                   info@globalgreen.export
@@ -219,46 +204,33 @@ export default function Footer() {
               </li>
             </ul>
 
-            <div
+            {/* Enquire CTA */}
+            <Link
+              href="/contact"
               style={{
-                marginTop: "24px",
-                padding: "12px 14px",
-                border: "1px solid rgba(184,146,58,0.14)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                marginTop: "28px",
+                padding: "10px 18px",
+                background: "#ffffff",
+                color: "#0a0a0a",
+                fontSize: "0.62rem",
+                fontWeight: 600,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                textDecoration: "none",
               }}
             >
-              <p
-                style={{
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "rgba(184,146,58,0.6)",
-                  fontWeight: 500,
-                  marginBottom: "3px",
-                }}
-              >
-                Export Licence Pending
-              </p>
-              <p
-                style={{
-                  fontSize: "0.65rem",
-                  color: "rgba(255,255,255,0.2)",
-                  fontWeight: 300,
-                }}
-              >
-                Full licensure expected shortly
-              </p>
-            </div>
+              Start an Enquiry
+              <ArrowUpRight size={10} />
+            </Link>
           </div>
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-          padding: "18px 0",
-        }}
-      >
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.5)", padding: "20px 0" }}>
         <div
           style={{
             maxWidth: "1280px",
@@ -268,13 +240,13 @@ export default function Footer() {
             alignItems: "center",
             justifyContent: "space-between",
             flexWrap: "wrap",
-            gap: "8px",
+            gap: "10px",
           }}
         >
           <p
             style={{
-              fontSize: "0.72rem",
-              color: "rgba(255,255,255,0.16)",
+              fontSize: "0.7rem",
+              color: "rgba(255,255,255,0.45)",
               fontWeight: 300,
             }}
           >
@@ -286,9 +258,10 @@ export default function Footer() {
                 key={t}
                 href="/contact"
                 style={{
-                  fontSize: "0.7rem",
-                  color: "rgba(255,255,255,0.16)",
+                  fontSize: "0.68rem",
+                  color: "rgba(255,255,255,0.45)",
                   fontWeight: 300,
+                  textDecoration: "none",
                 }}
               >
                 {t}

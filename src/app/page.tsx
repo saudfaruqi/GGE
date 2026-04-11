@@ -201,13 +201,13 @@ export default function Home() {
           aria-hidden
           style={{
             position: "absolute",
-            top: "8vh",
+            top: "10vh",
             right: "-2vw",
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: "italic",
             fontWeight: 400,
-            fontSize: "clamp(80px, 16vw, 200px)",
-            color: "rgba(255,255,255,0.02)",
+            fontSize: "clamp(100px, 26vw, 600px)",
+            color: "rgba(255,255,255,0.10)",
             lineHeight: 1,
             userSelect: "none",
             pointerEvents: "none",
@@ -248,37 +248,6 @@ export default function Home() {
           >
             {/* Left */}
             <div>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  border: "1px solid rgba(58,128,66,0.3)",
-                  padding: "6px 14px 6px 8px",
-                  marginBottom: "40px",
-                }}
-              >
-                <span
-                  style={{
-                    width: "6px",
-                    height: "6px",
-                    borderRadius: "50%",
-                    background: "#3a8042",
-                    display: "inline-block",
-                  }}
-                />
-                <span
-                  style={{
-                    fontSize: "0.62rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: "#3a8042",
-                    fontWeight: 500,
-                  }}
-                >
-                  Licensed Thai Cannabis Exporter
-                </span>
-              </div>
 
               <h1
                 style={{
@@ -291,11 +260,11 @@ export default function Home() {
                   marginBottom: "36px",
                 }}
               >
-                Thai cannabis,
+                Thai Cannabis,
                 <br />
-                <em style={{ color: "rgba(255,255,255,0.35)" }}>precisely</em>
+                <em style={{ color: "rgba(255,255,255,0.35)" }}>Precisely</em>
                 <br />
-                delivered.
+                Delivered.
               </h1>
 
               <p
@@ -395,7 +364,7 @@ export default function Home() {
             </div>
 
             {/* Right: compliance card */}
-            <div className="hidden lg:block" style={{ alignSelf: "flex-end" }}>
+            <div className="hidden lg:block mt-10" style={{ alignSelf: "flex-end" }}>
               <div
                 style={{
                   border: "1px solid rgba(255,255,255,0.08)",
@@ -619,50 +588,50 @@ export default function Home() {
       </section>
 
       {/* ─── WHY US ─── */}
-      <section style={{ background: "#0d1f0f", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
-          <div style={{ display: "grid", gap: "80px", alignItems: "start" }} className="lg:grid-cols-[1fr_1fr]">
-            <div>
-              <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
-                <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
-                Why Global Green Exports
-              </p>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "#ffffff", lineHeight: 1.15, letterSpacing: "-0.015em", marginBottom: "28px" }}>
-                Built for the demands of{" "}
-                <em style={{ color: "rgba(255,255,255,0.35)" }}>regulated markets</em>
-              </h2>
-              <p style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "rgba(255,255,255,0.35)", fontWeight: 300, marginBottom: "40px" }}>
-                Medical and pharmaceutical cannabis buyers operate under strict regulatory scrutiny. Every supplier they work with must meet the same standard. We are built from the ground up for that environment.
-              </p>
-              <Link
-                href="/about"
-                style={{ display: "inline-flex", alignItems: "center", gap: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", padding: "14px 28px", fontSize: "0.68rem", fontWeight: 400, letterSpacing: "0.16em", textTransform: "uppercase" }}
-              >
-                About Us <ArrowRight size={12} />
-              </Link>
+      <section style={{ background: "#0d1f0f", padding: "80px 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div style={{ display: "grid", gap: "48px", alignItems: "start" }} className="lg:grid-cols-[1fr_1fr] lg:gap-[80px_40px]">
+        <div>
+          <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
+            <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
+            Why Global Green Exports
+          </p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.8rem, 4.5vw, 2.8rem)", fontWeight: 400, color: "#ffffff", lineHeight: 1.15, letterSpacing: "-0.015em", marginBottom: "24px" }}>
+            Built for the demands of{" "}
+            <em style={{ color: "rgba(255,255,255,0.35)" }}>regulated markets</em>
+          </h2>
+          <p style={{ fontSize: "0.92rem", lineHeight: 1.85, color: "rgba(255,255,255,0.35)", fontWeight: 300, marginBottom: "32px" }}>
+            Medical and pharmaceutical cannabis buyers operate under strict regulatory scrutiny. Every supplier they work with must meet the same standard. We are built from the ground up for that environment.
+          </p>
+          <Link
+            href="/about"
+            style={{ display: "inline-flex", alignItems: "center", gap: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", padding: "14px 28px", fontSize: "0.68rem", fontWeight: 400, letterSpacing: "0.16em", textTransform: "uppercase" }}
+          >
+            About Us <ArrowRight size={12} />
+          </Link>
+        </div>
+        <div>
+          {whyUs.map((w, i) => (
+            <div
+          key={w.label}
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "16px",
+            padding: "20px 0",
+            borderBottom: i < whyUs.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+          }}
+            >
+          <div style={{ width: "20px", height: "20px", minWidth: "20px", border: "1px solid rgba(58,128,66,0.4)", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "2px" }}>
+            <Check size={10} strokeWidth={2} color="#3a8042" />
+          </div>
+          <div>
+            <p style={{ fontSize: "0.88rem", fontWeight: 400, color: "#ffffff", marginBottom: "4px" }}>{w.label}</p>
+            <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", fontWeight: 300, lineHeight: 1.6 }}>{w.sub}</p>
+          </div>
             </div>
-            <div>
-              {whyUs.map((w, i) => (
-                <div
-                  key={w.label}
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: "20px",
-                    padding: "24px 0",
-                    borderBottom: i < whyUs.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
-                  }}
-                >
-                  <div style={{ width: "20px", height: "20px", border: "1px solid rgba(58,128,66,0.4)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "2px" }}>
-                    <Check size={10} strokeWidth={2} color="#3a8042" />
-                  </div>
-                  <div>
-                    <p style={{ fontSize: "0.9rem", fontWeight: 400, color: "#ffffff", marginBottom: "4px" }}>{w.label}</p>
-                    <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.3)", fontWeight: 300, lineHeight: 1.6 }}>{w.sub}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+          ))}
+        </div>
           </div>
         </div>
       </section>
@@ -713,7 +682,7 @@ export default function Home() {
               We hold or are pursuing export authorisation for the following markets. Contact us to confirm eligibility for your jurisdiction.
             </p>
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "15px", justifyContent: "center" }}>
             {destinations.map((d) => (
               <div key={d} style={{ display: "flex", alignItems: "center", gap: "8px", padding: "10px 18px", border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}>
                 <MapPin size={10} strokeWidth={1.5} color="#3a8042" />
@@ -729,7 +698,7 @@ export default function Home() {
 
       {/* ─── STAT BAR ─── */}
       <section style={{ background: "#f5f5f5", borderTop: "1px solid rgba(0,0,0,0.07)", borderBottom: "1px solid rgba(0,0,0,0.07)", padding: "56px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "32px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "32px" }} className="grid-cols-2 lg:grid-cols-5">
           {[
             { n: "100%", l: "GACP-only supply" },
             { n: "CoA", l: "Every batch, mandatory" },

@@ -1,9 +1,8 @@
-// app/wholesale/page.tsx  —  Global Green Exports · Wholesale
+// app/wholesale/page.tsx — Global Green Exports · Wholesale
 
 import type { Metadata } from "next";
 import { Package, CheckCircle, Truck, ArrowRight } from "lucide-react";
 import Link from "next/link";
-
 
 export const metadata: Metadata = {
   title: "Wholesale",
@@ -58,27 +57,22 @@ const tiers = [
 
 const categories = [
   {
-    emoji: "🌸",
-    title: "Whole Flower – Bulk",
+    title: "Whole Flower — Bulk",
     items: ["Indoor A-Grade", "Greenhouse Premium", "Outdoor/Sun-Grown", "Trimmed & Manicured", "Machine-Trimmed"],
   },
   {
-    emoji: "⚗️",
     title: "Extracts & Oils",
     items: ["Full-Spectrum Oil", "Broad-Spectrum Distillate", "CBD Isolate Powder", "CBG Isolate", "Raw THCA Crystalline"],
   },
   {
-    emoji: "🧪",
     title: "Research-Grade",
     items: ["High-Purity Cannabinoid Isolates", "Certified Reference Standards", "Terpene Isolates (GC-grade)", "Custom Analytical Batches"],
   },
   {
-    emoji: "🌿",
     title: "Hemp Products",
     items: ["Hemp Biomass", "CBD Hemp Flower", "Hemp Seed Oil", "CBG Hemp", "Hemp Extract Powder"],
   },
 ];
-
 
 const requirements = [
   "Valid import licence for destination country",
@@ -94,106 +88,266 @@ const logistics = [
   "Full tracking & insurance",
 ];
 
+const TAG: React.CSSProperties = {
+  fontSize: "0.65rem",
+  letterSpacing: "0.22em",
+  textTransform: "uppercase",
+  color: "#3a8042",
+  fontWeight: 500,
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  marginBottom: "16px",
+};
+const LINE: React.CSSProperties = {
+  width: "28px",
+  height: "1px",
+  background: "#3a8042",
+  display: "inline-block",
+  flexShrink: 0,
+};
+
 export default function WholesalePage() {
   return (
     <>
       {/* ── HERO ── */}
       <section
-        className="relative pt-40 pb-28 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #0a1a0d 0%, #122318 50%, #0f1e13 100%)" }}
+        style={{
+          background: "#0a0a0a",
+          minHeight: "58vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          position: "relative",
+          overflow: "hidden",
+          paddingTop: "160px",
+          paddingBottom: "80px",
+        }}
       >
         <div
-          className="absolute inset-0 pointer-events-none"
+          aria-hidden
           style={{
-            backgroundImage: `linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            pointerEvents: "none",
           }}
         />
-        <div className="max-w-5xl mx-auto px-8 text-center relative z-10">
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            width: "1px",
+            height: "120px",
+            background: "linear-gradient(to bottom, rgba(58,128,66,0.4), transparent)",
+          }}
+        />
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: "-20%",
+            left: "-10%",
+            width: "50vw",
+            height: "50vw",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(13,31,15,0.5) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+
+        <div
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "0 40px",
+            width: "100%",
+            position: "relative",
+            zIndex: 1,
+            textAlign: "center",
+          }}
+        >
           <div
-            className="inline-flex items-center gap-3 mb-8"
-            style={{ border: "1px solid rgba(201,168,76,0.2)", padding: "8px 18px", background: "rgba(201,168,76,0.08)" }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              border: "1px solid rgba(58,128,66,0.3)",
+              padding: "6px 16px 6px 10px",
+              marginBottom: "32px",
+            }}
           >
-            <Package size={12} style={{ color: "var(--gold-light)" }} />
-            <span style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold-light)", fontWeight: 600 }}>
+            <Package size={11} style={{ color: "#3a8042" }} />
+            <span
+              style={{
+                fontSize: "0.62rem",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "#3a8042",
+                fontWeight: 500,
+              }}
+            >
               Wholesale Trading
             </span>
           </div>
+
           <h1
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "clamp(3rem, 6vw, 5rem)",
-              fontWeight: 600,
+              fontWeight: 400,
               color: "#ffffff",
               lineHeight: 1.05,
+              letterSpacing: "-0.025em",
               marginBottom: "24px",
             }}
           >
             Wholesale{" "}
-            <span style={{ color: "var(--gold)" }}>Cannabis & Hemp</span>
-            <br />Supply Solutions
+            <em style={{ color: "rgba(255,255,255,0.35)" }}>Cannabis &amp; Hemp</em>
+            <br />
+            Supply Solutions
           </h1>
-          <p style={{ fontSize: "0.95rem", lineHeight: 1.8, color: "rgba(255,255,255,0.5)", fontWeight: 300, maxWidth: "560px", margin: "0 auto" }}>
+          <p
+            style={{
+              fontSize: "0.95rem",
+              lineHeight: 1.85,
+              color: "rgba(255,255,255,0.38)",
+              fontWeight: 300,
+              maxWidth: "560px",
+              margin: "0 auto",
+            }}
+          >
             Serving licensed dispensaries, pharmaceutical importers, research institutions, and
-            wellness brands with bulk GACP-certified medicinal cannabis and hemp products from Thailand.
+            wellness brands with bulk GACP-certified medicinal cannabis and hemp products from
+            Thailand.
           </p>
         </div>
       </section>
 
-      <div style={{ background: "var(--gold)", height: "2px" }} />
+      <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
 
       {/* ── WHO WE SERVE ── */}
-      <section className="py-28" style={{ background: "var(--cream)" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid lg:grid-cols-12 gap-16 mb-20">
-            <div className="lg:col-span-5">
-              <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-                <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
+      <section style={{ background: "#ffffff", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div
+            style={{ display: "grid", gap: "64px", alignItems: "center", marginBottom: "72px" }}
+            className="lg:grid-cols-2"
+          >
+            <div>
+              <p style={TAG}>
+                <span style={LINE} />
                 Who We Serve
-              </div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 3.5vw, 3rem)", fontWeight: 600, color: "var(--green-dark)", lineHeight: 1.1 }}>
-                Wholesale Partners{" "}<span style={{ color: "var(--gold)" }}>Worldwide</span>
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                  fontWeight: 400,
+                  color: "#0a0a0a",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.015em",
+                }}
+              >
+                Wholesale partners <em style={{ color: "#1a3d1e" }}>worldwide</em>
               </h2>
             </div>
-            <div className="lg:col-span-7 flex items-end">
-              <p style={{ fontSize: "0.88rem", lineHeight: 1.85, color: "#777", fontWeight: 300 }}>
-                Our wholesale programme is designed for licensed, compliant buyers operating
-                in jurisdictions where medicinal cannabis importation is legal. We verify
-                all buyer credentials before any transaction is authorised.
+            <div>
+              <p style={{ fontSize: "0.92rem", lineHeight: 1.85, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
+                Our wholesale programme is designed for licensed, compliant buyers operating in
+                jurisdictions where medicinal cannabis importation is legal. We verify all buyer
+                credentials before any transaction is authorised.
               </p>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ── PRODUCT CATEGORIES ── */}
-      <section className="py-28" style={{ background: "#fff" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="max-w-xl mb-12">
-            <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-              <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
+      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ maxWidth: "560px", marginBottom: "56px" }}>
+            <p style={TAG}>
+              <span style={LINE} />
               Product Categories
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 3.5vw, 3rem)", fontWeight: 600, color: "var(--green-dark)", lineHeight: 1.1 }}>
-              Available for{" "}<span style={{ color: "var(--gold)" }}>Wholesale Purchase</span>
+            </p>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                fontWeight: 400,
+                color: "#0a0a0a",
+                lineHeight: 1.1,
+                letterSpacing: "-0.015em",
+              }}
+            >
+              Available for <em style={{ color: "#1a3d1e" }}>wholesale purchase</em>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((cat) => (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "1px",
+              background: "rgba(0,0,0,0.07)",
+            }}
+          >
+            {categories.map((cat, i) => (
               <div
                 key={cat.title}
-                style={{ background: "var(--cream)", borderTop: "2px solid var(--gold)", padding: "28px" }}
+                style={{
+                  background: "#ffffff",
+                  padding: "36px 32px",
+                  borderTop: "2px solid #0a0a0a",
+                }}
               >
-                <div style={{ fontSize: "2rem", marginBottom: "14px" }}>{cat.emoji}</div>
-                <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem", fontWeight: 600, color: "var(--green-dark)", marginBottom: "14px" }}>
+                <p
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontStyle: "italic",
+                    fontSize: "0.7rem",
+                    color: "rgba(0,0,0,0.15)",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <h4
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: "1.1rem",
+                    fontWeight: 400,
+                    color: "#0a0a0a",
+                    marginBottom: "20px",
+                  }}
+                >
                   {cat.title}
                 </h4>
                 <ul style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   {cat.items.map((item) => (
-                    <li key={item} className="flex items-center gap-2" style={{ fontSize: "0.8rem", color: "#777", fontWeight: 300 }}>
-                      <span className="w-1 h-1 rounded-full shrink-0" style={{ background: "var(--gold)" }} />
+                    <li
+                      key={item}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        fontSize: "0.82rem",
+                        color: "rgba(0,0,0,0.45)",
+                        fontWeight: 300,
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: "3px",
+                          height: "3px",
+                          borderRadius: "50%",
+                          background: "#3a8042",
+                          flexShrink: 0,
+                        }}
+                      />
                       {item}
                     </li>
                   ))}
@@ -205,54 +359,134 @@ export default function WholesalePage() {
       </section>
 
       {/* ── PRICING TIERS ── */}
-      <section className="py-28" style={{ background: "var(--cream)" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="text-center max-w-xl mx-auto mb-16">
-            <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, marginBottom: "14px" }}>
+      <section style={{ background: "#ffffff", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ textAlign: "center", maxWidth: "560px", margin: "0 auto 64px" }}>
+            <p
+              style={{
+                ...TAG,
+                justifyContent: "center",
+              }}
+            >
               Wholesale Tiers
-            </div>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 3.5vw, 3rem)", fontWeight: 600, color: "var(--green-dark)", lineHeight: 1.1 }}>
-              Pricing &{" "}<span style={{ color: "var(--gold)" }}>Order Tiers</span>
+            </p>
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
+                fontWeight: 400,
+                color: "#0a0a0a",
+                lineHeight: 1.1,
+                letterSpacing: "-0.015em",
+                marginBottom: "14px",
+              }}
+            >
+              Pricing &amp; <em style={{ color: "#1a3d1e" }}>order tiers</em>
             </h2>
-            <p style={{ fontSize: "0.85rem", lineHeight: 1.8, color: "#777", fontWeight: 300, marginTop: "12px" }}>
-              Competitive pricing structured around order volume. Contact us for exact pricing on your required products.
+            <p style={{ fontSize: "0.88rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
+              Competitive pricing structured around order volume. Contact us for exact pricing on
+              your required products.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: "1px",
+              background: "rgba(0,0,0,0.08)",
+            }}
+          >
             {tiers.map((t) => (
               <div
                 key={t.tier}
                 style={{
-                  background: t.highlight ? "var(--green-dark)" : "#fff",
-                  border: t.highlight ? "2px solid var(--gold)" : "1px solid rgba(26,58,31,0.12)",
+                  background: t.highlight ? "#0a0a0a" : "#ffffff",
                   position: "relative",
                   overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
+                {/* Top accent */}
+                <div
+                  style={{
+                    height: t.highlight ? "0" : "2px",
+                    background: "rgba(0,0,0,0.06)",
+                  }}
+                />
                 {t.highlight && (
-                  <div style={{ background: "var(--gold)", textAlign: "center", padding: "8px", fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--green-dark)" }}>
+                  <div
+                    style={{
+                      background: "#ffffff",
+                      textAlign: "center",
+                      padding: "8px",
+                      fontSize: "0.6rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      color: "#0a0a0a",
+                    }}
+                  >
                     {t.label}
                   </div>
                 )}
-                {!t.highlight && (
-                  <div style={{ height: "2px", background: "rgba(26,58,31,0.1)" }} />
-                )}
-                <div style={{ padding: "36px" }}>
-                  <div style={{ fontSize: "0.62rem", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600, color: t.highlight ? "var(--gold-light)" : "var(--gold)", marginBottom: "6px" }}>
-                    {t.tier}
-                  </div>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.6rem", fontWeight: 700, color: t.highlight ? "#fff" : "var(--green-dark)", lineHeight: 1, marginBottom: "4px" }}>
-                    From {t.minOrder}
-                  </div>
-                  <div style={{ fontSize: "0.75rem", color: t.highlight ? "rgba(255,255,255,0.4)" : "#999", fontWeight: 300, marginBottom: "28px" }}>
-                    minimum order quantity
-                  </div>
 
-                  <ul style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
+                <div style={{ padding: "40px", flex: 1 }}>
+                  <p
+                    style={{
+                      fontSize: "0.62rem",
+                      letterSpacing: "0.18em",
+                      textTransform: "uppercase",
+                      fontWeight: 600,
+                      color: t.highlight ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.35)",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {t.tier}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "2.6rem",
+                      fontWeight: 400,
+                      color: t.highlight ? "#ffffff" : "#0a0a0a",
+                      lineHeight: 1,
+                      marginBottom: "4px",
+                    }}
+                  >
+                    From {t.minOrder}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "0.72rem",
+                      color: t.highlight ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.3)",
+                      fontWeight: 300,
+                      marginBottom: "32px",
+                    }}
+                  >
+                    minimum order quantity
+                  </p>
+
+                  <ul
+                    style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "36px" }}
+                  >
                     {t.features.map((f) => (
-                      <li key={f} className="flex items-start gap-3" style={{ fontSize: "0.83rem", color: t.highlight ? "rgba(255,255,255,0.7)" : "#666", fontWeight: 300 }}>
-                        <CheckCircle size={13} style={{ color: "var(--gold)", marginTop: "2px", flexShrink: 0 }} />
+                      <li
+                        key={f}
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: "12px",
+                          fontSize: "0.83rem",
+                          color: t.highlight ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.5)",
+                          fontWeight: 300,
+                        }}
+                      >
+                        <CheckCircle
+                          size={12}
+                          style={{ color: t.highlight ? "#3a8042" : "#1a3d1e", marginTop: "3px", flexShrink: 0 }}
+                        />
                         {f}
                       </li>
                     ))}
@@ -264,13 +498,14 @@ export default function WholesalePage() {
                       display: "block",
                       textAlign: "center",
                       padding: "13px",
-                      fontSize: "0.68rem",
-                      fontWeight: 700,
+                      fontSize: "0.65rem",
+                      fontWeight: 600,
                       letterSpacing: "0.18em",
                       textTransform: "uppercase",
-                      background: t.highlight ? "var(--gold)" : "transparent",
-                      color: t.highlight ? "var(--green-dark)" : "var(--green-dark)",
-                      border: t.highlight ? "none" : "1px solid rgba(26,58,31,0.25)",
+                      background: t.highlight ? "#ffffff" : "transparent",
+                      color: t.highlight ? "#0a0a0a" : "#0a0a0a",
+                      border: t.highlight ? "none" : "1px solid rgba(0,0,0,0.2)",
+                      textDecoration: "none",
                     }}
                   >
                     Get Pricing
@@ -282,26 +517,68 @@ export default function WholesalePage() {
         </div>
       </section>
 
-      {/* ── BUYER REQUIREMENTS + LOGISTICS ── */}
-      <section className="py-24" style={{ background: "#fff" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid md:grid-cols-2 gap-8">
+      {/* ── REQUIREMENTS + LOGISTICS ── */}
+      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ display: "grid", gap: "1px", background: "rgba(0,0,0,0.07)" }} className="md:grid-cols-2">
+
             {/* Requirements */}
-            <div style={{ background: "var(--cream)", padding: "40px" }}>
-              <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-                <span className="w-6 h-px" style={{ background: "var(--gold)" }} />
+            <div style={{ background: "#ffffff", padding: "48px" }}>
+              <p style={TAG}>
+                <span style={LINE} />
                 Buyer Requirements
-              </div>
-              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.7rem", fontWeight: 600, color: "var(--green-dark)", lineHeight: 1.1, marginBottom: "16px" }}>
-                Who Can Purchase Wholesale?
-              </h3>
-              <p style={{ fontSize: "0.83rem", lineHeight: 1.75, color: "#777", fontWeight: 300, marginBottom: "24px" }}>
-                To maintain regulatory compliance and the integrity of our supply chain, all wholesale buyers must meet these minimum requirements:
               </p>
-              <ul style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <h3
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "1.7rem",
+                  fontWeight: 400,
+                  color: "#0a0a0a",
+                  lineHeight: 1.1,
+                  marginBottom: "16px",
+                }}
+              >
+                Who can purchase wholesale?
+              </h3>
+              <p
+                style={{
+                  fontSize: "0.85rem",
+                  lineHeight: 1.75,
+                  color: "rgba(0,0,0,0.45)",
+                  fontWeight: 300,
+                  marginBottom: "28px",
+                }}
+              >
+                To maintain regulatory compliance and the integrity of our supply chain, all
+                wholesale buyers must meet these minimum requirements:
+              </p>
+              <ul style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
                 {requirements.map((r) => (
-                  <li key={r} className="flex items-start gap-3" style={{ fontSize: "0.83rem", color: "#666", fontWeight: 300 }}>
-                    <CheckCircle size={14} style={{ color: "var(--green-mid)", marginTop: "2px", flexShrink: 0 }} />
+                  <li
+                    key={r}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "14px",
+                      fontSize: "0.85rem",
+                      color: "rgba(0,0,0,0.5)",
+                      fontWeight: 300,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        border: "1px solid rgba(58,128,66,0.4)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        marginTop: "1px",
+                      }}
+                    >
+                      <CheckCircle size={10} style={{ color: "#3a8042" }} />
+                    </div>
                     {r}
                   </li>
                 ))}
@@ -311,25 +588,74 @@ export default function WholesalePage() {
             {/* Logistics */}
             <div
               style={{
-                background: "var(--green-dark)",
-                padding: "40px",
+                background: "#0a0a0a",
+                padding: "48px",
                 position: "relative",
                 overflow: "hidden",
               }}
             >
-              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "var(--gold)" }} />
-              <Truck size={28} style={{ color: "var(--gold)", opacity: 0.7, marginBottom: "20px" }} />
-              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.7rem", fontWeight: 600, color: "#fff", lineHeight: 1.1, marginBottom: "16px" }}>
-                Logistics & Delivery
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: "2px",
+                  background: "#1a3d1e",
+                }}
+              />
+              <Truck
+                size={24}
+                strokeWidth={1}
+                style={{ color: "rgba(255,255,255,0.2)", marginBottom: "24px" }}
+              />
+              <h3
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "1.7rem",
+                  fontWeight: 400,
+                  color: "#ffffff",
+                  lineHeight: 1.1,
+                  marginBottom: "16px",
+                }}
+              >
+                Logistics &amp; Delivery
               </h3>
-              <p style={{ fontSize: "0.83rem", lineHeight: 1.75, color: "rgba(255,255,255,0.55)", fontWeight: 300, marginBottom: "24px" }}>
+              <p
+                style={{
+                  fontSize: "0.85rem",
+                  lineHeight: 1.75,
+                  color: "rgba(255,255,255,0.38)",
+                  fontWeight: 300,
+                  marginBottom: "28px",
+                }}
+              >
                 We coordinate end-to-end logistics including packaging, cold-chain where required,
-                phytosanitary certificates, customs documentation, and last-mile delivery arrangements.
+                phytosanitary certificates, customs documentation, and last-mile delivery
+                arrangements.
               </p>
-              <ul style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <ul style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 {logistics.map((l) => (
-                  <li key={l} className="flex items-center gap-2" style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.55)", fontWeight: 300 }}>
-                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: "var(--gold)" }} />
+                  <li
+                    key={l}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      fontSize: "0.82rem",
+                      color: "rgba(255,255,255,0.38)",
+                      fontWeight: 300,
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: "4px",
+                        height: "4px",
+                        borderRadius: "50%",
+                        background: "#3a8042",
+                        flexShrink: 0,
+                      }}
+                    />
                     {l}
                   </li>
                 ))}
@@ -340,21 +666,78 @@ export default function WholesalePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-24" style={{ background: "var(--green-dark)" }}>
-        <div className="max-w-2xl mx-auto px-8 text-center">
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 600, color: "#fff", marginBottom: "14px" }}>
-            Start Your Wholesale Enquiry
+      <section
+        style={{
+          background: "#0a0a0a",
+          padding: "96px 0",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            maxWidth: "640px",
+            margin: "0 auto",
+            padding: "0 40px",
+            textAlign: "center",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              fontWeight: 400,
+              color: "#ffffff",
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
+              marginBottom: "16px",
+            }}
+          >
+            Start your wholesale enquiry
           </h2>
-          <p style={{ fontSize: "0.88rem", lineHeight: 1.8, color: "rgba(255,255,255,0.5)", fontWeight: 300, marginBottom: "32px" }}>
-            Send us your product requirements and we'll respond with availability, pricing, and next steps.
+          <p
+            style={{
+              fontSize: "0.92rem",
+              lineHeight: 1.85,
+              color: "rgba(255,255,255,0.32)",
+              fontWeight: 300,
+              marginBottom: "40px",
+            }}
+          >
+            Send us your product requirements and we'll respond with availability, pricing, and
+            next steps.
           </p>
           <Link
             href="/contact"
-            className="group inline-flex items-center gap-3"
-            style={{ background: "var(--gold)", color: "var(--green-dark)", padding: "16px 36px", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase" }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              background: "#ffffff",
+              color: "#0a0a0a",
+              padding: "16px 36px",
+              fontSize: "0.68rem",
+              fontWeight: 600,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+            }}
           >
             Contact Our Wholesale Team
-            <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            <ArrowRight size={12} />
           </Link>
         </div>
       </section>

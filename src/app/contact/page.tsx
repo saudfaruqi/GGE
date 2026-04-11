@@ -1,9 +1,29 @@
-// app/contact/page.tsx  —  Global Green Exports · Contact
+// app/contact/page.tsx — Global Green Exports · Contact
 
 "use client";
 
 import { useState } from "react";
 import { Mail, Phone, MapPin, Send, CheckCircle, ArrowRight } from "lucide-react";
+
+const TAG: React.CSSProperties = {
+  fontSize: "0.65rem",
+  letterSpacing: "0.22em",
+  textTransform: "uppercase",
+  color: "#3a8042",
+  fontWeight: 500,
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  marginBottom: "16px",
+};
+
+const LINE: React.CSSProperties = {
+  width: "28px",
+  height: "1px",
+  background: "#3a8042",
+  display: "inline-block",
+  flexShrink: 0,
+};
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -24,24 +44,25 @@ export default function ContactPage() {
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    background: "white",
-    border: "1px solid rgba(26,58,31,0.18)",
+    background: "#ffffff",
+    border: "1px solid rgba(0,0,0,0.12)",
     padding: "13px 16px",
     fontSize: "0.875rem",
-    color: "var(--green-dark)",
+    color: "#0a0a0a",
     outline: "none",
     fontFamily: "'Jost', sans-serif",
     borderRadius: 0,
     transition: "border-color 0.2s",
+    boxSizing: "border-box",
   };
 
   const labelStyle: React.CSSProperties = {
     display: "block",
-    fontSize: "0.62rem",
-    fontWeight: 700,
+    fontSize: "0.6rem",
+    fontWeight: 600,
     letterSpacing: "0.18em",
-    textTransform: "uppercase" as const,
-    color: "var(--green-dark)",
+    textTransform: "uppercase",
+    color: "#0a0a0a",
     marginBottom: "7px",
   };
 
@@ -49,140 +70,254 @@ export default function ContactPage() {
     <>
       {/* ── HERO ── */}
       <section
-        className="relative pt-40 pb-28 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #0a1a0d 0%, #122318 50%, #0f1e13 100%)" }}
+        style={{
+          background: "#0a0a0a",
+          minHeight: "52vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          position: "relative",
+          overflow: "hidden",
+          paddingTop: "160px",
+          paddingBottom: "72px",
+        }}
       >
         <div
-          className="absolute inset-0 pointer-events-none"
+          aria-hidden
           style={{
-            backgroundImage: `linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
+            position: "absolute",
+            inset: 0,
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            width: "1px",
+            height: "120px",
+            background: "linear-gradient(to bottom, rgba(58,128,66,0.4), transparent)",
           }}
         />
 
-        {/* Vertical accent */}
         <div
-          className="absolute left-1/2 top-0 pointer-events-none"
-          style={{ width: "1px", height: "100px", background: "linear-gradient(to bottom, rgba(201,168,76,0.5), transparent)" }}
-        />
-
-        <div className="max-w-5xl mx-auto px-8 text-center relative z-10">
-          <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, marginBottom: "20px" }}>
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "0 40px",
+            width: "100%",
+            position: "relative",
+            zIndex: 1,
+            textAlign: "center",
+          }}
+        >
+          <p style={{ ...TAG, justifyContent: "center", marginBottom: "20px" }}>
             Get in Touch
-          </div>
+          </p>
           <h1
             style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "clamp(3rem, 6vw, 5rem)",
-              fontWeight: 600,
+              fontWeight: 400,
               color: "#ffffff",
               lineHeight: 1.05,
+              letterSpacing: "-0.025em",
               marginBottom: "24px",
             }}
           >
             Contact{" "}
-            <span style={{ color: "var(--gold)" }}>Global Green Exports</span>
+            <em style={{ color: "rgba(255,255,255,0.35)" }}>Global Green Exports</em>
           </h1>
-          <p style={{ fontSize: "0.95rem", lineHeight: 1.8, color: "rgba(255,255,255,0.5)", fontWeight: 300, maxWidth: "540px", margin: "0 auto" }}>
-            Whether you're enquiring about wholesale pricing, escrow services, export documentation,
-            or simply want to learn more — our team is ready to assist.
+          <p
+            style={{
+              fontSize: "0.95rem",
+              lineHeight: 1.85,
+              color: "rgba(255,255,255,0.38)",
+              fontWeight: 300,
+              maxWidth: "540px",
+              margin: "0 auto",
+            }}
+          >
+            Whether you're enquiring about wholesale pricing, escrow services, export
+            documentation, or simply want to learn more — our team is ready to assist.
           </p>
         </div>
       </section>
 
-      <div style={{ background: "var(--gold)", height: "2px" }} />
+      <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
 
       {/* ── CONTACT SECTION ── */}
-      <section className="py-24" style={{ background: "var(--cream)" }}>
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid lg:grid-cols-12 gap-12">
-            {/* Left: contact details */}
-            <div className="lg:col-span-4">
-              <div style={{ fontSize: "0.62rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
-                <span className="w-8 h-px" style={{ background: "var(--gold)" }} />
-                Our Details
-              </div>
+      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+          <div style={{ display: "grid", gap: "64px" }} className="lg:grid-cols-[340px_1fr]">
 
-              {/* Contact items */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "24px", marginBottom: "32px" }}>
+            {/* Left: details */}
+            <div>
+              <p style={TAG}>
+                <span style={LINE} />
+                Our Details
+              </p>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "24px", marginBottom: "36px" }}>
                 {[
                   {
-                    icon: <MapPin size={16} style={{ color: "var(--green-mid)" }} />,
+                    icon: MapPin,
                     label: "Location",
                     value: "Bangkok, Thailand",
                     sub: "Export Operations Hub",
+                    href: undefined,
                   },
                   {
-                    icon: <Mail size={16} style={{ color: "var(--green-mid)" }} />,
+                    icon: Mail,
                     label: "Email",
                     value: "info@globalgreen.export",
+                    sub: undefined,
                     href: "mailto:info@globalgreen.export",
                   },
                   {
-                    icon: <Phone size={16} style={{ color: "var(--green-mid)" }} />,
+                    icon: Phone,
                     label: "Phone / WhatsApp",
                     value: "+66 (0) 00 000 0000",
+                    sub: undefined,
                     href: "tel:+66000000000",
                   },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-start gap-4">
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
                     <div
-                      style={{
-                        width: "38px",
-                        height: "38px",
-                        border: "1px solid rgba(201,168,76,0.3)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                      }}
+                      key={item.label}
+                      style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}
                     >
-                      {item.icon}
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--gold)", fontWeight: 600, marginBottom: "4px" }}>
-                        {item.label}
+                      <div
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          border: "1px solid rgba(0,0,0,0.1)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                          background: "#ffffff",
+                        }}
+                      >
+                        <Icon size={14} strokeWidth={1.5} color="#1a3d1e" />
                       </div>
-                      {item.href ? (
-                        <a href={item.href} style={{ fontSize: "0.85rem", color: "var(--green-dark)", fontWeight: 400 }}>
-                          {item.value}
-                        </a>
-                      ) : (
-                        <div>
-                          <p style={{ fontSize: "0.85rem", color: "var(--green-dark)" }}>{item.value}</p>
-                          {item.sub && <p style={{ fontSize: "0.78rem", color: "#888", fontWeight: 300 }}>{item.sub}</p>}
-                        </div>
-                      )}
+                      <div>
+                        <p
+                          style={{
+                            fontSize: "0.6rem",
+                            letterSpacing: "0.18em",
+                            textTransform: "uppercase",
+                            color: "#3a8042",
+                            fontWeight: 600,
+                            marginBottom: "4px",
+                          }}
+                        >
+                          {item.label}
+                        </p>
+                        {item.href ? (
+                          <a
+                            href={item.href}
+                            style={{
+                              fontSize: "0.85rem",
+                              color: "#0a0a0a",
+                              fontWeight: 400,
+                              textDecoration: "none",
+                            }}
+                          >
+                            {item.value}
+                          </a>
+                        ) : (
+                          <div>
+                            <p style={{ fontSize: "0.85rem", color: "#0a0a0a" }}>{item.value}</p>
+                            {item.sub && (
+                              <p
+                                style={{
+                                  fontSize: "0.78rem",
+                                  color: "rgba(0,0,0,0.38)",
+                                  fontWeight: 300,
+                                }}
+                              >
+                                {item.sub}
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Response time */}
-              <div style={{ background: "var(--green-dark)", padding: "28px", marginBottom: "16px", position: "relative" }}>
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "var(--gold)" }} />
-                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem", fontWeight: 600, color: "var(--gold-light)", marginBottom: "10px" }}>
+              <div
+                style={{
+                  background: "#0a0a0a",
+                  padding: "28px",
+                  marginBottom: "16px",
+                  position: "relative",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "2px",
+                    background: "#1a3d1e",
+                  }}
+                />
+                <h3
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: "1.2rem",
+                    fontWeight: 400,
+                    color: "#ffffff",
+                    marginBottom: "10px",
+                  }}
+                >
                   Response Time
                 </h3>
-                <p style={{ fontSize: "0.8rem", lineHeight: 1.75, color: "rgba(255,255,255,0.5)", fontWeight: 300 }}>
-                  We aim to respond to all enquiries within{" "}
-                  <strong style={{ color: "var(--gold-light)" }}>24–48 business hours</strong>.
-                  For urgent enquiries, please indicate this in your message or reach us via WhatsApp.
+                <p
+                  style={{
+                    fontSize: "0.82rem",
+                    lineHeight: 1.75,
+                    color: "rgba(255,255,255,0.38)",
+                    fontWeight: 300,
+                  }}
+                >
+                  We aim to respond within{" "}
+                  <strong style={{ color: "#ffffff", fontWeight: 500 }}>
+                    24–48 business hours
+                  </strong>
+                  . For urgent enquiries, please indicate this in your message or reach us via
+                  WhatsApp.
                 </p>
               </div>
 
               {/* Licence note */}
-              <div style={{ background: "#fff", border: "1px solid rgba(26,58,31,0.1)", borderLeft: "3px solid var(--gold)", padding: "18px 22px" }}>
-                <p style={{ fontSize: "0.78rem", lineHeight: 1.7, color: "#777", fontWeight: 300 }}>
-                  <strong style={{ color: "var(--green-dark)", fontWeight: 600 }}>Export Licence:</strong>{" "}
-                  GGE is actively pursuing Thai export licensure. In the interim, all product and trade
-                  enquiries are welcome — we will advise on timelines accordingly.
+              <div
+                style={{
+                  background: "#ffffff",
+                  borderLeft: "3px solid #1a3d1e",
+                  padding: "18px 22px",
+                }}
+              >
+                <p style={{ fontSize: "0.78rem", lineHeight: 1.7, color: "rgba(0,0,0,0.48)", fontWeight: 300 }}>
+                  <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>Export Licence:</strong>{" "}
+                  GGE is actively pursuing Thai export licensure. All product and trade enquiries are
+                  welcome — we will advise on timelines accordingly.
                 </p>
               </div>
             </div>
 
             {/* Right: form */}
-            <div className="lg:col-span-8">
+            <div>
               {submitted ? (
                 <div
                   style={{
@@ -192,34 +327,87 @@ export default function ContactPage() {
                     alignItems: "center",
                     justifyContent: "center",
                     textAlign: "center",
-                    background: "#fff",
-                    border: "1px solid rgba(26,58,31,0.1)",
+                    background: "#ffffff",
                     padding: "60px",
                     position: "relative",
                   }}
                 >
-                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "var(--gold)" }} />
-                  <CheckCircle size={44} style={{ color: "var(--green-mid)", marginBottom: "24px" }} />
-                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontWeight: 600, color: "var(--green-dark)", marginBottom: "12px" }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: "2px",
+                      background: "#1a3d1e",
+                    }}
+                  />
+                  <CheckCircle
+                    size={44}
+                    strokeWidth={1}
+                    style={{ color: "#1a3d1e", marginBottom: "24px" }}
+                  />
+                  <h3
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "2rem",
+                      fontWeight: 400,
+                      color: "#0a0a0a",
+                      marginBottom: "12px",
+                    }}
+                  >
                     Message Received
                   </h3>
-                  <p style={{ fontSize: "0.88rem", lineHeight: 1.75, color: "#777", fontWeight: 300, maxWidth: "380px" }}>
-                    Thank you for reaching out. A member of the Global Green Exports team will be in
-                    contact within 24–48 business hours.
+                  <p
+                    style={{
+                      fontSize: "0.88rem",
+                      lineHeight: 1.75,
+                      color: "rgba(0,0,0,0.45)",
+                      fontWeight: 300,
+                      maxWidth: "380px",
+                    }}
+                  >
+                    Thank you for reaching out. A member of the Global Green Exports team will be
+                    in contact within 24–48 business hours.
                   </p>
                 </div>
               ) : (
                 <form
                   onSubmit={handleSubmit}
-                  style={{ background: "#fff", border: "1px solid rgba(26,58,31,0.1)", padding: "48px", position: "relative" }}
+                  style={{
+                    background: "#ffffff",
+                    padding: "48px",
+                    position: "relative",
+                  }}
                 >
-                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "2px", background: "var(--gold)" }} />
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: "2px",
+                      background: "#1a3d1e",
+                    }}
+                  />
 
-                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem", fontWeight: 600, color: "var(--green-dark)", marginBottom: "32px" }}>
-                    Send Us a Message
+                  <h2
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "1.8rem",
+                      fontWeight: 400,
+                      color: "#0a0a0a",
+                      marginBottom: "32px",
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    Send us a message
                   </h2>
 
-                  <div className="grid md:grid-cols-2 gap-5 mb-5">
+                  <div
+                    style={{ display: "grid", gap: "20px", marginBottom: "20px" }}
+                    className="md:grid-cols-2"
+                  >
                     {[
                       { key: "name", label: "Full Name", type: "text", required: true, placeholder: "Your full name" },
                       { key: "company", label: "Company", type: "text", required: false, placeholder: "Company or organisation" },
@@ -229,7 +417,8 @@ export default function ContactPage() {
                     ].map((field) => (
                       <div key={field.key}>
                         <label style={labelStyle}>
-                          {field.label}{field.required && " *"}
+                          {field.label}
+                          {field.required && " *"}
                         </label>
                         <input
                           type={field.type}
@@ -274,42 +463,44 @@ export default function ContactPage() {
                   {/* Legal notice */}
                   <div
                     style={{
-                      background: "var(--cream)",
-                      border: "1px solid rgba(26,58,31,0.1)",
-                      borderLeft: "3px solid rgba(201,168,76,0.5)",
+                      background: "#f5f5f5",
+                      borderLeft: "3px solid rgba(0,0,0,0.15)",
                       padding: "16px 20px",
                       marginBottom: "24px",
                       fontSize: "0.75rem",
                       lineHeight: 1.7,
-                      color: "#888",
+                      color: "rgba(0,0,0,0.4)",
                       fontWeight: 300,
                     }}
                   >
-                    <strong style={{ color: "var(--green-dark)", fontWeight: 600 }}>Legal Notice:</strong>{" "}
-                    Global Green Exports only conducts business with licensed entities in jurisdictions
-                    where medicinal cannabis importation is legal. By submitting this form, you confirm
-                    you are enquiring from a compliant legal context.
+                    <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>Legal Notice:</strong>{" "}
+                    Global Green Exports only conducts business with licensed entities in
+                    jurisdictions where medicinal cannabis importation is legal. By submitting this
+                    form, you confirm you are enquiring from a compliant legal context.
                   </div>
 
                   <button
                     type="submit"
-                    className="group w-full flex items-center justify-center gap-3"
                     style={{
-                      background: "var(--green-dark)",
-                      color: "white",
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "12px",
+                      background: "#0a0a0a",
+                      color: "#ffffff",
                       padding: "16px",
                       fontSize: "0.68rem",
-                      fontWeight: 700,
+                      fontWeight: 600,
                       letterSpacing: "0.18em",
                       textTransform: "uppercase",
                       border: "none",
                       cursor: "pointer",
-                      transition: "background 0.2s",
                     }}
                   >
-                    <Send size={13} />
+                    <Send size={12} />
                     Send Enquiry
-                    <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight size={12} />
                   </button>
                 </form>
               )}
