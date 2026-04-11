@@ -233,7 +233,7 @@ export default function Home() {
         />
 
         <div
-        className="pt-[60px] px-[20px] lg:pt-[80px] lg:px-[40px] pb-[20px]"
+        className="pt-[60px] px-[20px] lg:pt-[140px] lg:px-[40px] pb-[20px]"
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
