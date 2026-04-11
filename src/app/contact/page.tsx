@@ -108,7 +108,7 @@ export default function ContactPage() {
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
-            padding: "0 40px",
+            padding: "0 20px",
             width: "100%",
             position: "relative",
             zIndex: 1,
@@ -152,7 +152,7 @@ export default function ContactPage() {
 
       {/* ── CONTACT SECTION ── */}
       <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ display: "grid", gap: "64px" }} className="lg:grid-cols-[340px_1fr]">
 
             {/* Left: details */}

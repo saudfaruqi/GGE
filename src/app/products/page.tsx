@@ -147,7 +147,7 @@ export default function ProductsPage() {
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
-            padding: "0 40px",
+            padding: "0 20px",
             width: "100%",
             position: "relative",
             zIndex: 1,
@@ -193,7 +193,7 @@ export default function ProductsPage() {
 
       {/* ── CATEGORY CARDS ── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ maxWidth: "560px", marginBottom: "64px" }}>
             <p style={TAG}>
               <span style={LINE} />
@@ -319,7 +319,7 @@ export default function ProductsPage() {
 
       {/* ── CANNABINOIDS TABLE ── */}
       <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div
             style={{ display: "grid", gap: "40px", marginBottom: "48px" }}
             className="lg:grid-cols-2"
@@ -425,7 +425,7 @@ export default function ProductsPage() {
 
       {/* ── STRAINS ── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ maxWidth: "560px", marginBottom: "56px" }}>
             <p style={TAG}>
               <span style={LINE} />
@@ -510,7 +510,7 @@ export default function ProductsPage() {
 
       {/* ── TERPENES ── */}
       <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ maxWidth: "560px", marginBottom: "56px" }}>
             <p style={TAG}>
               <span style={LINE} />

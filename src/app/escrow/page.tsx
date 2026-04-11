@@ -139,7 +139,7 @@ export default function EscrowPage() {
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
-            padding: "0 40px",
+            padding: "0 20px",
             width: "100%",
             position: "relative",
             zIndex: 1,
@@ -205,7 +205,7 @@ export default function EscrowPage() {
 
       {/* ── WHY ESCROW ── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ display: "grid", gap: "80px" }} className="lg:grid-cols-[1fr_1fr]">
 
             {/* Left: explanation */}
@@ -350,7 +350,7 @@ export default function EscrowPage() {
 
       {/* ── PROCESS STEPS ── */}
       <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ textAlign: "center", maxWidth: "560px", margin: "0 auto 64px" }}>
             <p style={{ ...TAG, justifyContent: "center" }}>
               How It Works
@@ -458,7 +458,7 @@ export default function EscrowPage() {
 
       {/* ── CTA ── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div
             style={{
               background: "#0a0a0a",

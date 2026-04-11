@@ -163,7 +163,7 @@ export default function WholesalePage() {
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
-            padding: "0 40px",
+            padding: "0 20px",
             width: "100%",
             position: "relative",
             zIndex: 1,
@@ -231,7 +231,7 @@ export default function WholesalePage() {
 
       {/* ── WHO WE SERVE ── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div
             style={{ display: "grid", gap: "64px", alignItems: "center", marginBottom: "72px" }}
             className="lg:grid-cols-2"
@@ -267,7 +267,7 @@ export default function WholesalePage() {
 
       {/* ── PRODUCT CATEGORIES ── */}
       <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ maxWidth: "560px", marginBottom: "56px" }}>
             <p style={TAG}>
               <span style={LINE} />
@@ -360,7 +360,7 @@ export default function WholesalePage() {
 
       {/* ── PRICING TIERS ── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ textAlign: "center", maxWidth: "560px", margin: "0 auto 64px" }}>
             <p
               style={{
@@ -519,7 +519,7 @@ export default function WholesalePage() {
 
       {/* ── REQUIREMENTS + LOGISTICS ── */}
       <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ display: "grid", gap: "1px", background: "rgba(0,0,0,0.07)" }} className="md:grid-cols-2">
 
             {/* Requirements */}
@@ -689,7 +689,7 @@ export default function WholesalePage() {
           style={{
             maxWidth: "640px",
             margin: "0 auto",
-            padding: "0 40px",
+            padding: "0 20px",
             textAlign: "center",
             position: "relative",
             zIndex: 1,

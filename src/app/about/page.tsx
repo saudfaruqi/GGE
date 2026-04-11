@@ -139,7 +139,7 @@ export default function AboutPage() {
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
-            padding: "0 40px",
+            padding: "0 20px",
             width: "100%",
             position: "relative",
             zIndex: 1,
@@ -185,7 +185,7 @@ export default function AboutPage() {
 
       {/* ── STORY ── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div
             style={{ display: "grid", gap: "80px", alignItems: "start" }}
             className="lg:grid-cols-2"
@@ -400,7 +400,7 @@ export default function AboutPage() {
 
       {/* ── CERTIFICATIONS ── */}
       <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div
             style={{ display: "grid", gap: "40px", marginBottom: "56px" }}
             className="lg:grid-cols-2"
@@ -500,7 +500,7 @@ export default function AboutPage() {
 
       {/* ── VALUES ── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ maxWidth: "560px", marginBottom: "64px" }}>
             <p style={TAG}>
               <span style={LINE} />
@@ -605,7 +605,7 @@ export default function AboutPage() {
           style={{
             maxWidth: "640px",
             margin: "0 auto",
-            padding: "0 40px",
+            padding: "0 20px",
             textAlign: "center",
             position: "relative",
             zIndex: 1,

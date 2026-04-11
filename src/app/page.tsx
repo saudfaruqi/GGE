@@ -233,11 +233,11 @@ export default function Home() {
         />
 
         <div
+        className="pt-[60px] px-[20px] lg:pt-[80px] lg:px-[40px] pb-[20px]"
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
             width: "100%",
-            padding: "160px 40px 80px",
             position: "relative",
             zIndex: 1,
           }}
@@ -452,7 +452,7 @@ export default function Home() {
 
       {/* ─── INTRO STATEMENT ─── */}
       <section style={{ background: "#ffffff", padding: "80px 0", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ display: "grid", gap: "64px", alignItems: "center" }} className="lg:grid-cols-[1fr_1fr]">
             <div>
               <p
@@ -485,7 +485,7 @@ export default function Home() {
 
       {/* ─── PILLARS ─── */}
       <section style={{ background: "#0a0a0a", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ marginBottom: "64px" }}>
             <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
@@ -517,7 +517,7 @@ export default function Home() {
 
       {/* ─── PRODUCTS ─── */}
       <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div className="px-[20px] lg:px-[40px]" style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "56px", flexWrap: "wrap", gap: "16px" }}>
             <div>
               <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "14px", display: "flex", alignItems: "center", gap: "10px" }}>
@@ -554,7 +554,7 @@ export default function Home() {
 
       {/* ─── PROCESS ─── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ marginBottom: "72px" }}>
             <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
@@ -638,7 +638,7 @@ export default function Home() {
 
       {/* ─── COMPLIANCE ─── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ marginBottom: "64px" }}>
             <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
@@ -667,7 +667,7 @@ export default function Home() {
 
       {/* ─── DESTINATIONS ─── */}
       <section style={{ background: "#0a0a0a", padding: "80px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "48px", flexWrap: "wrap", gap: "20px" }}>
             <div>
               <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "12px", display: "flex", alignItems: "center", gap: "10px" }}>
@@ -698,7 +698,7 @@ export default function Home() {
 
       {/* ─── STAT BAR ─── */}
       <section style={{ background: "#f5f5f5", borderTop: "1px solid rgba(0,0,0,0.07)", borderBottom: "1px solid rgba(0,0,0,0.07)", padding: "56px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "32px" }} className="grid-cols-2 lg:grid-cols-5">
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "32px" }} className="grid-cols-2 lg:grid-cols-5">
           {[
             { n: "100%", l: "GACP-only supply" },
             { n: "CoA", l: "Every batch, mandatory" },
@@ -716,7 +716,7 @@ export default function Home() {
 
       {/* ─── FAQ ─── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ marginBottom: "64px" }}>
             <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
@@ -758,7 +758,7 @@ export default function Home() {
           aria-hidden
           style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "60vw", height: "60vw", borderRadius: "50%", background: "radial-gradient(circle, rgba(13,31,15,0.7) 0%, transparent 70%)", pointerEvents: "none" }}
         />
-        <div style={{ maxWidth: "720px", margin: "0 auto", padding: "0 40px", textAlign: "center", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: "720px", margin: "0 auto", padding: "0 20px", textAlign: "center", position: "relative", zIndex: 1 }}>
           <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "28px" }}>
             Ready to Source
           </p>
