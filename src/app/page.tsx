@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Check, MapPin, ShieldCheck, FlaskConical, Truck, FileText, Scale, Globe } from "lucide-react";
+import Hero from "@/components/Hero";
 
 const pillars = [
   {
@@ -449,6 +450,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/* ─── INTRO STATEMENT ─── */}
       <section style={{ background: "#ffffff", padding: "80px 0", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
