@@ -32,7 +32,7 @@ export default function Navbar() {
     setMobileOpen(false);
   }, [pathname]);
 
-  const bgColor = scrolled ? "#ffffff" : "transparent";
+  const bgColor = scrolled ? "#ffffff" : "black";
   const borderColor = scrolled ? "rgba(0,0,0,0.08)" : "transparent";
   const linkColor = scrolled ? "#0a0a0a" : "rgba(255,255,255,0.75)";
   const activeLinkColor = scrolled ? "#0a0a0a" : "#ffffff";
