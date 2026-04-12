@@ -189,12 +189,17 @@ export default function Home() {
                 Since Thailand's landmark cannabis legislation, Global Green Exports has been building the infrastructure to move Thai cannabis into international medical markets — legally, safely, and reliably.
               </p>
               <p style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "rgba(0,0,0,0.5)", fontWeight: 300 }}>
-                We are not a broker. We hold direct relationships with GACP-certified cultivation facilities, prepare all export documentation in-house, and operate an escrow-protected trading model that gives both buyers and sellers full protection.
+                We are not a broker. We hold direct relationships with GACP-certified cultivation 
+                facilities, prepare all export documentation in-house, and operate an 
+                escrow-protected trading model that gives both buyers and sellers full protection. 
+                Headquartered in Denver, Colorado with operations rooted in Thailand, we bridge 
+                two jurisdictions to serve international buyers with confidence.
               </p>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* ─── PILLARS ─── */}
       <section style={{ background: "#0a0a0a", padding: "96px 0" }}>
@@ -264,6 +269,44 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+
+{/* ─── OFFICES ─── */}
+<section style={{ background: "#000000", padding: "48px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+  <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1px", background: "rgba(255,255,255,0.06)" }}>
+
+      {/* Thailand */}
+      <div style={{ background: "#0a0a0a", padding: "36px 40px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+          <MapPin size={13} strokeWidth={1.5} color="#3a8042" />
+          <span style={{ fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, color: "#3a8042" }}>Operations</span>
+        </div>
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 400, color: "#ffffff", marginBottom: "8px" }}>Thailand</p>
+        <p style={{ fontSize: "0.8rem", lineHeight: 1.75, color: "rgba(255,255,255,0.3)", fontWeight: 300 }}>
+          GACP cultivation partnerships<br />
+          Thai FDA export licensing<br />
+          In-country logistics & compliance
+        </p>
+      </div>
+
+      {/* Denver */}
+      <div style={{ background: "#0a0a0a", padding: "36px 40px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+          <MapPin size={13} strokeWidth={1.5} color="#3a8042" />
+          <span style={{ fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, color: "#3a8042" }}>Corporate HQ</span>
+        </div>
+        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 400, color: "#ffffff", marginBottom: "8px" }}>Denver, Colorado</p>
+        <p style={{ fontSize: "0.8rem", lineHeight: 1.75, color: "rgba(255,255,255,0.3)", fontWeight: 300 }}>
+          7550 East 53rd Place, STE 17125<br />
+          Denver, CO 80217<br />
+          United States
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* ─── PROCESS ─── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
