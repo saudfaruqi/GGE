@@ -1,50 +1,84 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Check, MapPin, ShieldCheck, FlaskConical, Truck, FileText, Scale, Globe } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, MapPin, ShieldCheck, FlaskConical, Truck, FileText, Scale, Globe, Zap, Wind, HomeIcon } from "lucide-react";
 import Hero from "../components/Hero";
+
+/* ─── DATA ─── */
 
 const pillars = [
   {
     id: "01",
-    title: "GACP Cultivation",
-    body: "Every gram originates from growers operating under Thailand's GACP framework. We audit suppliers directly — no intermediaries.",
+    title: "Thailand-Origin Supply",
+    body: "Direct relationships with vetted Thai manufacturers and GACP-certified cultivation facilities. No brokers, no markups, no intermediaries.",
   },
   {
     id: "02",
     title: "Export Licensing",
-    body: "Operating under Thai government export authorisation with full phytosanitary and customs documentation prepared in-house.",
+    body: "Operating under Thai government export authorisation with full phytosanitary, customs, and certificates of origin prepared in-house.",
   },
   {
     id: "03",
     title: "Escrow Trade",
-    body: "A dedicated escrow mechanism protects buyer and seller equally. Funds are only released upon verified delivery.",
+    body: "A dedicated escrow mechanism protects buyer and seller equally. Funds are only released upon verified delivery — on every transaction.",
   },
   {
     id: "04",
-    title: "CoA Guarantee",
-    body: "Independent third-party lab analysis accompanies every order. Cannabinoid profile, terpene analysis, and residual solvent testing.",
+    title: "Fee-Based Sourcing",
+    body: "Can't find what you need? We source to your specification for a transparent, pre-agreed service fee. No surprises.",
   },
 ];
 
-const products = [
+const verticals = [
   {
-    cat: "Whole Flower",
-    desc: "Indoor and greenhouse-cultivated whole flower. Full terpene expression, consistent cannabinoid ratios, medical-grade presentation.",
-    spec: ["THC variants", "CBD-dominant", "Balanced profiles"],
-    detail: "Available in 5g, 100g, 500g, and 1kg units. Vacuum-sealed, nitrogen-flushed packaging.",
+    id: "01",
+    title: "Cannabis",
+    sub: "Medical-grade Thai cannabis",
+    icon: FlaskConical,
+    desc: "GACP-certified whole flower, full-spectrum and isolated extracts at 80–99% purity. Every batch accompanied by independent third-party CoA — cannabinoid profile, terpene analysis, heavy metals, residual solvents.",
+    specs: ["Whole Flower", "Full-Spectrum Extract", "Broad-Spectrum", "Single-Molecule Isolate", "CBD-Dominant", "THC Variants"],
+    detail: "Buyers must hold valid import authorisation in their jurisdiction. We assist with DEA, TGA, and EMA documentation as part of the service.",
+    href: "/products",
   },
   {
-    cat: "Extracts",
-    desc: "Full-spectrum, broad-spectrum, and isolated cannabinoid extracts at 80–99% purity. Suitable for pharmaceutical reformulation.",
-    spec: ["Full-spectrum", "Broad-spectrum", "Single-molecule isolate"],
-    detail: "Available as distillate, crude, or winterised oil. Custom formulation on request.",
+    id: "02",
+    title: "Hemp Derivatives",
+    sub: "Colorado & Thai-origin hemp",
+    icon: Globe,
+    desc: "CBD, CBG, and CBN products for wellness, nutraceutical, and research applications. Colorado-compliant processing available for US-bound product. EU-compliant THC thresholds confirmed by CoA.",
+    specs: ["CBD Isolate", "CBG", "CBN", "Water-Soluble", "Raw Paste", "Crystalline"],
+    detail: "Colorado hemp processing partnerships enable domestic US fulfilment alongside Thai-origin imports — giving international buyers supply chain optionality.",
+    href: "/products",
   },
   {
-    cat: "Hemp Derivatives",
-    desc: "CBD, CBG, and CBN products for wellness, nutraceutical, and research applications. EU-compliant THC thresholds available.",
-    spec: ["CBD", "CBG", "CBN"],
-    detail: "Crystalline isolate, raw paste, and water-soluble formats available.",
+    id: "03",
+    title: "Housing Materials",
+    sub: "Structural & finishing goods",
+    icon: HomeIcon,
+    desc: "Structural materials, prefabricated components, and finishing goods sourced from certified Thai manufacturers. Suitable for residential and commercial construction. Full certificates of origin and quality inspection documentation.",
+    specs: ["Structural Steel", "Prefab Components", "Flooring", "Cladding", "Finishing Materials", "Hardware"],
+    detail: "Sourcing is done to client specification. We assess manufacturer compliance, arrange quality inspection, and coordinate freight and import documentation.",
+    href: "/products",
+  },
+  {
+    id: "04",
+    title: "Appliances",
+    sub: "White goods & commercial equipment",
+    icon: Zap,
+    desc: "White goods, commercial kitchen equipment, laundry systems, and consumer appliances from vetted Thai manufacturers. We verify electrical standards, safety certification, and voltage compatibility for your destination market before shipment.",
+    specs: ["White Goods", "Commercial Kitchen", "Laundry Systems", "Consumer Electronics", "Safety Certified"],
+    detail: "Destination compliance checked per order — CE marking for Europe, UL/ETL for North America, SAA for Australia. Container-load pricing available.",
+    href: "/products",
+  },
+  {
+    id: "05",
+    title: "HVAC Equipment",
+    sub: "Systems, components & parts",
+    icon: Wind,
+    desc: "Heating, ventilation, and air conditioning systems, components, and parts from Thai manufacturers. Suitable for commercial, industrial, and residential applications. Climate-appropriate specifications for all destination markets.",
+    specs: ["Split Systems", "Ducted Systems", "Commercial Units", "Components", "Controls & Parts"],
+    detail: "Thai manufacturers produce HVAC systems designed for tropical climates — highly efficient in warm-weather markets. Cold-climate specifications and replacement parts sourced on request.",
+    href: "/products",
   },
 ];
 
@@ -63,8 +97,8 @@ const process = [
   },
   {
     step: "03",
-    title: "Sample & CoA",
-    desc: "Receive a representative sample alongside a full Certificate of Analysis from an accredited third-party laboratory.",
+    title: "Sample & Documentation",
+    desc: "Where applicable, receive a representative sample alongside full documentation — CoA, certificate of origin, quality inspection.",
     icon: FlaskConical,
   },
   {
@@ -82,7 +116,7 @@ const process = [
   {
     step: "06",
     title: "Delivery & Release",
-    desc: "Upon confirmed receipt and quality verification by the buyer, escrow funds are released. Documentation archive provided.",
+    desc: "Upon confirmed receipt and quality verification by the buyer, escrow funds are released. Full documentation archive provided.",
     icon: Globe,
   },
 ];
@@ -91,77 +125,79 @@ const destinations = [
   "Germany", "Australia", "United Kingdom", "Switzerland",
   "Netherlands", "New Zealand", "Canada",
   "Czech Republic", "Denmark", "Portugal", "Poland",
+  "United States",
 ];
 
 const compliance = [
   {
     label: "GACP Certification",
-    body: "All supply partners operate under Good Agricultural and Collection Practice standards — the baseline for medical cannabis quality globally.",
+    body: "All cannabis supply partners operate under Good Agricultural and Collection Practice standards — the global baseline for medical-grade product.",
   },
   {
     label: "Thai FDA Export Licence",
-    body: "We operate under authorisation from the Thai Food and Drug Administration. Every shipment is accompanied by official export permits.",
+    body: "We operate under authorisation from the Thai Food and Drug Administration. Every cannabis shipment is accompanied by official export permits.",
   },
   {
     label: "Phytosanitary Certificates",
-    body: "Issued by the Thai Department of Agriculture. Required for legal import in most destination markets.",
+    body: "Issued by the Thai Department of Agriculture. Required for legal import in most destination markets for botanical goods.",
+  },
+  {
+    label: "Certificate of Origin",
+    body: "Thai CoO issued for all non-cannabis product categories. Required for customs clearance and preferential tariff treatment in many markets.",
   },
   {
     label: "Third-Party Lab Testing",
-    body: "Independent CoA analysis for every batch. Cannabinoid and terpene profiles, heavy metals, pesticides, and residual solvents.",
-  },
-  {
-    label: "Chain of Custody",
-    body: "Documented provenance from cultivation site through to final delivery. Full audit trail available to buyers on request.",
+    body: "Independent CoA analysis for every cannabis and hemp batch. Cannabinoid profiles, terpenes, heavy metals, pesticides, and residual solvents.",
   },
   {
     label: "Import Compliance Assistance",
-    body: "Our team prepares destination-country documentation — DEA import permits, EMA filings, TGA applications — as part of the service.",
+    body: "Our team prepares destination-country documentation — DEA permits, EMA filings, TGA applications, CE declarations — as part of the service.",
   },
 ];
 
 const faqs = [
   {
     q: "Who can purchase from Global Green Exports?",
-    a: "We supply licensed importers, pharmaceutical companies, research institutions, and government health agencies. All buyers must demonstrate valid import authorisation in their jurisdiction.",
+    a: "We supply licensed importers, pharmaceutical companies, research institutions, government health agencies, commercial developers, and hospitality operators. Cannabis buyers must demonstrate valid import authorisation in their jurisdiction.",
   },
   {
     q: "What is the minimum order quantity?",
-    a: "Minimum orders vary by product. Whole flower starts at 1kg; extracts at 500g; hemp derivatives at 1kg. Contact us for custom volume arrangements.",
+    a: "Minimums vary by vertical. Cannabis whole flower starts at 1kg; extracts at 500g; hemp derivatives at 1kg. Housing, appliance, and HVAC orders are assessed per project. Contact us for your specific requirements.",
   },
   {
-    q: "How long does a typical order take to deliver?",
-    a: "From signed agreement to delivery, typical lead time is 4–8 weeks depending on export documentation and destination country import processing times.",
+    q: "How does the escrow mechanism work?",
+    a: "For every order, funds are deposited with a neutral third-party escrow provider. Funds are released only upon confirmed delivery and buyer quality verification. For first-time buyers this is mandatory; established clients may access direct invoice terms after two completed escrow orders.",
   },
   {
-    q: "Is the escrow mechanism mandatory?",
-    a: "For first-time buyers, yes. For established clients, we offer direct invoice terms after successful completion of two escrow-protected orders.",
+    q: "Can you source products not listed on your site?",
+    a: "Yes. Our fee-based sourcing service is designed for exactly this. Submit your specification and we will assess feasibility, identify Thai manufacturers, and provide a sourcing proposal with transparent fee structure.",
   },
   {
-    q: "Can you provide custom cannabinoid profiles?",
-    a: "Yes, for extract and hemp derivative orders of sufficient volume. We work with growers to source or blend profiles to specification.",
+    q: "How long does a typical order take?",
+    a: "Cannabis: 4–8 weeks from signed agreement to delivery. Construction materials and appliances: 6–12 weeks depending on volume and destination customs processing. HVAC systems: assessed per project scope.",
   },
   {
     q: "What documentation is provided with each order?",
-    a: "Every order includes a Certificate of Analysis, phytosanitary certificate, export permit, commercial invoice, packing list, and bill of lading.",
+    a: "All orders include commercial invoice, packing list, and bill of lading. Cannabis orders additionally include CoA, phytosanitary certificate, and export permit. Non-cannabis orders include certificate of origin and relevant quality certification.",
   },
 ];
 
 const whyUs = [
-  { label: "Direct grower relationships", sub: "No broker markups. We work with farms directly." },
-  { label: "In-house documentation", sub: "Every export doc prepared by our compliance team." },
-  { label: "Escrow on every new trade", sub: "Buyer and seller protected from day one." },
+  { label: "Direct supplier relationships", sub: "No broker markups. We work with manufacturers and farms directly." },
+  { label: "In-house documentation", sub: "Every export document prepared by our compliance team." },
+  { label: "Escrow on every new trade", sub: "Buyer and seller protected from day one, every vertical." },
   { label: "Dedicated account manager", sub: "One point of contact from enquiry to delivery." },
-  { label: "Batch traceability", sub: "Full chain of custody from field to freight." },
-  { label: "Custom formulation support", sub: "Extract specifications tailored to your market." },
+  { label: "Fee-based sourcing", sub: "We find what you need if it isn't already in our catalogue." },
+  { label: "Five specialist verticals", sub: "Cannabis, hemp, housing, appliances, and HVAC under one roof." },
 ];
+
+/* ─── PAGE ─── */
 
 export default function Home() {
   return (
     <>
       {/* ─── HERO ─── */}
-      <Hero/>
-
+      <Hero />
 
       {/* ─── INTRO STATEMENT ─── */}
       <section style={{ background: "#ffffff", padding: "80px 0", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
@@ -171,35 +207,28 @@ export default function Home() {
               <p
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
+                  fontSize: "clamp(1.6rem, 3vw, 2.3rem)",
                   fontWeight: 400,
                   color: "#0a0a0a",
                   lineHeight: 1.45,
                   letterSpacing: "-0.01em",
                 }}
               >
-                "Thailand is one of the first Asian nations to legalise medical
-                cannabis export — and we are positioned at the centre of that
-                supply chain."
+                "We are a specialist sourcing and export house — built on the infrastructure of Thai supply chains, secured by escrow, and documented to the standards of the world's most demanding markets."
               </p>
               <div style={{ width: "40px", height: "2px", background: "#0a0a0a", marginTop: "32px" }} />
             </div>
             <div>
               <p style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "rgba(0,0,0,0.5)", fontWeight: 300, marginBottom: "20px" }}>
-                Since Thailand's landmark cannabis legislation, Global Green Exports has been building the infrastructure to move Thai cannabis into international medical markets — legally, safely, and reliably.
+                Global Green Exports operates across five verticals — cannabis, hemp derivatives, housing materials, appliances, and HVAC equipment — all sourced directly from Thailand, with corporate headquarters in Denver, Colorado.
               </p>
               <p style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "rgba(0,0,0,0.5)", fontWeight: 300 }}>
-                We are not a broker. We hold direct relationships with GACP-certified cultivation 
-                facilities, prepare all export documentation in-house, and operate an 
-                escrow-protected trading model that gives both buyers and sellers full protection. 
-                Headquartered in Denver, Colorado with operations rooted in Thailand, we bridge 
-                two jurisdictions to serve international buyers with confidence.
+                We are not a broker. We hold direct supplier relationships, prepare all export and import documentation in-house, and operate an escrow-protected trading model that gives both buyers and sellers full protection — across every product category we serve.
               </p>
             </div>
           </div>
         </div>
       </section>
-
 
       {/* ─── PILLARS ─── */}
       <section style={{ background: "#0a0a0a", padding: "96px 0" }}>
@@ -233,80 +262,115 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── PRODUCTS ─── */}
+      {/* ─── VERTICALS ─── */}
       <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div className="px-[20px] lg:px-[40px]" style={{ maxWidth: "1280px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "56px", flexWrap: "wrap", gap: "16px" }}>
             <div>
               <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "14px", display: "flex", alignItems: "center", gap: "10px" }}>
                 <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
-                Product Range
+                What We Source
               </p>
               <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 400, color: "#0a0a0a", lineHeight: 1.1, letterSpacing: "-0.015em" }}>
-                Cannabis & <em style={{ color: "#1a3d1e" }}>hemp products</em>
+                Five verticals. <em style={{ color: "#1a3d1e" }}>One model.</em>
               </h2>
             </div>
             <Link href="/products" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "0.68rem", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 500, color: "#0a0a0a", borderBottom: "1px solid rgba(0,0,0,0.3)", paddingBottom: "2px" }}>
               All products <ArrowUpRight size={12} />
             </Link>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1px", background: "rgba(0,0,0,0.08)" }}>
-            {products.map((p, i) => (
-              <div key={p.cat} style={{ background: "#ffffff", padding: "44px" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", paddingBottom: "20px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
-                  <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontWeight: 400, color: "#0a0a0a" }}>{p.cat}</h3>
-                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "0.8rem", color: "rgba(0,0,0,0.12)" }}>{String(i + 1).padStart(2, "0")}</span>
+
+          {/* Top row — Cannabis & Hemp side by side */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1px", background: "rgba(0,0,0,0.08)", marginBottom: "1px" }}>
+            {verticals.slice(0, 2).map((v, i) => {
+              const Icon = v.icon;
+              return (
+                <div key={v.id} style={{ background: "#ffffff", padding: "44px" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", paddingBottom: "20px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+                    <div>
+                      <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", fontWeight: 400, color: "#0a0a0a", marginBottom: "3px" }}>{v.title}</h3>
+                      <p style={{ fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#3a8042", fontWeight: 400 }}>{v.sub}</p>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <Icon size={16} strokeWidth={1.2} color="rgba(0,0,0,0.2)" />
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "0.8rem", color: "rgba(0,0,0,0.1)" }}>{v.id}</span>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: "0.85rem", lineHeight: 1.8, color: "rgba(0,0,0,0.5)", fontWeight: 300, marginBottom: "16px" }}>{v.desc}</p>
+                  <p style={{ fontSize: "0.78rem", lineHeight: 1.7, color: "rgba(0,0,0,0.3)", fontWeight: 300, marginBottom: "24px", fontStyle: "italic" }}>{v.detail}</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                    {v.specs.map((s) => (
+                      <span key={s} style={{ fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 500, padding: "4px 10px", border: "1px solid rgba(0,0,0,0.1)", color: "rgba(0,0,0,0.4)" }}>{s}</span>
+                    ))}
+                  </div>
                 </div>
-                <p style={{ fontSize: "0.85rem", lineHeight: 1.8, color: "rgba(0,0,0,0.5)", fontWeight: 300, marginBottom: "16px" }}>{p.desc}</p>
-                <p style={{ fontSize: "0.78rem", lineHeight: 1.7, color: "rgba(0,0,0,0.32)", fontWeight: 300, marginBottom: "24px", fontStyle: "italic" }}>{p.detail}</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                  {p.spec.map((s) => (
-                    <span key={s} style={{ fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 500, padding: "4px 10px", border: "1px solid rgba(0,0,0,0.1)", color: "rgba(0,0,0,0.4)" }}>{s}</span>
-                  ))}
+              );
+            })}
+          </div>
+
+          {/* Bottom row — Housing, Appliances, HVAC */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", background: "rgba(0,0,0,0.08)" }}>
+            {verticals.slice(2).map((v) => {
+              const Icon = v.icon;
+              return (
+                <div key={v.id} style={{ background: "#ffffff", padding: "44px" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", paddingBottom: "20px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+                    <div>
+                      <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", fontWeight: 400, color: "#0a0a0a", marginBottom: "3px" }}>{v.title}</h3>
+                      <p style={{ fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#3a8042", fontWeight: 400 }}>{v.sub}</p>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <Icon size={16} strokeWidth={1.2} color="rgba(0,0,0,0.2)" />
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "0.8rem", color: "rgba(0,0,0,0.1)" }}>{v.id}</span>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: "0.85rem", lineHeight: 1.8, color: "rgba(0,0,0,0.5)", fontWeight: 300, marginBottom: "16px" }}>{v.desc}</p>
+                  <p style={{ fontSize: "0.78rem", lineHeight: 1.7, color: "rgba(0,0,0,0.3)", fontWeight: 300, marginBottom: "24px", fontStyle: "italic" }}>{v.detail}</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                    {v.specs.map((s) => (
+                      <span key={s} style={{ fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 500, padding: "4px 10px", border: "1px solid rgba(0,0,0,0.1)", color: "rgba(0,0,0,0.4)" }}>{s}</span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-
-{/* ─── OFFICES ─── */}
-<section style={{ background: "#000000", padding: "48px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-  <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1px", background: "rgba(255,255,255,0.06)" }}>
-
-      {/* Thailand */}
-      <div style={{ background: "#0a0a0a", padding: "36px 40px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-          <MapPin size={13} strokeWidth={1.5} color="#3a8042" />
-          <span style={{ fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, color: "#3a8042" }}>Operations</span>
+      {/* ─── OFFICES ─── */}
+      <section style={{ background: "#000000", padding: "48px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1px", background: "rgba(255,255,255,0.06)" }}>
+            <div style={{ background: "#0a0a0a", padding: "36px 40px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                <MapPin size={13} strokeWidth={1.5} color="#3a8042" />
+                <span style={{ fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, color: "#3a8042" }}>Operations</span>
+              </div>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 400, color: "#ffffff", marginBottom: "8px" }}>Thailand</p>
+              <p style={{ fontSize: "0.8rem", lineHeight: 1.75, color: "rgba(255,255,255,0.3)", fontWeight: 300 }}>
+                GACP cultivation partnerships<br />
+                Thai FDA export licensing<br />
+                In-country logistics & compliance<br />
+                All five verticals sourced here
+              </p>
+            </div>
+            <div style={{ background: "#0a0a0a", padding: "36px 40px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                <MapPin size={13} strokeWidth={1.5} color="#3a8042" />
+                <span style={{ fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, color: "#3a8042" }}>Corporate HQ</span>
+              </div>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 400, color: "#ffffff", marginBottom: "8px" }}>Denver, Colorado</p>
+              <p style={{ fontSize: "0.8rem", lineHeight: 1.75, color: "rgba(255,255,255,0.3)", fontWeight: 300 }}>
+                7550 East 53rd Place, STE 17125<br />
+                Denver, CO 80217<br />
+                United States<br />
+                Colorado hemp processing partnerships
+              </p>
+            </div>
+          </div>
         </div>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 400, color: "#ffffff", marginBottom: "8px" }}>Thailand</p>
-        <p style={{ fontSize: "0.8rem", lineHeight: 1.75, color: "rgba(255,255,255,0.3)", fontWeight: 300 }}>
-          GACP cultivation partnerships<br />
-          Thai FDA export licensing<br />
-          In-country logistics & compliance
-        </p>
-      </div>
-
-      {/* Denver */}
-      <div style={{ background: "#0a0a0a", padding: "36px 40px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-          <MapPin size={13} strokeWidth={1.5} color="#3a8042" />
-          <span style={{ fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500, color: "#3a8042" }}>Corporate HQ</span>
-        </div>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 400, color: "#ffffff", marginBottom: "8px" }}>Denver, Colorado</p>
-        <p style={{ fontSize: "0.8rem", lineHeight: 1.75, color: "rgba(255,255,255,0.3)", fontWeight: 300 }}>
-          7550 East 53rd Place, STE 17125<br />
-          Denver, CO 80217<br />
-          United States
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* ─── PROCESS ─── */}
       <section style={{ background: "#ffffff", padding: "96px 0" }}>
@@ -321,7 +385,7 @@ export default function Home() {
                 From first contact to <em style={{ color: "#1a3d1e" }}>final delivery</em>
               </h2>
               <p style={{ fontSize: "0.85rem", color: "rgba(0,0,0,0.4)", fontWeight: 300, maxWidth: "320px", lineHeight: 1.7 }}>
-                A transparent, step-by-step process designed around your regulatory requirements.
+                The same six-step process applies across all five verticals — built around your regulatory and logistical requirements.
               </p>
             </div>
           </div>
@@ -347,47 +411,45 @@ export default function Home() {
       <section style={{ background: "#0d1f0f", padding: "80px 40px" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <div style={{ display: "grid", gap: "48px", alignItems: "start" }} className="lg:grid-cols-[1fr_1fr] lg:gap-[80px_40px]">
-        <div>
-          <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
-            <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
-            Why Global Green Exports
-          </p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.8rem, 4.5vw, 2.8rem)", fontWeight: 400, color: "#ffffff", lineHeight: 1.15, letterSpacing: "-0.015em", marginBottom: "24px" }}>
-            Built for the demands of{" "}
-            <em style={{ color: "rgba(255,255,255,0.35)" }}>regulated markets</em>
-          </h2>
-          <p style={{ fontSize: "0.92rem", lineHeight: 1.85, color: "rgba(255,255,255,0.35)", fontWeight: 300, marginBottom: "32px" }}>
-            Medical and pharmaceutical cannabis buyers operate under strict regulatory scrutiny. Every supplier they work with must meet the same standard. We are built from the ground up for that environment.
-          </p>
-          <Link
-            href="/about"
-            style={{ display: "inline-flex", alignItems: "center", gap: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", padding: "14px 28px", fontSize: "0.68rem", fontWeight: 400, letterSpacing: "0.16em", textTransform: "uppercase" }}
-          >
-            About Us <ArrowRight size={12} />
-          </Link>
-        </div>
-        <div>
-          {whyUs.map((w, i) => (
-            <div
-          key={w.label}
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            gap: "16px",
-            padding: "20px 0",
-            borderBottom: i < whyUs.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
-          }}
-            >
-          <div style={{ width: "20px", height: "20px", minWidth: "20px", border: "1px solid rgba(58,128,66,0.4)", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "2px" }}>
-            <Check size={10} strokeWidth={2} color="#3a8042" />
-          </div>
-          <div>
-            <p style={{ fontSize: "0.88rem", fontWeight: 400, color: "#ffffff", marginBottom: "4px" }}>{w.label}</p>
-            <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", fontWeight: 300, lineHeight: 1.6 }}>{w.sub}</p>
-          </div>
+            <div>
+              <p style={{ fontSize: "0.65rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#3a8042", fontWeight: 500, marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ width: "28px", height: "1px", background: "#3a8042", display: "inline-block" }} />
+                Why Global Green Exports
+              </p>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.8rem, 4.5vw, 2.8rem)", fontWeight: 400, color: "#ffffff", lineHeight: 1.15, letterSpacing: "-0.015em", marginBottom: "24px" }}>
+                Built for the demands of{" "}
+                <em style={{ color: "rgba(255,255,255,0.35)" }}>regulated markets</em>
+              </h2>
+              <p style={{ fontSize: "0.92rem", lineHeight: 1.85, color: "rgba(255,255,255,0.35)", fontWeight: 300, marginBottom: "32px" }}>
+                Whether you are a pharmaceutical formulator, a licensed cannabis importer, a property developer, or a hospitality group — you need a supplier who meets the same compliance standard you do. We are built from the ground up for exactly that environment.
+              </p>
+              <Link
+                href="/about"
+                style={{ display: "inline-flex", alignItems: "center", gap: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", padding: "14px 28px", fontSize: "0.68rem", fontWeight: 400, letterSpacing: "0.16em", textTransform: "uppercase" }}
+              >
+                About Us <ArrowRight size={12} />
+              </Link>
             </div>
-          ))}
-        </div>
+            <div>
+              {whyUs.map((w, i) => (
+                <div
+                  key={w.label}
+                  style={{
+                    display: "flex", alignItems: "flex-start", gap: "16px",
+                    padding: "20px 0",
+                    borderBottom: i < whyUs.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+                  }}
+                >
+                  <div style={{ width: "20px", height: "20px", minWidth: "20px", border: "1px solid rgba(58,128,66,0.4)", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "2px" }}>
+                    <Check size={10} strokeWidth={2} color="#3a8042" />
+                  </div>
+                  <div>
+                    <p style={{ fontSize: "0.88rem", fontWeight: 400, color: "#ffffff", marginBottom: "4px" }}>{w.label}</p>
+                    <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", fontWeight: 300, lineHeight: 1.6 }}>{w.sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -405,7 +467,7 @@ export default function Home() {
                 Regulatory rigour at <em style={{ color: "#1a3d1e" }}>every stage</em>
               </h2>
               <p style={{ fontSize: "0.92rem", lineHeight: 1.85, color: "rgba(0,0,0,0.45)", fontWeight: 300, alignSelf: "end" }}>
-                Our documentation and certification framework is designed to satisfy regulators in the most demanding markets globally — from the TGA in Australia to the German BfArM.
+                Our documentation and certification framework is designed to satisfy regulators in the most demanding markets globally — from the TGA in Australia to the German BfArM, and customs authorities in every destination we serve.
               </p>
             </div>
           </div>
@@ -454,12 +516,12 @@ export default function Home() {
 
       {/* ─── STAT BAR ─── */}
       <section style={{ background: "#f5f5f5", borderTop: "1px solid rgba(0,0,0,0.07)", borderBottom: "1px solid rgba(0,0,0,0.07)", padding: "56px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "32px" }} className="grid-cols-2 lg:grid-cols-5">
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "32px" }}>
           {[
-            { n: "100%", l: "GACP-only supply" },
-            { n: "CoA", l: "Every batch, mandatory" },
-            { n: "End-to-end", l: "Logistics & compliance" },
-            { n: "Escrow", l: "Protected transactions" },
+            { n: "5", l: "Sourcing verticals" },
+            { n: "30+", l: "Export markets" },
+            { n: "Escrow", l: "Every transaction" },
+            { n: "End-to-end", l: "Docs & logistics" },
             { n: "48hr", l: "Enquiry response" },
           ].map((s) => (
             <div key={s.l} style={{ textAlign: "center" }}>
@@ -503,8 +565,7 @@ export default function Home() {
         <div
           aria-hidden
           style={{
-            position: "absolute",
-            inset: 0,
+            position: "absolute", inset: 0,
             backgroundImage: "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
             backgroundSize: "48px 48px",
             pointerEvents: "none",
@@ -523,7 +584,7 @@ export default function Home() {
             <em style={{ color: "rgba(255,255,255,0.3)" }}>Global Green Exports</em>
           </h2>
           <p style={{ fontSize: "0.95rem", lineHeight: 1.85, color: "rgba(255,255,255,0.3)", fontWeight: 300, marginBottom: "48px" }}>
-            We work with medical distributors, pharmaceutical formulators, and licensed research institutions. Contact us to discuss pricing, compliance documentation, or escrow arrangements.
+            We work with medical distributors, pharmaceutical formulators, licensed importers, property developers, and hospitality operators. Contact us to discuss any of our five sourcing verticals — or to submit a bespoke sourcing request.
           </p>
           <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "12px" }}>
             <Link
