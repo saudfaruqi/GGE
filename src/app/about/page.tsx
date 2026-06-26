@@ -1,662 +1,523 @@
-// app/about/page.tsx — Global Green Exports · About
+"use client";
 
-import type { Metadata } from "next";
-import { Shield, Leaf, Globe, Award, CheckCircle, ArrowRight } from "lucide-react";
+import { useEffect, useCallback, memo, useState } from "react";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-export const metadata: Metadata = {
-  title: "About Us",
-  description:
-    "Learn about Global Green Exports — Thailand-based exporters of GACP-certified medicinal cannabis and hemp products.",
+// ============================================================
+// 1. TYPES
+// ============================================================
+
+type Vertical = {
+  readonly name: string;
+  readonly sub: string;
 };
 
-const certifications = [
-  {
-    label: "GACP Compliant",
-    desc: "All growers meet Good Agricultural and Collection Practices standards — the global baseline for medical cannabis quality.",
-  },
-  {
-    label: "Thai Export Licensed",
-    desc: "Operating under Thai FDA and relevant governmental export frameworks with full phytosanitary documentation.",
-  },
-  {
-    label: "3rd Party Lab Tested",
-    desc: "Every product batch independently tested with full CoA documentation covering cannabinoids, terpenes, and residuals.",
-  },
-  {
-    label: "Global Compliance",
-    desc: "Products are prepared to meet destination country import requirements from the TGA to the German BfArM.",
-  },
-];
-
-const values = [
-  {
-    icon: Shield,
-    title: "Integrity",
-    desc: "We operate transparently with all stakeholders — growers, buyers, and regulators.",
-  },
-  {
-    icon: Leaf,
-    title: "Sustainability",
-    desc: "Supporting sustainable farming practices that protect Thailand's agricultural heritage.",
-  },
-  {
-    icon: Globe,
-    title: "Global Access",
-    desc: "Breaking down barriers to legal medicinal cannabis access worldwide.",
-  },
-  {
-    icon: Award,
-    title: "Excellence",
-    desc: "Uncompromising quality standards at every stage of the supply chain.",
-  },
-];
-
-const commitments = [
-  "Only GACP-certified growers in our network",
-  "Full transparency — CoA with every shipment",
-  "Escrow services to protect every transaction",
-  "Dedicated compliance team for each destination",
-  "No compromise on product quality or regulatory adherence",
-];
-
-const TAG = {
-  fontSize: "0.65rem",
-  letterSpacing: "0.22em",
-  textTransform: "uppercase" as const,
-  color: "#3a8042",
-  fontWeight: 500,
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  marginBottom: "16px",
+type Cert = {
+  readonly n: string;
+  readonly title: string;
+  readonly desc: string;
 };
 
-const LINE = {
-  width: "28px",
-  height: "1px",
-  background: "#3a8042",
-  display: "inline-block",
-  flexShrink: 0,
-};
+// ============================================================
+// 2. HOOKS
+// ============================================================
+
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll(
+      ".reveal, .reveal-left, .reveal-right"
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
+
+function useSmoothScroll() {
+  return useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      const navHeight = 80;
+      const top =
+        target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+      window.scrollTo({ top, behavior: "smooth" });
+      window.history.pushState(null, "", href);
+    }
+  }, []);
+}
+
+// ============================================================
+// 3. DATA
+// ============================================================
+
+const CERTS = [
+  {
+    n: "01",
+    title: "GACP Compliant",
+    desc: "All cannabis and hemp growers in our network meet Good Agricultural and Collection Practices — the international baseline for medical-grade cultivation quality.",
+  },
+  {
+    n: "02",
+    title: "Thai Export Licensed",
+    desc: "We operate under Thai FDA and government-approved export frameworks. Every export begins with the correct authorisation in place.",
+  },
+  {
+    n: "03",
+    title: "Third-Party Lab Tested",
+    desc: "All cannabis and hemp products are independently verified by accredited laboratories. CoA issued with every batch, no exceptions.",
+  },
+  {
+    n: "04",
+    title: "Certificate of Origin",
+    desc: "Full traceability from source to destination. Certificates of origin prepared for every shipment across all five verticals.",
+  },
+  {
+    n: "05",
+    title: "Phytosanitary Certified",
+    desc: "Botanical and agricultural products ship with valid phytosanitary certificates — required for customs clearance in all destination markets.",
+  },
+  {
+    n: "06",
+    title: "Escrow-Settled",
+    desc: "Our trade protocol mandates escrow settlement for new clients — eliminating counterparty risk for both buyers and sellers.",
+  },
+] as const;
+
+const VERTICALS = [
+  { name: "Cannabis", sub: "Medical · Pharmaceutical" },
+  { name: "Hemp Derivatives", sub: "Wellness · B2B" },
+  { name: "Housing Materials", sub: "Construction · Development" },
+  { name: "Appliances", sub: "Commercial · Retail" },
+  { name: "HVAC Equipment", sub: "Industrial · Commercial" },
+] as const;
+
+const HOW_WE_OPERATE = [
+  "Direct supplier relationships — no broker markups",
+  "Escrow on every new trade cycle",
+  "In-house compliance and documentation",
+  "Dedicated account manager, one point of contact",
+  "Fee-based custom sourcing on request",
+] as const;
+
+// ============================================================
+// 4. COMPONENTS
+// ============================================================
+
+
+
+// ---- 4.2 VERTICAL CARD ----
+const VerticalCard = memo(function VerticalCard({
+  vertical,
+  index,
+}: {
+  vertical: (typeof VERTICALS)[number];
+  index: number;
+}) {
+  return (
+    <Link
+      href="/products"
+      className="group bg-[var(--paper)] px-8 py-12 hover:bg-[var(--ink)] transition-colors duration-500 reveal focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2"
+      style={{ transitionDelay: `${index * 60}ms` }}
+    >
+      <div className="font-mono text-[11px] tracking-widest text-[var(--ink-20)] group-hover:text-white/20 transition-colors mb-6">
+        {String(index + 1).padStart(2, "0")}
+      </div>
+      <h3 className="font-serif text-[clamp(22px,2.5vw,32px)] leading-tight tracking-tighter text-[var(--ink)] group-hover:text-white/90 transition-colors mb-3">
+        {vertical.name}
+      </h3>
+      <p className="font-mono text-[9px] tracking-[0.2em] uppercase text-[var(--ink-30)] group-hover:text-white/30 transition-colors">
+        {vertical.sub}
+      </p>
+    </Link>
+  );
+});
+VerticalCard.displayName = "VerticalCard";
+
+// ---- 4.3 CERT CARD ----
+const CertCard = memo(function CertCard({
+  cert,
+  index,
+}: {
+  cert: (typeof CERTS)[number];
+  index: number;
+}) {
+  return (
+    <div
+      className="bg-[var(--paper-2)] px-8 py-12 reveal focus-within:ring-2 focus-within:ring-[var(--forest)]"
+      style={{ transitionDelay: `${index * 80}ms` }}
+    >
+      <div className="font-mono text-[11px] tracking-widest text-[var(--ink-20)] mb-6">
+        {cert.n}
+      </div>
+      <h3 className="font-sans font-bold text-[16px] tracking-tight text-[var(--ink)] mb-4">
+        {cert.title}
+      </h3>
+      <p className="font-sans text-[13px] leading-relaxed text-[var(--ink-60)]">
+        {cert.desc}
+      </p>
+    </div>
+  );
+});
+CertCard.displayName = "CertCard";
+
+// ---- 4.4 SCROLL TO TOP ----
+function ScrollToTop() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      setIsVisible(window.pageYOffset > 500);
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  if (!isVisible) return null;
+
+  return (
+    <button
+      onClick={scrollToTop}
+      aria-label="Scroll to top"
+      className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-[var(--forest)] text-white rounded-full shadow-lg hover:bg-[var(--forest-mid)] transition-all duration-300 flex items-center justify-center border border-white/10 focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2"
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 19V5M5 12l7-7 7 7" />
+      </svg>
+    </button>
+  );
+}
+
+// ---- 4.5 COOKIE CONSENT ----
+function CookieConsent() {
+  const [accepted, setAccepted] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem("cookie-consent");
+    if (consent === "accepted") setAccepted(true);
+  }, []);
+
+  const handleAccept = useCallback(() => {
+    localStorage.setItem("cookie-consent", "accepted");
+    setAccepted(true);
+  }, []);
+
+  if (accepted) return null;
+
+  return (
+    <div
+      role="dialog"
+      aria-label="Cookie consent"
+      className="fixed bottom-0 left-0 right-0 z-[9998] bg-[var(--ink)] border-t border-white/10 p-4 md:p-6"
+    >
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <p className="font-sans text-[12px] text-white/70 leading-relaxed max-w-2xl">
+          We use cookies to enhance your experience. By continuing to visit this
+          site you agree to our use of cookies.
+        </p>
+        <div className="flex gap-4 flex-shrink-0">
+          <button
+            onClick={handleAccept}
+            className="px-6 py-2 bg-[var(--forest)] text-white font-mono text-[10px] tracking-widest uppercase hover:bg-[var(--forest-mid)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2"
+          >
+            Accept
+          </button>
+          <Link
+            href="/privacy"
+            className="px-6 py-2 border border-white/20 text-white/60 font-mono text-[10px] tracking-widest uppercase hover:bg-white/5 transition-colors focus-visible:ring-2 focus-visible:ring-white/50"
+          >
+            Learn More
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// 5. MAIN PAGE
+// ============================================================
 
 export default function AboutPage() {
+  useReveal();
+  const smoothScroll = useSmoothScroll();
+
+  // Structured data
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About Global Green Exports",
+    description:
+      "Bangkok-based export house specialising in regulated goods — from GACP-certified cannabis and hemp derivatives to construction materials, appliances, and HVAC systems.",
+    url: "https://globalgreenexports.com/about",
+    mainEntity: {
+      "@type": "Organization",
+      name: "Global Green Exports",
+      foundingLocation: {
+        "@type": "Place",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Bangkok",
+          addressCountry: "Thailand",
+        },
+      },
+    },
+  };
+
   return (
     <>
-      {/* ── HERO ── */}
-      <section
-        style={{
-          background: "#0a0a0a",
-          minHeight: "60vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          position: "relative",
-          overflow: "hidden",
-          paddingTop: "160px",
-          paddingBottom: "80px",
-        }}
-      >
-        {/* Grid */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-            pointerEvents: "none",
-          }}
-        />
-        {/* Green glow */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            top: "-20%",
-            right: "-10%",
-            width: "50vw",
-            height: "50vw",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(13,31,15,0.6) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }}
-        />
-        {/* Vertical accent */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: "50%",
-            width: "1px",
-            height: "120px",
-            background: "linear-gradient(to bottom, rgba(58,128,66,0.4), transparent)",
-          }}
+      
+      <Navbar />
+
+      <main id="main-content" tabIndex={-1}>
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
 
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "0 20px",
-            width: "100%",
-            position: "relative",
-            zIndex: 1,
-            textAlign: "center",
-          }}
+        {/* ── HERO ── */}
+        <section
+          className="bg-[var(--ink)] px-6 md:px-12 py-32 md:py-48 relative overflow-hidden"
+          aria-label="About us hero"
         >
-          <p style={{ ...TAG, justifyContent: "center", marginBottom: "20px" }}>
-            About Us
-          </p>
-          <h1
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(3rem, 6vw, 5rem)",
-              fontWeight: 400,
-              color: "#ffffff",
-              lineHeight: 1.05,
-              letterSpacing: "-0.025em",
-              marginBottom: "24px",
-            }}
-          >
-            Rooted in Thailand.{" "}
-            <em style={{ color: "rgba(255,255,255,0.35)" }}>Reaching the World.</em>
-          </h1>
-          <p
-            style={{
-              fontSize: "1rem",
-              lineHeight: 1.85,
-              color: "rgba(255,255,255,0.38)",
-              fontWeight: 300,
-              maxWidth: "600px",
-              margin: "0 auto",
-            }}
-          >
-            Global Green Exports was founded to bridge the gap between Thailand's world-class
-            GACP-certified cannabis growers and the growing global demand for compliant
-            medicinal cannabis and hemp products.
-          </p>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
-
-      {/* ── STORY ── */}
-      <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
           <div
-            style={{ display: "grid", gap: "80px", alignItems: "start" }}
-            className="lg:grid-cols-2"
+            className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+            aria-hidden="true"
           >
-            {/* Left: story */}
-            <div>
-              <p style={TAG}>
-                <span style={LINE} />
-                Our Story
-              </p>
-              <h2
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2.2rem, 3.5vw, 3rem)",
-                  fontWeight: 400,
-                  color: "#0a0a0a",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.015em",
-                  marginBottom: "36px",
-                }}
-              >
-                Built on compliance,{" "}
-                <em style={{ color: "#1a3d1e" }}>driven by quality</em>
-              </h2>
+            <span
+              className="font-serif text-[20vw] leading-none text-transparent"
+              style={{ WebkitTextStroke: "1px rgba(247,244,238,0.05)" }}
+            >
+              GGE
+            </span>
+          </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "20px",
-                  fontSize: "0.92rem",
-                  lineHeight: 1.85,
-                  color: "rgba(0,0,0,0.48)",
-                  fontWeight: 300,
-                }}
-              >
-                <p>
-                  Global Green Exports operates from Thailand — a country that has emerged as one
-                  of Asia's most progressive and well-regulated medicinal cannabis markets. We work
-                  exclusively with{" "}
-                  <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>
-                    GACP-certified growers
-                  </strong>{" "}
-                  whose products meet the stringent requirements of international medical cannabis
-                  standards.
-                </p>
-                <p>
-                  Our mission is simple: to be the most trusted export partner for buyers seeking
-                  compliant, premium-quality Thai medicinal cannabis and hemp derivatives. We handle
-                  every element of the export process — from source verification and quality testing
-                  to documentation, logistics, and escrow-protected payment settlement.
-                </p>
-                <p>
-                  As Thailand's export licensing framework continues to mature, GGE is positioned
-                  at the forefront — actively pursuing full export licensure and maintaining
-                  relationships with the Thai FDA and relevant government bodies to ensure seamless,
-                  lawful cross-border trade.
-                </p>
-                <p>
-                  We believe that{" "}
-                  <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>
-                    access to medicinal cannabis
-                  </strong>{" "}
-                  should not be limited by geography. Our network connects compliant products with
-                  patients, researchers, and medical professionals across Europe, Australasia, and
-                  beyond.
-                </p>
+          {/* Subtle noise overlay */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-[0.02] mix-blend-overlay noise-overlay"
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 max-w-[1800px] mx-auto">
+            <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest-mid)] mb-8">
+              — Who We Are
+            </div>
+            <h1 className="font-serif text-[clamp(48px,10vw,140px)] leading-[0.85] tracking-tighter text-white/90 mb-12 max-w-4xl">
+              One partner.
+              <br />
+              Five verticals.
+              <br />
+              <em className="text-[var(--forest-mid)] not-italic">Global reach.</em>
+            </h1>
+            <p className="font-sans text-[15px] leading-relaxed text-white/50 max-w-lg">
+              Global Green Export is a Bangkok-based export house specialising in
+              regulated goods — from GACP-certified cannabis and hemp derivatives
+              to construction materials, appliances, and HVAC systems.
+              Escrow-protected. Fully documented. Compliance-first.
+            </p>
+          </div>
+        </section>
+
+        {/* ── STORY ── */}
+        <section
+          className="border-b border-[var(--rule)]"
+          aria-label="Our story"
+        >
+          <div className="grid lg:grid-cols-2">
+            <div className="px-6 md:px-12 py-20 md:py-32 border-r border-[var(--rule)]">
+              <div className="reveal">
+                <div className="flex items-center gap-4 mb-12">
+                  <span
+                    className="font-serif text-[clamp(60px,10vw,100px)] leading-none text-[var(--paper-3)]"
+                    aria-hidden="true"
+                  >
+                    01
+                  </span>
+                  <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] pt-4">
+                    — Our Story
+                  </div>
+                </div>
+                <h2 className="font-serif text-[clamp(28px,4vw,52px)] leading-[0.9] tracking-tighter text-[var(--ink)] mb-10">
+                  Built for complex supply chains.
+                </h2>
+                <div className="space-y-6 font-sans text-[14px] leading-relaxed text-[var(--ink-60)]">
+                  <p>
+                    Global Green Export was founded in Bangkok to solve a
+                    specific problem: regulated goods are hard to source
+                    correctly. Too many intermediaries, too little
+                    documentation, and too much uncertainty at the destination.
+                  </p>
+                  <p>
+                    We built GGE around five verticals where compliance is
+                    non-negotiable — cannabis and hemp for pharmaceutical
+                    markets, construction materials for development projects,
+                    appliances and HVAC equipment for commercial buyers.
+                  </p>
+                  <p>
+                    Each vertical operates under the same procurement model:
+                    direct supplier relationships, in-house documentation, and
+                    escrow-protected settlement. Whether you need a single
+                    shipment or an ongoing supply agreement, you deal with one
+                    account manager who owns the process from enquiry to
+                    delivery.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Right: commitment + stats */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              {/* Commitment card */}
-              <div
-                style={{
-                  background: "#0a0a0a",
-                  padding: "40px",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: "2px",
-                    background: "#1a3d1e",
-                  }}
-                />
-                <h3
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "1.5rem",
-                    fontWeight: 400,
-                    color: "#ffffff",
-                    marginBottom: "24px",
-                  }}
-                >
-                  Our Commitment
-                </h3>
-                <ul style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                  {commitments.map((item) => (
+            <div className="px-6 md:px-12 py-20 md:py-32 bg-[var(--paper-2)]">
+              <div className="reveal">
+                <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] mb-12">
+                  — How we operate
+                </div>
+                <ul className="space-y-6 mb-20">
+                  {HOW_WE_OPERATE.map((item, i) => (
                     <li
-                      key={item}
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        gap: "14px",
-                        fontSize: "0.85rem",
-                        color: "rgba(255,255,255,0.5)",
-                        fontWeight: 300,
-                        lineHeight: 1.6,
-                      }}
+                      key={i}
+                      className="flex items-start gap-4 font-sans text-[14px] text-[var(--ink-70)]"
                     >
                       <div
-                        style={{
-                          width: "18px",
-                          height: "18px",
-                          border: "1px solid rgba(58,128,66,0.4)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
-                          marginTop: "1px",
-                        }}
-                      >
-                        <CheckCircle size={10} style={{ color: "#3a8042" }} />
-                      </div>
+                        className="w-1.5 h-1.5 rounded-full bg-[var(--forest)] mt-1.5 shrink-0"
+                        aria-hidden="true"
+                      />
                       {item}
                     </li>
                   ))}
                 </ul>
-              </div>
-
-              {/* Compliance note */}
-              <div
-                style={{
-                  background: "#f5f5f5",
-                  borderLeft: "3px solid #1a3d1e",
-                  padding: "24px 28px",
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: "0.85rem",
-                    lineHeight: 1.75,
-                    color: "rgba(0,0,0,0.5)",
-                    fontWeight: 300,
-                  }}
-                >
-                  <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>Based in Thailand,</strong>{" "}
-                  we operate with deep knowledge of Thai cannabis regulation and have built direct
-                  relationships with licensed cultivators across the country — ensuring product
-                  authenticity, traceability, and consistent supply.
-                </p>
-              </div>
-
-              {/* Stat blocks */}
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(3, 1fr)",
-                  gap: "1px",
-                  background: "rgba(0,0,0,0.08)",
-                }}
-              >
-                {[
-                  { val: "30+", label: "Countries Reached" },
-                  { val: "100%", label: "GACP Certified" },
-                  { val: "2024", label: "Established" },
-                ].map((s) => (
+                <div className="flex items-center gap-4 pt-8 border-t border-[var(--rule)]">
                   <div
-                    key={s.label}
-                    style={{
-                      textAlign: "center",
-                      background: "#ffffff",
-                      padding: "28px 16px",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontFamily: "'Cormorant Garamond', serif",
-                        fontSize: "2rem",
-                        fontWeight: 400,
-                        color: "#0a0a0a",
-                        lineHeight: 1,
-                        marginBottom: "6px",
-                      }}
-                    >
-                      {s.val}
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "0.6rem",
-                        letterSpacing: "0.12em",
-                        textTransform: "uppercase",
-                        color: "rgba(0,0,0,0.35)",
-                        fontWeight: 400,
-                      }}
-                    >
-                      {s.label}
-                    </p>
-                  </div>
-                ))}
+                    className="w-2 h-2 rounded-full bg-[var(--forest)]"
+                    aria-hidden="true"
+                  />
+                  <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--ink-40)]">
+                    Bangkok · Thailand
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── CERTIFICATIONS ── */}
-      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div
-            style={{ display: "grid", gap: "40px", marginBottom: "56px" }}
-            className="lg:grid-cols-2"
-          >
-            <div>
-              <p style={TAG}>
-                <span style={LINE} />
-                Certifications &amp; Standards
-              </p>
-              <h2
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                  fontWeight: 400,
-                  color: "#0a0a0a",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.015em",
-                }}
-              >
-                Our quality <em style={{ color: "#1a3d1e" }}>framework</em>
+        {/* ── VERTICALS GRID ── */}
+        <section
+          className="bg-[var(--paper)] border-b border-[var(--rule)]"
+          aria-label="Our five sourcing verticals"
+        >
+          <div className="px-6 md:px-12 py-20 md:py-32">
+            <div className="reveal mb-16">
+              <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] mb-4">
+                — Our Five Verticals
+              </div>
+              <h2 className="font-serif text-[clamp(32px,5vw,64px)] leading-[0.9] tracking-tighter text-[var(--ink)]">
+                Five verticals.
+                <br />
+                One standard.
               </h2>
             </div>
-            <div style={{ display: "flex", alignItems: "flex-end" }}>
-              <p
-                style={{
-                  fontSize: "0.92rem",
-                  lineHeight: 1.8,
-                  color: "rgba(0,0,0,0.45)",
-                  fontWeight: 300,
-                }}
-              >
-                Every product that leaves our supply chain is backed by documentation,
-                certification, and third-party verification. We set a high bar — and hold every
-                grower partner to it.
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-px bg-[var(--rule)]">
+              {VERTICALS.map((v, i) => (
+                <VerticalCard key={v.name} vertical={v} index={i} />
+              ))}
             </div>
           </div>
+        </section>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "1px",
-              background: "rgba(0,0,0,0.08)",
-            }}
-          >
-            {certifications.map((c, i) => (
-              <div
-                key={c.label}
-                style={{ background: "#ffffff", padding: "40px 32px" }}
-              >
-                <p
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontStyle: "italic",
-                    fontSize: "1.2rem",
-                    color: "rgba(0,0,0,0.4)",
-                    marginBottom: "16px",
-                  }}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <div
-                  style={{
-                    width: "28px",
-                    height: "1px",
-                    background: "#0a0a0a",
-                    marginBottom: "20px",
-                  }}
-                />
-                <h3
-                  style={{
-                    fontSize: "0.92rem",
-                    fontWeight: 500,
-                    color: "#0a0a0a",
-                    marginBottom: "12px",
-                    letterSpacing: "0.01em",
-                  }}
-                >
-                  {c.label}
-                </h3>
-                <p
-                  style={{
-                    fontSize: "0.82rem",
-                    lineHeight: 1.8,
-                    color: "rgba(0,0,0,0.45)",
-                    fontWeight: 300,
-                  }}
-                >
-                  {c.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── VALUES ── */}
-      <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div style={{ maxWidth: "560px", marginBottom: "64px" }}>
-            <p style={TAG}>
-              <span style={LINE} />
-              Our Values
-            </p>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                fontWeight: 400,
-                color: "#0a0a0a",
-                lineHeight: 1.1,
-                letterSpacing: "-0.015em",
-              }}
-            >
-              The principles behind{" "}
-              <em style={{ color: "#1a3d1e" }}>Global Green Exports</em>
-            </h2>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: "1px",
-              background: "rgba(0,0,0,0.08)",
-            }}
-          >
-            {values.map((v) => {
-              const Icon = v.icon;
-              return (
-                <div
-                  key={v.title}
-                  style={{
-                    background: "#ffffff",
-                    padding: "40px 32px",
-                    borderTop: "2px solid #f5f5f5",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      border: "1px solid rgba(0,0,0,0.1)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Icon size={18} strokeWidth={1.2} color="#1a3d1e" />
-                  </div>
-                  <h3
-                    style={{
-                      fontSize: "0.92rem",
-                      fontWeight: 500,
-                      color: "#0a0a0a",
-                      marginBottom: "10px",
-                      letterSpacing: "0.01em",
-                    }}
-                  >
-                    {v.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "0.82rem",
-                      lineHeight: 1.75,
-                      color: "rgba(0,0,0,0.45)",
-                      fontWeight: 300,
-                    }}
-                  >
-                    {v.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA ── */}
-      <section
-        style={{
-          background: "#0a0a0a",
-          padding: "96px 0",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            maxWidth: "640px",
-            margin: "0 auto",
-            padding: "0 20px",
-            textAlign: "center",
-            position: "relative",
-            zIndex: 1,
-          }}
+        {/* ── CERTIFICATIONS ── */}
+        <section
+          className="bg-[var(--paper-2)] border-b border-[var(--rule)]"
+          aria-label="Certifications and compliance"
         >
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              fontWeight: 400,
-              color: "#ffffff",
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
-              marginBottom: "16px",
-            }}
-          >
-            Ready to work together?
-          </h2>
-          <p
-            style={{
-              fontSize: "0.92rem",
-              lineHeight: 1.85,
-              color: "rgba(255,255,255,0.32)",
-              fontWeight: 300,
-              marginBottom: "40px",
-            }}
-          >
-            Reach out to our team to discuss your sourcing needs and how Global
-            Green Exports can serve you.
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "10px",
-              background: "#ffffff",
-              color: "#0a0a0a",
-              padding: "16px 36px",
-              fontSize: "0.68rem",
-              fontWeight: 600,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-            }}
-          >
-            Contact Us
-            <ArrowRight size={12} />
-          </Link>
-        </div>
-      </section>
+          <div className="px-6 md:px-12 py-20 md:py-32">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-20 reveal">
+              <div className="flex items-end gap-8">
+                <span
+                  className="font-serif text-[clamp(60px,10vw,120px)] leading-[0.7] text-[var(--paper-3)] select-none"
+                  aria-hidden="true"
+                >
+                  02
+                </span>
+                <div className="pb-2">
+                  <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] mb-4">
+                    — Standards & Certifications
+                  </div>
+                  <h2 className="font-serif text-[clamp(28px,4vw,52px)] leading-[0.9] tracking-tighter text-[var(--ink)]">
+                    Compliance across
+                    <br />
+                    all verticals.
+                  </h2>
+                </div>
+              </div>
+              <p className="font-sans text-[13px] leading-relaxed text-[var(--ink-60)] max-w-[280px]">
+                Every product category has its own certification framework. We
+                manage them all in-house.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--rule)]">
+              {CERTS.map((c, i) => (
+                <CertCard key={c.n} cert={c} index={i} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA ── */}
+        <section
+          className="bg-[var(--ink)] px-6 md:px-12 py-24"
+          aria-label="Call to action"
+        >
+          <div className="max-w-[1800px] mx-auto flex flex-col md:flex-row items-center justify-between gap-12 reveal">
+            <h2 className="font-serif text-[clamp(32px,5vw,72px)] leading-[0.9] tracking-tighter text-white/90">
+              Ready to
+              <br />
+              <em className="text-[var(--forest-mid)] not-italic">source smarter?</em>
+            </h2>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/#contact"
+                onClick={(e) => smoothScroll(e, "/#contact")}
+                className="px-10 py-5 bg-[var(--forest)] text-[var(--paper)] font-mono text-[10px] tracking-widest uppercase hover:bg-white hover:text-[var(--ink)] transition-all duration-500 focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--ink)]"
+              >
+                Start an Enquiry
+              </Link>
+              <Link
+                href="/products"
+                className="px-10 py-5 border border-white/20 text-white/70 font-mono text-[10px] tracking-widest uppercase hover:bg-white/10 transition-colors focus-visible:ring-2 focus-visible:ring-white/50"
+              >
+                View Products
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+      <CookieConsent />
     </>
   );
 }

@@ -1,275 +1,91 @@
-import Link from "next/link";
-import { MapPin, Phone, Mail, ArrowUpRight } from "lucide-react";
+import Link from 'next/link'
+import Image from 'next/image'
 
-const col1 = [
-  { href: "/about", label: "About" },
-  { href: "/products", label: "Products" },
-  { href: "/wholesale", label: "Wholesale" },
-  { href: "/escrow", label: "Escrow" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/contact", label: "Contact" },
-];
+const verticals = ['Cannabis', 'Hemp Derivatives', 'Housing Materials', 'Appliances', 'HVAC Equipment']
+const framework = ['How We Operate', 'Compliance Framework', 'Export Markets', 'Fee-Based Sourcing', 'Start an Enquiry']
 
-const col2 = [
-  { href: "/products", label: "Whole Flower" },
-  { href: "/products", label: "Full-Spectrum Extracts" },
-  { href: "/products", label: "Cannabinoid Isolates" },
-  { href: "/products", label: "Hemp Products" },
-  { href: "/wholesale", label: "Bulk Wholesale" },
-  { href: "/escrow", label: "Trade Escrow" },
-];
+const ArrowIcon = () => (
+  <svg width="8" height="8" viewBox="0 0 10 10" fill="none" className="opacity-0 group-hover:opacity-100 transition-opacity">
+    <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.2" />
+  </svg>
+)
 
 export default function Footer() {
   return (
-    <footer
-      style={{
-        background: "#0a0a0a",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-      }}
-    >
-      {/* Top accent line — dark green */}
-      <div style={{ height: "2px", background: "#1a3d1e" }} />
-
-      <div
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "72px 40px 56px",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "48px",
-          }}
-        >
-          {/* Brand column */}
-          <div>
-            {/* Logo */}
-            <img
-              src="/logo1.png"
-              alt="Global Green Exports"
-              style={{ width: "120px", marginBottom: "20px", opacity: 0.85, filter: "invert(1)" }}
-            />
-
-            <p
-              style={{
-                fontSize: "0.8rem",
-                lineHeight: 1.8,
-                color: "rgba(255,255,255,0.5)",
-                fontWeight: 300,
-                maxWidth: "260px",
-              }}
-            >
-              Licensed Thai exporter of GACP-certified medicinal cannabis and
-              hemp products. Connecting compliant growers with global markets.
-            </p>
+    <footer className="bg-[var(--ink)] border-t border-white/5 pt-24 pb-12">
+      <div className="px-6 md:px-12 max-w-[1800px] mx-auto">
+        <div className="grid lg:grid-cols-12 gap-16 lg:gap-8 mb-24">
+          {/* Brand */}
+          <div className="lg:col-span-5 flex flex-col justify-between">
+            <div>
+              <div className="mb-10 w-[100px] h-auto">
+                <Image src="/logo1.png" alt="Global Green Exports" width={100} height={50} className="invert" />
+              </div>
+              <p className="font-sans text-[13px] leading-relaxed text-white/60 max-w-sm mb-12">
+                Specialist sourcing and export house focused on high-compliance Thai supply chains. Escrow-protected settlement protocols. Fully documented.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/5">
+              <div>
+                <span className="font-mono text-[9px] tracking-widest uppercase text-white/80 block mb-4">Corporate HQ</span>
+                <address className="font-mono text-[10px] leading-relaxed text-white/80 not-italic uppercase tracking-wider">
+                  7550 East 53rd Place<br />
+                  STE 17125, Denver, CO<br />
+                  80217, USA
+                </address>
+              </div>
+              <div>
+                <span className="font-mono text-[9px] tracking-widest uppercase text-white/80 block mb-4">Operations Hub</span>
+                <p className="font-mono text-[10px] leading-relaxed text-white/80 uppercase tracking-wider">
+                  Sukhumvit Road<br />
+                  Bangkok 10110<br />
+                  Thailand
+                </p>
+              </div>
+            </div>
           </div>
 
-          {/* Company links */}
-          <div>
-            <p
-              style={{
-                fontSize: "0.6rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.5)",
-                fontWeight: 500,
-                marginBottom: "20px",
-                paddingBottom: "12px",
-                borderBottom: "1px solid rgba(255,255,255,0.07)",
-              }}
-            >
-              Company
-            </p>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
-              {col1.map((l) => (
-                <li key={l.label}>
-                  <Link
-                    href={l.href}
-                    style={{
-                      fontSize: "0.82rem",
-                      color: "rgba(255,255,255,0.4)",
-                      fontWeight: 300,
-                      textDecoration: "none",
-                      transition: "color 0.2s",
-                    }}
-                  >
-                    {l.label}
+          {/* Verticals */}
+          <div className="lg:col-span-3 lg:col-start-7">
+            <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-white/80 block mb-8">— Verticals</span>
+            <ul className="space-y-4">
+              {verticals.map((v) => (
+                <li key={v}>
+                  <Link href="/products" className="group flex items-center justify-between font-sans text-xs text-white/80 hover:text-white transition-all duration-500">
+                    <span className="group-hover:tracking-widest transition-all duration-500">{v}</span>
+                    <ArrowIcon />
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Products & Services links */}
-          <div>
-            <p
-              style={{
-                fontSize: "0.6rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.5)",
-                fontWeight: 500,
-                marginBottom: "20px",
-                paddingBottom: "12px",
-                borderBottom: "1px solid rgba(255,255,255,0.07)",
-              }}
-            >
-              Products &amp; Services
-            </p>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
-              {col2.map((l) => (
-                <li key={l.label}>
-                  <Link
-                    href={l.href}
-                    style={{
-                      fontSize: "0.82rem",
-                      color: "rgba(255,255,255,0.4)",
-                      fontWeight: 300,
-                      textDecoration: "none",
-                      transition: "color 0.2s",
-                    }}
-                  >
-                    {l.label}
+          {/* Framework */}
+          <div className="lg:col-span-3">
+            <span className="font-mono text-[9px] tracking-[0.3em] uppercase text-white/80 block mb-8">— Framework</span>
+            <ul className="space-y-4">
+              {framework.map((f) => (
+                <li key={f}>
+                  <Link href="/#contact" className="group flex items-center justify-between font-sans text-xs text-white/80 hover:text-white transition-all duration-500">
+                    <span className="group-hover:tracking-widest transition-all duration-500">{f}</span>
+                    <ArrowIcon />
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <p
-              style={{
-                fontSize: "0.6rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.5)",
-                fontWeight: 500,
-                marginBottom: "20px",
-                paddingBottom: "12px",
-                borderBottom: "1px solid rgba(255,255,255,0.07)",
-              }}
-            >
-              Contact
-            </p>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "16px" }}>
-              <li style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-                <MapPin
-                  size={12}
-                  style={{ color: "#3a8042", marginTop: "3px", flexShrink: 0 }}
-                />
-                <span
-                  style={{
-                    fontSize: "0.82rem",
-                    color: "rgba(255,255,255,0.4)",
-                    fontWeight: 300,
-                    lineHeight: 1.6,
-                  }}
-                >
-                  Bangkok, Thailand
-                  <br />
-                  Export Operations
-                </span>
-              </li>
-              <li style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <Phone size={12} style={{ color: "#3a8042", flexShrink: 0 }} />
-                <a
-                  href="tel:+66000000000"
-                  style={{
-                    fontSize: "0.82rem",
-                    color: "rgba(255,255,255,0.4)",
-                    fontWeight: 300,
-                    textDecoration: "none",
-                  }}
-                >
-                  +66 (0) 00 000 0000
-                </a>
-              </li>
-              <li style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <Mail size={12} style={{ color: "#3a8042", flexShrink: 0 }} />
-                <a
-                  href="mailto:info@globalgreen.export"
-                  style={{
-                    fontSize: "0.82rem",
-                    color: "rgba(255,255,255,0.4)",
-                    fontWeight: 300,
-                    textDecoration: "none",
-                  }}
-                >
-                  info@globalgreen.export
-                </a>
-              </li>
-            </ul>
-
-            {/* Enquire CTA */}
-            <Link
-              href="/contact"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                marginTop: "28px",
-                padding: "10px 18px",
-                background: "#ffffff",
-                color: "#0a0a0a",
-                fontSize: "0.62rem",
-                fontWeight: 600,
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-              }}
-            >
-              Start an Enquiry
-              <ArrowUpRight size={10} />
-            </Link>
           </div>
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.5)", padding: "20px 0" }}>
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "0 20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "10px",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "0.7rem",
-              color: "rgba(255,255,255,0.45)",
-              fontWeight: 300,
-            }}
-          >
-            © {new Date().getFullYear()} Global Green Exports. All rights reserved.
+        {/* Bottom bar */}
+        <div className="pt-8 border-t border-white/5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <span className="font-mono text-[9px] tracking-widest text-white/80 uppercase">
+            © {new Date().getFullYear()} Global Green Exports LLC
+          </span>
+          <p className="font-mono text-[9px] leading-relaxed text-white/50 uppercase tracking-[0.05em] max-w-lg lg:text-right">
+            Global compliance notice: Cannabis and hemp transactions require valid import authorization in the destination jurisdiction. Subject to local regulations.
           </p>
-          <div style={{ display: "flex", gap: "24px" }}>
-            {["Privacy Policy", "Terms", "Legal Notice"].map((t) => (
-              <Link
-                key={t}
-                href="/contact"
-                style={{
-                  fontSize: "0.68rem",
-                  color: "rgba(255,255,255,0.45)",
-                  fontWeight: 300,
-                  textDecoration: "none",
-                }}
-              >
-                {t}
-              </Link>
-            ))}
-          </div>
         </div>
       </div>
     </footer>
-  );
+  )
 }

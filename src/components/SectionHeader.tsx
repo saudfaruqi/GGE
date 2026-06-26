@@ -1,95 +1,31 @@
 interface SectionHeaderProps {
-  tag: string;
-  title: string;
-  titleHighlight?: string;
-  lead?: string;
-  center?: boolean;
-  dark?: boolean;
+  number: string
+  eyebrow: string
+  title: React.ReactNode
+  description?: string
 }
 
-export default function SectionHeader({
-  tag,
-  title,
-  titleHighlight,
-  lead,
-  center = false,
-  dark = false,
-}: SectionHeaderProps) {
+export default function SectionHeader({ number, eyebrow, title, description }: SectionHeaderProps) {
   return (
-    <div
-      style={{
-        marginBottom: "56px",
-        textAlign: center ? "center" : "left",
-      }}
-    >
-      {/* Tag with line accent */}
-      <p
-        style={{
-          fontSize: "0.65rem",
-          letterSpacing: "0.22em",
-          textTransform: "uppercase",
-          color: "#3a8042",
-          fontWeight: 500,
-          marginBottom: "16px",
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          justifyContent: center ? "center" : "flex-start",
-        }}
-      >
-        <span
-          style={{
-            width: "28px",
-            height: "1px",
-            background: "#3a8042",
-            display: "inline-block",
-            flexShrink: 0,
-          }}
-        />
-        {tag}
-      </p>
-
-      {/* Heading */}
-      <h2
-        style={{
-          fontFamily: "'Cormorant Garamond', serif",
-          fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-          fontWeight: 400,
-          lineHeight: 1.1,
-          letterSpacing: "-0.015em",
-          color: dark ? "#ffffff" : "#0a0a0a",
-          maxWidth: center ? "700px" : undefined,
-          margin: center ? "0 auto 16px" : "0 0 16px",
-        }}
-      >
-        {title}{" "}
-        {titleHighlight && (
-          <em
-            style={{
-              fontStyle: "italic",
-              color: dark ? "rgba(255,255,255,0.35)" : "#1a3d1e",
-            }}
-          >
-            {titleHighlight}
-          </em>
-        )}
-      </h2>
-
-      {/* Lead text */}
-      {lead && (
-        <p
-          style={{
-            fontSize: "0.95rem",
-            fontWeight: 300,
-            lineHeight: 1.85,
-            color: dark ? "rgba(255,255,255,0.38)" : "rgba(0,0,0,0.45)",
-            maxWidth: "620px",
-            margin: center ? "0 auto" : undefined,
-          }}
-        >
-          {lead}
+    <div className="px-6 md:px-12 py-20 md:py-32 flex flex-col md:flex-row md:items-end justify-between gap-12 reveal">
+      <div className="flex items-end gap-8">
+        <span className="font-serif text-[clamp(80px,15vw,180px)] leading-[0.7] text-[var(--paper-3)] select-none">
+          {number}
+        </span>
+        <div className="pb-2">
+          <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] mb-4">
+            — {eyebrow}
+          </div>
+          <h2 className="font-serif text-[clamp(32px,5vw,64px)] leading-[0.9] tracking-tighter text-[var(--ink)]">
+            {title}
+          </h2>
+        </div>
+      </div>
+      {description && (
+        <p className="font-sans text-[13px] leading-relaxed text-[var(--ink-60)] max-w-[280px]">
+          {description}
         </p>
       )}
     </div>
-  );
+  )
 }

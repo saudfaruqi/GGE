@@ -1,582 +1,478 @@
-// app/escrow/page.tsx — Global Green Exports · Escrow Services
+"use client";
 
-import type { Metadata } from "next";
-import { Shield, Lock, CheckCircle, ArrowRight, FileText, Banknote, Truck, Globe } from "lucide-react";
+import { useEffect, useCallback, memo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-export const metadata: Metadata = {
-  title: "Escrow Services",
-  description:
-    "Global Green Exports offers secure escrow-protected trade for international medicinal cannabis transactions — protecting both buyers and sellers.",
+// ============================================================
+// 1. TYPES
+// ============================================================
+
+type Protection = {
+  readonly n: string;
+  readonly title: string;
+  readonly desc: string;
 };
 
-const steps = [
-  {
-    num: "01",
-    icon: FileText,
-    title: "Agreement Established",
-    desc: "Buyer and seller agree on product specifications, quantity, pricing, and delivery terms. GGE documents all conditions in a binding escrow agreement.",
-  },
-  {
-    num: "02",
-    icon: Banknote,
-    title: "Funds Deposited",
-    desc: "Buyer deposits payment into the GGE escrow account. Funds are held securely — inaccessible to the seller until all conditions are verified.",
-  },
-  {
-    num: "03",
-    icon: Shield,
-    title: "Product Verified & Shipped",
-    desc: "GGE verifies GACP certification, CoA documentation, and product quality before shipment is authorised. Logistics are coordinated end-to-end.",
-  },
-  {
-    num: "04",
-    icon: CheckCircle,
-    title: "Delivery Confirmed",
-    desc: "Upon confirmed delivery and buyer acceptance, GGE releases funds to the seller. All parties are fully protected throughout the process.",
-  },
-];
+type WorkflowStep = {
+  readonly n: string;
+  readonly title: string;
+  readonly desc: string;
+};
 
-const protections = [
+// ============================================================
+// 2. HOOKS
+// ============================================================
+
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll(
+      ".reveal, .reveal-left, .reveal-right"
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
+
+function useSmoothScroll() {
+  return useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      const navHeight = 80;
+      const top =
+        target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+      window.scrollTo({ top, behavior: "smooth" });
+      window.history.pushState(null, "", href);
+    }
+  }, []);
+}
+
+// ============================================================
+// 3. DATA
+// ============================================================
+
+const PROTECTIONS = [
   {
+    n: "01",
     title: "Buyer Protection",
     desc: "Funds are never released until product is verified and delivered to specification.",
   },
   {
+    n: "02",
     title: "Seller Protection",
     desc: "Guaranteed payment upon successful, compliant delivery — no chargeback risk.",
   },
   {
+    n: "03",
     title: "Documentation Control",
-    desc: "GGE manages all export documents, CoA, and compliance paperwork on behalf of both parties.",
+    desc: "GGE manages all export documents, CoA, and compliance paperwork for both parties.",
   },
   {
+    n: "04",
     title: "Cross-Border Compliance",
     desc: "We verify destination country import requirements before any transaction is authorised.",
   },
   {
+    n: "05",
     title: "Dispute Resolution",
     desc: "Neutral third-party dispute resolution process if any condition of trade is contested.",
   },
   {
+    n: "06",
     title: "Secure Fund Holding",
     desc: "Escrow funds are held in dedicated, segregated accounts throughout the transaction lifecycle.",
   },
-];
+] as const;
 
-const TAG: React.CSSProperties = {
-  fontSize: "0.65rem",
-  letterSpacing: "0.22em",
-  textTransform: "uppercase",
-  color: "#3a8042",
-  fontWeight: 500,
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  marginBottom: "16px",
-};
-const LINE: React.CSSProperties = {
-  width: "28px",
-  height: "1px",
-  background: "#3a8042",
-  display: "inline-block",
-  flexShrink: 0,
-};
+const WORKFLOW_STEPS = [
+  {
+    n: "01",
+    title: "Agreement Established",
+    desc: "Buyer and seller agree on specs, quantity, and pricing. GGE documents conditions in a binding agreement.",
+  },
+  {
+    n: "02",
+    title: "Funds Deposited",
+    desc: "Buyer deposits payment into the GGE escrow account. Funds are held securely and are inaccessible to the seller.",
+  },
+  {
+    n: "03",
+    title: "Product Verified",
+    desc: "GGE verifies GACP certification and CoA documentation before shipment is authorised and logistics coordinated.",
+  },
+  {
+    n: "04",
+    title: "Delivery & Release",
+    desc: "Upon confirmed delivery and buyer sign-off, escrow funds are released to the seller. Documentation is archived.",
+  },
+] as const;
+
+// ============================================================
+// 4. COMPONENTS
+// ============================================================
+
+
+
+// ---- 4.2 PROTECTION CARD ----
+const ProtectionCard = memo(function ProtectionCard({
+  protection,
+  index,
+}: {
+  protection: (typeof PROTECTIONS)[number];
+  index: number;
+}) {
+  return (
+    <div
+      className="bg-[var(--paper-2)] px-8 py-12 reveal"
+      style={{ transitionDelay: `${index * 80}ms` }}
+    >
+      <div className="font-mono text-[11px] tracking-widest text-[var(--ink-20)] mb-6">
+        {protection.n}
+      </div>
+      <h3 className="font-sans font-bold text-[15px] tracking-tight text-[var(--ink)] mb-4">
+        {protection.title}
+      </h3>
+      <p className="font-sans text-[13px] leading-relaxed text-[var(--ink-60)]">
+        {protection.desc}
+      </p>
+    </div>
+  );
+});
+ProtectionCard.displayName = "ProtectionCard";
+
+// ---- 4.3 WORKFLOW STEP ----
+const WorkflowStep = memo(function WorkflowStep({
+  step,
+  index,
+}: {
+  step: (typeof WORKFLOW_STEPS)[number];
+  index: number;
+}) {
+  return (
+    <div
+      className="bg-[var(--paper)] px-8 py-12 relative reveal"
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="font-mono text-[11px] tracking-widest text-[var(--ink-20)] mb-6">
+        {step.n}
+      </div>
+      <div className="w-8 h-8 rounded-full border border-[var(--forest)] flex items-center justify-center mb-8">
+        <div className="w-2 h-2 rounded-full bg-[var(--forest)]" />
+      </div>
+      <h3 className="font-sans font-bold text-[15px] tracking-tight text-[var(--ink)] mb-4">
+        {step.title}
+      </h3>
+      <p className="font-sans text-[13px] leading-relaxed text-[var(--ink-60)]">
+        {step.desc}
+      </p>
+    </div>
+  );
+});
+WorkflowStep.displayName = "WorkflowStep";
+
+// ---- 4.4 SCROLL TO TOP ----
+function ScrollToTop() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      setIsVisible(window.pageYOffset > 500);
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  if (!isVisible) return null;
+
+  return (
+    <button
+      onClick={scrollToTop}
+      aria-label="Scroll to top"
+      className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-[var(--forest)] text-white rounded-full shadow-lg hover:bg-[var(--forest-mid)] transition-all duration-300 flex items-center justify-center border border-white/10 focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2"
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 19V5M5 12l7-7 7 7" />
+      </svg>
+    </button>
+  );
+}
+
+// ---- 4.5 COOKIE CONSENT ----
+function CookieConsent() {
+  const [accepted, setAccepted] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem("cookie-consent");
+    if (consent === "accepted") setAccepted(true);
+  }, []);
+
+  const handleAccept = useCallback(() => {
+    localStorage.setItem("cookie-consent", "accepted");
+    setAccepted(true);
+  }, []);
+
+  if (accepted) return null;
+
+  return (
+    <div
+      role="dialog"
+      aria-label="Cookie consent"
+      className="fixed bottom-0 left-0 right-0 z-[9998] bg-[var(--ink)] border-t border-white/10 p-4 md:p-6"
+    >
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <p className="font-sans text-[12px] text-white/70 leading-relaxed max-w-2xl">
+          We use cookies to enhance your experience. By continuing to visit this
+          site you agree to our use of cookies.
+        </p>
+        <div className="flex gap-4 flex-shrink-0">
+          <button
+            onClick={handleAccept}
+            className="px-6 py-2 bg-[var(--forest)] text-white font-mono text-[10px] tracking-widest uppercase hover:bg-[var(--forest-mid)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2"
+          >
+            Accept
+          </button>
+          <Link
+            href="/privacy"
+            className="px-6 py-2 border border-white/20 text-white/60 font-mono text-[10px] tracking-widest uppercase hover:bg-white/5 transition-colors focus-visible:ring-2 focus-visible:ring-white/50"
+          >
+            Learn More
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// 5. MAIN PAGE
+// ============================================================
 
 export default function EscrowPage() {
+  useReveal();
+  const smoothScroll = useSmoothScroll();
+
+  // Structured data
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Escrow-Protected Trade Services",
+    description:
+      "Neutral escrow services for cross-border medicinal cannabis and hemp transactions. Protecting buyers and sellers through verified, secure fund holding.",
+    provider: {
+      "@type": "Organization",
+      name: "Global Green Exports",
+    },
+    serviceType: "Escrow Services",
+    areaServed: "Global",
+    termsOfService: "https://globalgreenexports.com/terms",
+  };
+
   return (
     <>
-      {/* ── HERO ── */}
-      <section
-        style={{
-          background: "#0a0a0a",
-          minHeight: "58vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          position: "relative",
-          overflow: "hidden",
-          paddingTop: "160px",
-          paddingBottom: "80px",
-        }}
-      >
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: "50%",
-            width: "1px",
-            height: "120px",
-            background: "linear-gradient(to bottom, rgba(58,128,66,0.4), transparent)",
-          }}
-        />
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            top: "-20%",
-            right: "-10%",
-            width: "50vw",
-            height: "50vw",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(13,31,15,0.5) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }}
+      
+      <Navbar />
+
+      <main id="main-content" tabIndex={-1}>
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
 
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "0 20px",
-            width: "100%",
-            position: "relative",
-            zIndex: 1,
-            textAlign: "center",
-          }}
+        {/* ── HERO ── */}
+        <section
+          className="bg-[var(--ink)] px-6 md:px-12 py-32 md:py-48 relative overflow-hidden"
+          aria-label="Escrow services hero"
         >
           <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "10px",
-              border: "1px solid rgba(58,128,66,0.3)",
-              padding: "6px 16px 6px 10px",
-              marginBottom: "32px",
-            }}
+            className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+            aria-hidden="true"
           >
-            <Shield size={11} style={{ color: "#3a8042" }} />
             <span
-              style={{
-                fontSize: "0.62rem",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "#3a8042",
-                fontWeight: 500,
-              }}
+              className="font-serif text-[15vw] leading-none text-transparent"
+              style={{ WebkitTextStroke: "1px rgba(247,244,238,0.04)" }}
             >
-              Secure Trade Services
+              Escrow
             </span>
           </div>
 
-          <h1
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(3rem, 6vw, 5rem)",
-              fontWeight: 400,
-              color: "#ffffff",
-              lineHeight: 1.05,
-              letterSpacing: "-0.025em",
-              marginBottom: "24px",
-            }}
-          >
-            Escrow-Protected{" "}
-            <em style={{ color: "rgba(255,255,255,0.35)" }}>Cannabis Trade</em>
-          </h1>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              lineHeight: 1.85,
-              color: "rgba(255,255,255,0.38)",
-              fontWeight: 300,
-              maxWidth: "580px",
-              margin: "0 auto",
-            }}
-          >
-            International cannabis trade carries inherent risk. Our escrow service eliminates that
-            risk — protecting buyers and sellers with a verified, neutral holding and release
-            mechanism.
-          </p>
-        </div>
-      </section>
+          {/* Subtle noise overlay */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-[0.02] mix-blend-overlay noise-overlay"
+            aria-hidden="true"
+          />
 
-      <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
+          <div className="relative z-10 max-w-[1800px] mx-auto">
+            <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest-mid)] mb-8">
+              — Escrow-Protected Trade
+            </div>
+            <h1 className="font-serif text-[clamp(48px,9vw,120px)] leading-[0.85] tracking-tighter text-white/90 mb-12 max-w-4xl">
+              Eliminating risk
+              <br />
+              from
+              <br />
+              <em className="text-[var(--forest-mid)] not-italic">
+                cross-border trade.
+              </em>
+            </h1>
+            <p className="font-sans text-[14px] leading-relaxed text-white/50 max-w-lg">
+              International cannabis trade carries inherent capital risk. Our
+              escrow service eliminates uncertainty — protecting buyers and
+              sellers through a verified, neutral holding mechanism.
+            </p>
+          </div>
+        </section>
 
-      {/* ── WHY ESCROW ── */}
-      <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div style={{ display: "grid", gap: "80px" }} className="lg:grid-cols-[1fr_1fr]">
-
-            {/* Left: explanation */}
-            <div>
-              <p style={TAG}>
-                <span style={LINE} />
-                What We Offer
-              </p>
-              <h2
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                  fontWeight: 400,
-                  color: "#0a0a0a",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.015em",
-                  marginBottom: "28px",
-                }}
-              >
-                Why escrow matters in{" "}
-                <em style={{ color: "#1a3d1e" }}>cannabis export</em>
-              </h2>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "18px",
-                  fontSize: "0.9rem",
-                  lineHeight: 1.85,
-                  color: "rgba(0,0,0,0.45)",
-                  fontWeight: 300,
-                  marginBottom: "32px",
-                }}
-              >
-                <p>
-                  Cross-border medicinal cannabis transactions involve significant capital, complex
-                  documentation, and strict regulatory requirements. Traditional payment terms
-                  expose both parties to risk — buyers risk non-delivery or substandard product,
-                  while sellers risk non-payment.
-                </p>
-                <p>
-                  <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>
-                    Global Green Exports acts as a trusted neutral intermediary.
-                  </strong>{" "}
-                  We hold buyer funds securely while independently verifying that all product,
-                  documentation, and compliance conditions are met before authorising shipment and
-                  releasing payment.
-                </p>
-                <p>
-                  Our escrow service is particularly valuable for first-time trade relationships,
-                  large-volume transactions, and buyers sourcing from Thailand for the first time —
-                  where building trust is essential.
-                </p>
-              </div>
-
-              {/* Neutral intermediary note */}
-              <div
-                style={{
-                  background: "#f5f5f5",
-                  borderLeft: "3px solid #1a3d1e",
-                  padding: "24px 28px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "12px",
-                    marginBottom: "12px",
-                  }}
-                >
-                  <Lock size={14} strokeWidth={1.5} style={{ color: "#1a3d1e" }} />
-                  <span style={{ fontSize: "0.82rem", fontWeight: 500, color: "#0a0a0a" }}>
-                    Fully Neutral &amp; Transparent
+        {/* ── SECURITY LOGIC ── */}
+        <section
+          className="border-b border-[var(--rule)]"
+          aria-label="Security logic"
+        >
+          <div className="grid lg:grid-cols-2">
+            <div className="px-6 md:px-12 py-20 md:py-32 border-r border-[var(--rule)]">
+              <div className="reveal">
+                <div className="flex items-center gap-4 mb-12">
+                  <span
+                    className="font-serif text-[clamp(60px,10vw,100px)] leading-none text-[var(--paper-3)]"
+                    aria-hidden="true"
+                  >
+                    01
                   </span>
+                  <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] pt-4">
+                    — Security Logic
+                  </div>
                 </div>
-                <p style={{ fontSize: "0.82rem", lineHeight: 1.75, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
-                  GGE has no financial interest in either party beyond our service fee. Our role is
-                  strictly to verify, hold, and release — ensuring fair outcomes for all
-                  participants.
-                </p>
+                <h2 className="font-serif text-[clamp(28px,4vw,52px)] leading-[0.9] tracking-tighter text-[var(--ink)] mb-10">
+                  The case for neutral holding.
+                </h2>
+                <div className="space-y-6 font-sans text-[14px] leading-relaxed text-[var(--ink-60)]">
+                  <p>
+                    Cross-border medicinal cannabis transactions involve
+                    significant capital and strict regulatory hurdles.
+                    Traditional payment terms often leave one party vulnerable:
+                    buyers risk non-delivery, while sellers risk non-payment
+                    after export.
+                  </p>
+                  <p>
+                    GGE acts as a trusted intermediary. We hold buyer funds
+                    securely while independently verifying that all GACP
+                    certifications, CoAs, and export documents are in order
+                    before releasing payment.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Right: protection grid */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "1px",
-                background: "rgba(0,0,0,0.07)",
-                alignContent: "start",
-              }}
-            >
-              {protections.map((p, i) => (
-                <div
-                  key={p.title}
-                  style={{
-                    background: "#ffffff",
-                    padding: "28px",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontFamily: "'Cormorant Garamond', serif",
-                      fontStyle: "italic",
-                      fontSize: "0.7rem",
-                      color: "rgba(0,0,0,0.15)",
-                      marginBottom: "12px",
-                    }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </p>
-                  <h4
-                    style={{
-                      fontSize: "0.88rem",
-                      fontWeight: 500,
-                      color: "#0a0a0a",
-                      marginBottom: "8px",
-                      letterSpacing: "0.01em",
-                    }}
-                  >
-                    {p.title}
-                  </h4>
-                  <p
-                    style={{
-                      fontSize: "0.78rem",
-                      lineHeight: 1.7,
-                      color: "rgba(0,0,0,0.42)",
-                      fontWeight: 300,
-                    }}
-                  >
-                    {p.desc}
-                  </p>
+            <div className="px-6 md:px-12 py-20 md:py-32 bg-[var(--ink)]">
+              <div className="reveal">
+                <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-white/20 mb-8">
+                  — Institutional Neutrality
                 </div>
+                <blockquote className="font-serif italic text-[clamp(22px,3vw,36px)] leading-tight text-white/80 border-l-2 border-[var(--forest)] pl-8">
+                  &quot;GGE has no financial interest in either party. Our role
+                  is strictly to verify, hold, and release — ensuring fair
+                  outcomes for every participant.&quot;
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── 6 PROTECTIONS ── */}
+        <section
+          className="bg-[var(--paper-2)] border-b border-[var(--rule)]"
+          aria-label="Risk mitigation protections"
+        >
+          <div className="px-6 md:px-12 py-20 md:py-32">
+            <div className="reveal mb-16">
+              <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] mb-4">
+                — 02 Risk Mitigation
+              </div>
+              <h2 className="font-serif text-[clamp(32px,5vw,64px)] leading-[0.9] tracking-tighter text-[var(--ink)]">
+                Six layers of protection.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--rule)]">
+              {PROTECTIONS.map((p, i) => (
+                <ProtectionCard key={p.n} protection={p} index={i} />
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── PROCESS STEPS ── */}
-      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div style={{ textAlign: "center", maxWidth: "560px", margin: "0 auto 64px" }}>
-            <p style={{ ...TAG, justifyContent: "center" }}>
-              How It Works
-            </p>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                fontWeight: 400,
-                color: "#0a0a0a",
-                lineHeight: 1.1,
-                letterSpacing: "-0.015em",
-                marginBottom: "12px",
-              }}
-            >
-              The escrow <em style={{ color: "#1a3d1e" }}>process</em>
-            </h2>
-            <p style={{ fontSize: "0.88rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
-              A transparent, step-by-step process that protects every party from agreement to
-              final delivery.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "1px",
-              background: "rgba(0,0,0,0.07)",
-            }}
-          >
-            {steps.map((step) => {
-              const Icon = step.icon;
-              return (
-                <div
-                  key={step.num}
-                  style={{
-                    background: "#ffffff",
-                    padding: "40px 32px",
-                    position: "relative",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: "2px",
-                      background: "#0a0a0a",
-                    }}
-                  />
-                  <p
-                    style={{
-                      fontFamily: "'Cormorant Garamond', serif",
-                      fontSize: "3.5rem",
-                      fontWeight: 400,
-                      color: "rgba(0,0,0,0.05)",
-                      lineHeight: 1,
-                      marginBottom: "16px",
-                    }}
-                  >
-                    {step.num}
-                  </p>
-                  <div
-                    style={{
-                      width: "38px",
-                      height: "38px",
-                      border: "1px solid rgba(0,0,0,0.1)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <Icon size={16} strokeWidth={1.2} color="#1a3d1e" />
-                  </div>
-                  <h3
-                    style={{
-                      fontSize: "0.92rem",
-                      fontWeight: 500,
-                      color: "#0a0a0a",
-                      marginBottom: "10px",
-                      letterSpacing: "0.01em",
-                    }}
-                  >
-                    {step.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "0.82rem",
-                      lineHeight: 1.78,
-                      color: "rgba(0,0,0,0.45)",
-                      fontWeight: 300,
-                    }}
-                  >
-                    {step.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CTA ── */}
-      <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div
-            style={{
-              background: "#0a0a0a",
-              padding: "64px 56px",
-              position: "relative",
-              overflow: "hidden",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "48px",
-              flexWrap: "wrap",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: "2px",
-                background: "#1a3d1e",
-              }}
-            />
-            <span
-              aria-hidden
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "9rem",
-                fontWeight: 400,
-                color: "rgba(255,255,255,0.025)",
-                position: "absolute",
-                bottom: "-20px",
-                right: "20px",
-                lineHeight: 1,
-                userSelect: "none",
-              }}
-            >
-              ESCROW
-            </span>
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <h2
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
-                  fontWeight: 400,
-                  color: "#ffffff",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.015em",
-                  marginBottom: "14px",
-                }}
-              >
-                Ready to trade with confidence?
+        {/* ── WORKFLOW ── */}
+        <section
+          className="bg-[var(--paper)] border-b border-[var(--rule)]"
+          aria-label="Escrow workflow"
+        >
+          <div className="px-6 md:px-12 py-20 md:py-32">
+            <div className="reveal mb-16">
+              <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] mb-4">
+                — 03 Workflow
+              </div>
+              <h2 className="font-serif text-[clamp(32px,5vw,64px)] leading-[0.9] tracking-tighter text-[var(--ink)]">
+                The escrow process.
               </h2>
-              <p
-                style={{
-                  fontSize: "0.88rem",
-                  lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.35)",
-                  fontWeight: 300,
-                  maxWidth: "520px",
-                }}
-              >
-                Contact our team to discuss your transaction, receive our escrow fee structure,
-                and begin the verification process. We support one-off transactions and ongoing
-                supply agreements.
-              </p>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "12px",
-                position: "relative",
-                zIndex: 1,
-                flexShrink: 0,
-              }}
-            >
-              <Link
-                href="/contact"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  background: "#ffffff",
-                  color: "#0a0a0a",
-                  padding: "15px 28px",
-                  fontSize: "0.68rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                }}
-              >
-                Enquire About Escrow
-                <ArrowRight size={12} />
-              </Link>
-              <Link
-                href="/wholesale"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "15px 28px",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  color: "rgba(255,255,255,0.5)",
-                  fontSize: "0.68rem",
-                  fontWeight: 400,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                }}
-              >
-                View Wholesale Options
-              </Link>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-[var(--rule)]">
+              {WORKFLOW_STEPS.map((step, i) => (
+                <WorkflowStep key={step.n} step={step} index={i} />
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* ── CTA ── */}
+        <section
+          className="bg-[var(--ink)] px-6 md:px-12 py-24"
+          aria-label="Call to action"
+        >
+          <div className="max-w-[1800px] mx-auto flex flex-col md:flex-row items-center justify-between gap-12 reveal">
+            <h2 className="font-serif text-[clamp(32px,5vw,72px)] leading-[0.9] tracking-tighter text-white/90">
+              Trade with
+              <br />
+              <em className="text-[var(--forest-mid)] not-italic">
+                confidence.
+              </em>
+            </h2>
+            <Link
+              href="/#contact"
+              onClick={(e) => smoothScroll(e, "/#contact")}
+              className="px-12 py-6 bg-[var(--forest)] text-[var(--paper)] font-mono text-[10px] tracking-widest uppercase hover:bg-white hover:text-[var(--ink)] transition-all duration-500 focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--ink)]"
+            >
+              Start an Escrow-Protected Trade
+            </Link>
+          </div>
+        </section>
+      </main>
+      <ScrollToTop />
+      <CookieConsent />
     </>
   );
 }

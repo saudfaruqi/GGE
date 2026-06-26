@@ -1,685 +1,549 @@
-// app/products/page.tsx — Global Green Exports · Products
+"use client";
 
-import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
+import { useEffect, useCallback, memo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-export const metadata: Metadata = {
-  title: "Products",
-  description:
-    "Browse Global Green Exports' full range of GACP-certified medicinal cannabis flower, extracts, isolates, terpenes, and hemp products.",
+// ============================================================
+// 1. TYPES
+// ============================================================
+
+type ProductLine = {
+  readonly n: string;
+  readonly category: string;
+  readonly name: string;
+  readonly desc: string;
+  readonly packaging: string;
+  readonly tags: readonly string[];
 };
 
-const cannabinoids = [
-  { name: "CBD (Cannabidiol)", use: "Therapeutic, anti-inflammatory, anxiety", purity: "99%" },
-  { name: "THC (Tetrahydrocannabinol)", use: "Pain management, appetite, sleep", purity: "95%+" },
-  { name: "CBG (Cannabigerol)", use: "Neuroprotective, antibacterial", purity: "98%" },
-  { name: "CBN (Cannabinol)", use: "Sleep disorders, sedation", purity: "97%" },
-  { name: "CBC (Cannabichromene)", use: "Anti-inflammatory, antidepressant", purity: "96%" },
-  { name: "CBDV (Cannabidivarin)", use: "Neurological conditions, epilepsy", purity: "95%" },
-  { name: "THCV (Tetrahydrocannabivarin)", use: "Appetite suppression, diabetes", purity: "95%" },
-  { name: "THCA (Tetrahydrocannabinolic Acid)", use: "Raw cannabis therapy, anti-nausea", purity: "94%" },
-];
+type Isolate = {
+  readonly compound: string;
+  readonly name: string;
+  readonly uses: string;
+  readonly purity: string;
+  readonly bar: number;
+};
 
-const strains = [
-  { name: "Blue Dream", type: "Hybrid", notes: "Balanced cerebral stimulation & body relaxation" },
-  { name: "Sour Diesel", type: "Sativa", notes: "Energizing, creativity-enhancing, fast-acting" },
-  { name: "Jack Herer", type: "Sativa", notes: "Award-winning focus & clarity strain" },
-  { name: "OG Kush", type: "Hybrid", notes: "Potent, classic effects with earthy profile" },
-  { name: "Northern Lights", type: "Indica", notes: "Deep relaxation, sleep induction" },
-  { name: "Haze", type: "Sativa", notes: "Pure sativa energy, uplifting daytime use" },
-  { name: "White Widow", type: "Hybrid", notes: "Versatile balanced effects, aromatic" },
-  { name: "Gorilla Glue #4", type: "Hybrid", notes: "Heavy-handed euphoria, high potency" },
-];
+// ============================================================
+// 2. HOOKS
+// ============================================================
 
-const terpenes = [
-  { name: "Myrcene", effect: "Relaxation, sleep", purity: "99%" },
-  { name: "Limonene", effect: "Mood elevation, stress relief", purity: "99%" },
-  { name: "Pinene", effect: "Alertness, memory retention", purity: "98%" },
-  { name: "Linalool", effect: "Anti-anxiety, calming", purity: "98%" },
-  { name: "Caryophyllene", effect: "Anti-inflammatory, analgesic", purity: "97%" },
-  { name: "Terpinolene", effect: "Uplifting, antioxidant", purity: "97%" },
-  { name: "Humulene", effect: "Appetite suppressant, anti-bacterial", purity: "96%" },
-];
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll(
+      ".reveal, .reveal-left, .reveal-right"
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
 
-const categories = [
+function useSmoothScroll() {
+  return useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      const navHeight = 80;
+      const top =
+        target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+      window.scrollTo({ top, behavior: "smooth" });
+      window.history.pushState(null, "", href);
+    }
+  }, []);
+}
+
+// ============================================================
+// 3. DATA
+// ============================================================
+
+const PRODUCT_LINES = [
   {
-    num: "01",
-    title: "Premium Whole Flower",
-    desc: "GACP-certified whole flower cannabis from Thailand's finest licensed indoor and greenhouse cultivators. Available in multiple strains with detailed cannabinoid and terpene profiles.",
-    detail: "Available in 5g, 100g, 500g, and 1kg units. Vacuum-sealed, nitrogen-flushed packaging.",
-    tags: ["Indoor", "Greenhouse", "Sun-Grown", "Multiple Strains"],
+    n: "01",
+    category: "Medical",
+    name: "Premium Whole Flower",
+    desc: "GACP-certified whole flower cannabis from Thailand's finest licensed indoor and greenhouse cultivators. Consistent terpene profiles and cannabinoid ratios across every batch.",
+    packaging:
+      "Available in 5g to 1kg units. Nitrogen-flushed, vacuum-sealed packaging. Full CoA included.",
+    tags: ["Indoor", "Greenhouse", "Multiple Strains"],
   },
   {
-    num: "02",
-    title: "Extracts & Distillates",
-    desc: "High-quality full-spectrum, broad-spectrum, and isolated extracts. Our extraction processes preserve the complete cannabinoid and terpene profile at 80–99% purity levels.",
-    detail: "Available as distillate, crude, or winterised oil. Custom formulation on request.",
-    tags: ["Full-Spectrum", "Broad-Spectrum", "Isolate", "80–99% Purity"],
+    n: "02",
+    category: "Pharmaceutical",
+    name: "Extracts & Distillates",
+    desc: "High-quality full-spectrum, broad-spectrum, and isolated extracts at 80–99% purity levels. Produced under ISO-compliant extraction conditions with third-party verification.",
+    packaging:
+      "Distillate, crude, or winterised oil. Custom formulation and white-label on request.",
+    tags: ["Full-Spectrum", "Broad-Spectrum", "Isolate", "High Purity"],
   },
   {
-    num: "03",
-    title: "Hemp-Derived Products",
-    desc: "Compliant hemp-derived CBD, CBG, CBN, and blended wellness products for pharmaceutical, research, and consumer wellness applications.",
-    detail: "Crystalline isolate, raw paste, and water-soluble formats available.",
-    tags: ["CBD", "CBG", "CBN", "Wellness"],
+    n: "03",
+    category: "Wellness · B2B",
+    name: "Hemp-Derived Products",
+    desc: "Compliant hemp-derived CBD, CBG, CBN, and blended wellness products. EU-compliant THC thresholds maintained across all formats. Colorado and Thai-origin available.",
+    packaging:
+      "Crystalline isolate, raw paste, and water-soluble formats. COA with each order.",
+    tags: ["CBD", "CBG", "CBN", "Water-Soluble", "EU-Compliant"],
   },
-];
+] as const;
 
-const strainTypeStyle: Record<string, React.CSSProperties> = {
-  Sativa: { background: "rgba(0,0,0,0.04)", color: "#0a0a0a" },
-  Indica: { background: "#0a0a0a", color: "#ffffff" },
-  Hybrid: { background: "rgba(26,61,30,0.08)", color: "#1a3d1e" },
-};
+const ISOLATES = [
+  {
+    compound: "CBD",
+    name: "Cannabidiol",
+    uses: "Therapeutic, anti-inflammatory, anxiety relief",
+    purity: "99%",
+    bar: 99,
+  },
+  {
+    compound: "CBG",
+    name: "Cannabigerol",
+    uses: "Neuroprotective, antibacterial, anti-tumour",
+    purity: "98%",
+    bar: 98,
+  },
+  {
+    compound: "CBN",
+    name: "Cannabinol",
+    uses: "Sleep disorders, sedation, appetite stimulation",
+    purity: "97%",
+    bar: 97,
+  },
+  {
+    compound: "THC",
+    name: "Tetrahydrocannabinol",
+    uses: "Pain management, nausea, appetite, sleep",
+    purity: "95%+",
+    bar: 95,
+  },
+  {
+    compound: "CBC",
+    name: "Cannabichromene",
+    uses: "Anti-inflammatory, antidepressant, analgesic",
+    purity: "96%",
+    bar: 96,
+  },
+  {
+    compound: "CBDV",
+    name: "Cannabidivarin",
+    uses: "Epilepsy, autism spectrum, anti-nausea",
+    purity: "95%",
+    bar: 95,
+  },
+] as const;
 
-const TAG: React.CSSProperties = {
-  fontSize: "0.65rem",
-  letterSpacing: "0.22em",
-  textTransform: "uppercase",
-  color: "#3a8042",
-  fontWeight: 500,
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  marginBottom: "16px",
-};
-const LINE: React.CSSProperties = {
-  width: "28px",
-  height: "1px",
-  background: "#3a8042",
-  display: "inline-block",
-  flexShrink: 0,
-};
+// ============================================================
+// 4. COMPONENTS
+// ============================================================
+
+
+
+// ---- 4.2 PRODUCT LINE CARD ----
+const ProductLineCard = memo(function ProductLineCard({
+  product,
+  index,
+}: {
+  product: (typeof PRODUCT_LINES)[number];
+  index: number;
+}) {
+  return (
+    <div
+      className="bg-[var(--paper)] reveal"
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
+        <div className="lg:col-span-1 px-6 md:px-12 py-12 flex items-start justify-between lg:justify-start lg:flex-col gap-4 border-b lg:border-b-0 lg:border-r border-[var(--rule)]">
+          <span className="font-mono text-[11px] tracking-widest text-[var(--ink-20)]">
+            {product.n}
+          </span>
+          <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-[var(--forest)]">
+            {product.category}
+          </span>
+        </div>
+        <div className="lg:col-span-5 px-6 md:px-12 py-12 border-b lg:border-b-0 lg:border-r border-[var(--rule)]">
+          <h3 className="font-serif text-[clamp(24px,3vw,42px)] leading-tight tracking-tighter text-[var(--ink)] mb-6">
+            {product.name}
+          </h3>
+          <p className="font-sans text-[13px] leading-relaxed text-[var(--ink-60)]">
+            {product.desc}
+          </p>
+        </div>
+        <div className="lg:col-span-3 px-6 md:px-12 py-12 border-b lg:border-b-0 lg:border-r border-[var(--rule)]">
+          <div className="font-mono text-[9px] tracking-[0.3em] uppercase text-[var(--ink-30)] mb-4">
+            Packaging & Format
+          </div>
+          <p className="font-sans text-[13px] leading-relaxed text-[var(--ink-60)]">
+            {product.packaging}
+          </p>
+        </div>
+        <div className="lg:col-span-3 px-6 md:px-12 py-12">
+          <div className="font-mono text-[9px] tracking-[0.3em] uppercase text-[var(--ink-30)] mb-4">
+            Tags
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {product.tags.map((t) => (
+              <span
+                key={t}
+                className="px-3 py-1.5 border border-[var(--rule)] font-mono text-[9px] text-[var(--ink-40)] uppercase tracking-widest"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+ProductLineCard.displayName = "ProductLineCard";
+
+// ---- 4.3 ISOLATE ROW ----
+const IsolateRow = memo(function IsolateRow({
+  isolate,
+  index,
+}: {
+  isolate: (typeof ISOLATES)[number];
+  index: number;
+}) {
+  return (
+    <div
+      className="grid grid-cols-12 gap-4 px-4 py-6 border-b border-white/5 hover:bg-white/[0.02] transition-colors group reveal"
+      style={{ transitionDelay: `${index * 60}ms` }}
+    >
+      <div className="col-span-2">
+        <span className="font-serif text-[clamp(20px,2.5vw,32px)] text-[var(--forest-mid)] group-hover:text-white/90 transition-colors">
+          {isolate.compound}
+        </span>
+      </div>
+      <div className="col-span-3 hidden md:flex items-center">
+        <span className="font-sans text-[13px] text-white/50">{isolate.name}</span>
+      </div>
+      <div className="col-span-4 hidden lg:flex items-center">
+        <span className="font-sans text-[12px] text-white/30 leading-relaxed">
+          {isolate.uses}
+        </span>
+      </div>
+      <div className="col-span-3 flex items-center gap-4">
+        <div className="flex-1 h-px bg-white/10 relative">
+          <div
+            className="absolute left-0 top-0 h-full bg-[var(--forest-mid)] transition-all duration-1000"
+            style={{ width: `${isolate.bar}%` }}
+          />
+        </div>
+        <span className="font-mono text-[11px] text-white/60 shrink-0">
+          {isolate.purity}
+        </span>
+      </div>
+    </div>
+  );
+});
+IsolateRow.displayName = "IsolateRow";
+
+// ---- 4.4 SCROLL TO TOP ----
+function ScrollToTop() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      setIsVisible(window.pageYOffset > 500);
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  if (!isVisible) return null;
+
+  return (
+    <button
+      onClick={scrollToTop}
+      aria-label="Scroll to top"
+      className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-[var(--forest)] text-white rounded-full shadow-lg hover:bg-[var(--forest-mid)] transition-all duration-300 flex items-center justify-center border border-white/10 focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2"
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 19V5M5 12l7-7 7 7" />
+      </svg>
+    </button>
+  );
+}
+
+// ---- 4.5 COOKIE CONSENT ----
+function CookieConsent() {
+  const [accepted, setAccepted] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem("cookie-consent");
+    if (consent === "accepted") setAccepted(true);
+  }, []);
+
+  const handleAccept = useCallback(() => {
+    localStorage.setItem("cookie-consent", "accepted");
+    setAccepted(true);
+  }, []);
+
+  if (accepted) return null;
+
+  return (
+    <div
+      role="dialog"
+      aria-label="Cookie consent"
+      className="fixed bottom-0 left-0 right-0 z-[9998] bg-[var(--ink)] border-t border-white/10 p-4 md:p-6"
+    >
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <p className="font-sans text-[12px] text-white/70 leading-relaxed max-w-2xl">
+          We use cookies to enhance your experience. By continuing to visit this
+          site you agree to our use of cookies.
+        </p>
+        <div className="flex gap-4 flex-shrink-0">
+          <button
+            onClick={handleAccept}
+            className="px-6 py-2 bg-[var(--forest)] text-white font-mono text-[10px] tracking-widest uppercase hover:bg-[var(--forest-mid)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2"
+          >
+            Accept
+          </button>
+          <Link
+            href="/privacy"
+            className="px-6 py-2 border border-white/20 text-white/60 font-mono text-[10px] tracking-widest uppercase hover:bg-white/5 transition-colors focus-visible:ring-2 focus-visible:ring-white/50"
+          >
+            Learn More
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// 5. MAIN PAGE
+// ============================================================
 
 export default function ProductsPage() {
+  useReveal();
+  const smoothScroll = useSmoothScroll();
+
+  // Structured data
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "GACP-Certified Cannabis & Hemp Products",
+    description:
+      "Premium cannabis whole flower, extracts, distillates, and hemp-derived products. GACP-certified, Thai FDA licensed, with full CoA provided.",
+    brand: {
+      "@type": "Brand",
+      name: "Global Green Exports",
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+    },
+    category: "Medical Cannabis",
+  };
+
   return (
     <>
-      {/* ── HERO ── */}
-      <section
-        style={{
-          background: "#0a0a0a",
-          minHeight: "58vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          position: "relative",
-          overflow: "hidden",
-          paddingTop: "160px",
-          paddingBottom: "80px",
-        }}
-      >
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: "50%",
-            width: "1px",
-            height: "120px",
-            background: "linear-gradient(to bottom, rgba(58,128,66,0.4), transparent)",
-          }}
-        />
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            bottom: "-20%",
-            right: "-10%",
-            width: "50vw",
-            height: "50vw",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(13,31,15,0.5) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }}
+      
+      <Navbar />
+
+      <main id="main-content" tabIndex={-1}>
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
 
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "0 20px",
-            width: "100%",
-            position: "relative",
-            zIndex: 1,
-            textAlign: "center",
-          }}
+        {/* ── HERO ── */}
+        <section
+          className="bg-[var(--ink)] px-6 md:px-12 py-32 md:py-48 relative overflow-hidden"
+          aria-label="Products hero"
         >
-          <p style={{ ...TAG, justifyContent: "center", marginBottom: "20px" }}>
-            Our Products
-          </p>
-          <h1
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(3rem, 6vw, 5rem)",
-              fontWeight: 400,
-              color: "#ffffff",
-              lineHeight: 1.05,
-              letterSpacing: "-0.025em",
-              marginBottom: "24px",
-            }}
+          <div
+            className="absolute inset-0 flex items-end justify-end pointer-events-none select-none p-12"
+            aria-hidden="true"
           >
-            Premium{" "}
-            <em style={{ color: "rgba(255,255,255,0.35)" }}>GACP-Certified</em>
-            <br />
-            Cannabis &amp; Hemp Products
-          </h1>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              lineHeight: 1.85,
-              color: "rgba(255,255,255,0.38)",
-              fontWeight: 300,
-              maxWidth: "560px",
-              margin: "0 auto",
-            }}
-          >
-            Every product ships with full Certificate of Analysis, GACP documentation, and export
-            compliance paperwork. We work exclusively with certified growers.
-          </p>
-        </div>
-      </section>
-
-      <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
-
-      {/* ── CATEGORY CARDS ── */}
-      <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div style={{ maxWidth: "560px", marginBottom: "64px" }}>
-            <p style={TAG}>
-              <span style={LINE} />
-              Product Categories
-            </p>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                fontWeight: 400,
-                color: "#0a0a0a",
-                lineHeight: 1.1,
-                letterSpacing: "-0.015em",
-              }}
+            <span
+              className="font-serif text-[16vw] leading-none text-transparent"
+              style={{ WebkitTextStroke: "1px rgba(247,244,238,0.04)" }}
             >
-              Three core <em style={{ color: "#1a3d1e" }}>product lines</em>
-            </h2>
+              Products
+            </span>
           </div>
 
+          {/* Subtle noise overlay */}
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "1px",
-              background: "rgba(0,0,0,0.08)",
-            }}
-          >
-            {categories.map((cat) => (
-              <div
-                key={cat.title}
-                style={{
-                  background: "#ffffff",
-                  padding: "44px",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                {/* Large number watermark */}
-                <span
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    bottom: "-8px",
-                    right: "20px",
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "6rem",
-                    fontWeight: 400,
-                    color: "rgba(0,0,0,0.04)",
-                    lineHeight: 1,
-                    userSelect: "none",
-                  }}
-                >
-                  {cat.num}
-                </span>
+            className="absolute inset-0 pointer-events-none opacity-[0.02] mix-blend-overlay noise-overlay"
+            aria-hidden="true"
+          />
 
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: "20px",
-                    paddingBottom: "20px",
-                    borderBottom: "1px solid rgba(0,0,0,0.07)",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontFamily: "'Cormorant Garamond', serif",
-                      fontSize: "1.3rem",
-                      fontWeight: 400,
-                      color: "#0a0a0a",
-                    }}
-                  >
-                    {cat.title}
-                  </h3>
+          <div className="relative z-10 max-w-[1800px] mx-auto">
+            <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest-mid)] mb-8">
+              — Premium Cannabis & Hemp
+            </div>
+            <h1 className="font-serif text-[clamp(48px,10vw,120px)] leading-[0.85] tracking-tighter text-white/90 mb-12">
+              GACP-Certified
+              <br />
+              <em className="text-[var(--forest-mid)] not-italic">
+                Cannabis & Hemp.
+              </em>
+            </h1>
+            <p className="font-sans text-[14px] leading-relaxed text-white/50 max-w-lg mb-16">
+              Every shipment includes a full Certificate of Analysis, GACP
+              documentation, and export compliance paperwork verified by the Thai
+              FDA.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10">
+              {[
+                { val: "3", label: "Product Lines" },
+                { val: "6+", label: "Cannabinoid Isolates" },
+                { val: "99%", label: "Max Purity" },
+                { val: "100%", label: "GACP Certified" },
+              ].map((s) => (
+                <div key={s.label} className="bg-[var(--ink)] px-6 py-8">
+                  <div className="font-serif text-[clamp(28px,4vw,52px)] text-white/90 mb-2">
+                    {s.val}
+                  </div>
+                  <div className="font-mono text-[9px] tracking-[0.2em] uppercase text-white/30">
+                    {s.label}
+                  </div>
                 </div>
-                <p
-                  style={{
-                    fontSize: "0.85rem",
-                    lineHeight: 1.8,
-                    color: "rgba(0,0,0,0.48)",
-                    fontWeight: 300,
-                    marginBottom: "16px",
-                  }}
-                >
-                  {cat.desc}
-                </p>
-                <p
-                  style={{
-                    fontSize: "0.78rem",
-                    lineHeight: 1.7,
-                    color: "rgba(0,0,0,0.32)",
-                    fontWeight: 300,
-                    fontStyle: "italic",
-                    marginBottom: "24px",
-                  }}
-                >
-                  {cat.detail}
-                </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                  {cat.tags.map((t) => (
-                    <span
-                      key={t}
-                      style={{
-                        fontSize: "0.6rem",
-                        letterSpacing: "0.1em",
-                        textTransform: "uppercase",
-                        padding: "4px 10px",
-                        border: "1px solid rgba(0,0,0,0.1)",
-                        color: "rgba(0,0,0,0.4)",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PRODUCT LINES ── */}
+        <section
+          className="border-b border-[var(--rule)]"
+          aria-label="Product categories"
+        >
+          <div className="px-6 md:px-12 py-20 md:py-32">
+            <div className="reveal mb-16">
+              <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] mb-4">
+                — 01 Product Categories
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CANNABINOIDS TABLE ── */}
-      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div
-            style={{ display: "grid", gap: "40px", marginBottom: "48px" }}
-            className="lg:grid-cols-2"
-          >
-            <div>
-              <p style={TAG}>
-                <span style={LINE} />
-                Cannabinoid Catalogue
-              </p>
-              <h2
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                  fontWeight: 400,
-                  color: "#0a0a0a",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.015em",
-                }}
-              >
-                Pure isolated <em style={{ color: "#1a3d1e" }}>cannabinoids</em>
+              <h2 className="font-serif text-[clamp(32px,5vw,64px)] leading-[0.9] tracking-tighter text-[var(--ink)]">
+                Three core product lines.
+                <br />
+                <em className="text-[var(--forest)] not-italic">
+                  Direct from source.
+                </em>
               </h2>
             </div>
-            <div style={{ display: "flex", alignItems: "flex-end" }}>
-              <p style={{ fontSize: "0.88rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
-                Available as isolates, distillates, or full-spectrum extracts. Custom formulations
-                available on request for sufficient order volumes.
-              </p>
+
+            <div className="space-y-px bg-[var(--rule)]">
+              {PRODUCT_LINES.map((p, i) => (
+                <ProductLineCard key={p.n} product={p} index={i} />
+              ))}
             </div>
           </div>
+        </section>
 
-          <div style={{ border: "1px solid rgba(0,0,0,0.08)", overflow: "hidden" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ background: "#0a0a0a" }}>
-                  {["Cannabinoid", "Primary Applications", "Max Purity"].map((h) => (
-                    <th
-                      key={h}
-                      style={{
-                        textAlign: "left",
-                        padding: "16px 24px",
-                        fontSize: "0.6rem",
-                        letterSpacing: "0.2em",
-                        textTransform: "uppercase",
-                        color: "rgba(255,255,255,0.4)",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {cannabinoids.map((c, i) => (
-                  <tr
-                    key={c.name}
-                    style={{
-                      background: i % 2 === 0 ? "#ffffff" : "#fafafa",
-                      borderBottom: "1px solid rgba(0,0,0,0.05)",
-                    }}
-                  >
-                    <td
-                      style={{
-                        padding: "16px 24px",
-                        fontSize: "0.88rem",
-                        fontWeight: 500,
-                        color: "#0a0a0a",
-                      }}
-                    >
-                      {c.name}
-                    </td>
-                    <td
-                      style={{
-                        padding: "16px 24px",
-                        fontSize: "0.83rem",
-                        color: "rgba(0,0,0,0.45)",
-                        fontWeight: 300,
-                      }}
-                    >
-                      {c.use}
-                    </td>
-                    <td style={{ padding: "16px 24px" }}>
-                      <span
-                        style={{
-                          fontSize: "0.7rem",
-                          fontWeight: 600,
-                          padding: "4px 12px",
-                          background: "rgba(26,61,30,0.07)",
-                          color: "#1a3d1e",
-                          letterSpacing: "0.06em",
-                        }}
-                      >
-                        {c.purity}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+        {/* ── ISOLATES TABLE ── */}
+        <section
+          className="bg-[var(--ink)] border-b border-white/10"
+          aria-label="Cannabinoid isolates catalogue"
+        >
+          <div className="px-6 md:px-12 py-20 md:py-32">
+            <div className="reveal mb-16">
+              <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest-mid)] mb-4">
+                — 02 Laboratory Catalogue
+              </div>
+              <h2 className="font-serif text-[clamp(32px,5vw,64px)] leading-[0.9] tracking-tighter text-white/90">
+                Pure isolated cannabinoids.
+              </h2>
+              <p className="font-sans text-[13px] text-white/40 mt-4">
+                All isolates independently verified. CoA provided on every order.
+              </p>
+            </div>
 
-      {/* ── STRAINS ── */}
-      <section style={{ background: "#ffffff", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div style={{ maxWidth: "560px", marginBottom: "56px" }}>
-            <p style={TAG}>
-              <span style={LINE} />
-              Cannabis Strains
-            </p>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                fontWeight: 400,
-                color: "#0a0a0a",
-                lineHeight: 1.1,
-                letterSpacing: "-0.015em",
-                marginBottom: "12px",
-              }}
-            >
-              GACP-certified <em style={{ color: "#1a3d1e" }}>strain selection</em>
-            </h2>
-            <p style={{ fontSize: "0.88rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
-              Each strain grown under GACP conditions with full cannabinoid and terpene profiles
-              available on request.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "1px",
-              background: "rgba(0,0,0,0.07)",
-            }}
-          >
-            {strains.map((s) => (
-              <div
-                key={s.name}
-                style={{
-                  background: "#ffffff",
-                  padding: "28px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    justifyContent: "space-between",
-                    marginBottom: "16px",
-                    gap: "12px",
-                  }}
-                >
-                  <h4
-                    style={{
-                      fontSize: "0.95rem",
-                      fontWeight: 500,
-                      color: "#0a0a0a",
-                      letterSpacing: "0.01em",
-                    }}
-                  >
-                    {s.name}
-                  </h4>
-                  <span
-                    style={{
-                      fontSize: "0.55rem",
-                      fontWeight: 600,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      padding: "3px 8px",
-                      flexShrink: 0,
-                      ...strainTypeStyle[s.type],
-                    }}
-                  >
-                    {s.type}
-                  </span>
+            <div className="space-y-px">
+              {/* Table header */}
+              <div className="grid grid-cols-12 gap-4 px-4 py-3 border-b border-white/10">
+                <div className="col-span-2 font-mono text-[9px] tracking-widest uppercase text-white/20">
+                  Compound
                 </div>
-                <p style={{ fontSize: "0.78rem", lineHeight: 1.7, color: "rgba(0,0,0,0.4)", fontWeight: 300 }}>
-                  {s.notes}
-                </p>
+                <div className="col-span-3 font-mono text-[9px] tracking-widest uppercase text-white/20 hidden md:block">
+                  Full Name
+                </div>
+                <div className="col-span-4 font-mono text-[9px] tracking-widest uppercase text-white/20 hidden lg:block">
+                  Primary Applications
+                </div>
+                <div className="col-span-3 font-mono text-[9px] tracking-widest uppercase text-white/20">
+                  Max Purity
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ── TERPENES ── */}
-      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div style={{ maxWidth: "560px", marginBottom: "56px" }}>
-            <p style={TAG}>
-              <span style={LINE} />
-              Terpenes &amp; Flavonoids
-            </p>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                fontWeight: 400,
-                color: "#0a0a0a",
-                lineHeight: 1.1,
-                letterSpacing: "-0.015em",
-                marginBottom: "12px",
-              }}
-            >
-              Steam-distilled <em style={{ color: "#1a3d1e" }}>terpene collection</em>
-            </h2>
-            <p style={{ fontSize: "0.88rem", lineHeight: 1.8, color: "rgba(0,0,0,0.45)", fontWeight: 300 }}>
-              Premium terpene isolates at 90–99% purity for research, formulation, and product
-              development.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(12, 1fr)",
-              gap: "1px",
-              background: "rgba(0,0,0,0.07)",
-              marginBottom: "80px",
-            }}
-          >
-            {terpenes.map((t, i) => (
-              <div
-                key={t.name}
-                style={{
-                  background: "#ffffff",
-                  padding: "28px 24px",
-                  borderLeft: i === 0 || i === 4 ? "none" : "1px solid #1a3d1e",
-                  gridColumn: i < 4 ? "span 3" : "span 4",
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: "0.92rem",
-                    fontWeight: 500,
-                    color: "#0a0a0a",
-                    marginBottom: "6px",
-                  }}
-                >
-                  {t.name}
-                </p>
-                <p
-                  style={{
-                    fontSize: "0.78rem",
-                    color: "rgba(0,0,0,0.4)",
-                    fontWeight: 300,
-                    marginBottom: "10px",
-                  }}
-                >
-                  {t.effect}
-                </p>
-                <p
-                  style={{
-                    fontSize: "0.62rem",
-                    fontWeight: 600,
-                    color: "#3a8042",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Purity: {t.purity}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* CTA Banner */}
-          <div
-            style={{
-              background: "#0a0a0a",
-              padding: "52px 48px",
-              position: "relative",
-              overflow: "hidden",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "32px",
-              flexWrap: "wrap",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: "2px",
-                background: "#1a3d1e",
-              }}
-            />
-            <span
-              aria-hidden
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "6rem",
-                fontWeight: 400,
-                color: "rgba(255,255,255,0.03)",
-                position: "absolute",
-                bottom: "-12px",
-                right: "20px",
-                lineHeight: 1,
-                userSelect: "none",
-              }}
-            >
-              CUSTOM
-            </span>
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <h3
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "1.8rem",
-                  fontWeight: 400,
-                  color: "#ffffff",
-                  marginBottom: "12px",
-                }}
-              >
-                Custom Formulations Available
-              </h3>
-              <p
-                style={{
-                  fontSize: "0.88rem",
-                  lineHeight: 1.75,
-                  color: "rgba(255,255,255,0.38)",
-                  fontWeight: 300,
-                  maxWidth: "520px",
-                }}
-              >
-                We create custom cannabinoid, terpene, and flavonoid profiles to meet your exact
-                research or medical requirements.
-              </p>
+              {/* Isolate rows */}
+              {ISOLATES.map((iso, i) => (
+                <IsolateRow key={iso.compound} isolate={iso} index={i} />
+              ))}
             </div>
-            <Link
-              href="/contact"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "10px",
-                background: "#ffffff",
-                color: "#0a0a0a",
-                padding: "15px 30px",
-                fontSize: "0.68rem",
-                fontWeight: 600,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                position: "relative",
-                zIndex: 1,
-                flexShrink: 0,
-              }}
-            >
-              Request Custom Quote
-              <ArrowRight size={12} />
-            </Link>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* ── CTA ── */}
+        <section
+          className="bg-[var(--paper)] px-6 md:px-12 py-24 border-b border-[var(--rule)]"
+          aria-label="Call to action"
+        >
+          <div className="max-w-[1800px] mx-auto flex flex-col md:flex-row items-center justify-between gap-12 reveal">
+            <div>
+              <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--forest)] mb-4">
+                — Ready to order?
+              </div>
+              <h2 className="font-serif text-[clamp(32px,5vw,64px)] leading-[0.9] tracking-tighter text-[var(--ink)]">
+                Request a
+                <br />
+                <em className="text-[var(--forest)] not-italic">
+                  product catalogue.
+                </em>
+              </h2>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/#contact"
+                onClick={(e) => smoothScroll(e, "/#contact")}
+                className="px-10 py-5 bg-[var(--forest)] text-[var(--paper)] font-mono text-[10px] tracking-widest uppercase hover:bg-[var(--forest-mid)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--forest)] focus-visible:ring-offset-2"
+              >
+                Start Enquiry
+              </Link>
+              <Link
+                href="/wholesale"
+                className="px-10 py-5 border border-[var(--ink)]/20 text-[var(--ink-60)] font-mono text-[10px] tracking-widest uppercase hover:bg-[var(--paper-2)] transition-colors focus-visible:ring-2 focus-visible:ring-[var(--ink)] focus-visible:ring-offset-2"
+              >
+                Wholesale Pricing
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <ScrollToTop />
+      <CookieConsent />
     </>
   );
 }
