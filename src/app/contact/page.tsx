@@ -174,16 +174,16 @@ export default function ContactPage() {
                   {
                     icon: Mail,
                     label: "Email",
-                    value: "info@globalgreen.export",
+                    value: "contact@globalgreenexport.com",
                     sub: undefined,
-                    href: "mailto:info@globalgreen.export",
+                    href: "mailto:contact@globalgreenexport.com",
                   },
                   {
                     icon: Phone,
                     label: "Phone / WhatsApp",
-                    value: "+66 (0) 00 000 0000",
+                    value: "+1 (561) 400-9455",
                     sub: undefined,
-                    href: "tel:+66000000000",
+                    href: "tel:+15614009455",
                   },
                 ].map((item) => {
                   const Icon = item.icon;
