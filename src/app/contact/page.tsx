@@ -1,513 +1,553 @@
-// app/contact/page.tsx — Global Green Exports · Contact
-
+// src/app/contact/page.tsx
 "use client";
 
-import { useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle, ArrowRight } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Mail, MapPin, Phone, Clock, Send, CheckCircle } from "lucide-react";
 
-const TAG: React.CSSProperties = {
-  fontSize: "0.65rem",
-  letterSpacing: "0.22em",
-  textTransform: "uppercase",
-  color: "#3a8042",
-  fontWeight: 500,
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  marginBottom: "16px",
-};
+// ============================================================
+// COMPONENTS
+// ============================================================
 
-const LINE: React.CSSProperties = {
-  width: "28px",
-  height: "1px",
-  background: "#3a8042",
-  display: "inline-block",
-  flexShrink: 0,
-};
+function Reveal({ 
+  children, 
+  delay = 0, 
+  direction = "up",
+  duration = 0.8,
+  className = "",
+}: { 
+  children: React.ReactNode; 
+  delay?: number; 
+  direction?: "up" | "left" | "right";
+  duration?: number;
+  className?: string;
+}) {
+  const offset = { 
+    up: { y: 30 }, 
+    left: { x: -30 }, 
+    right: { x: 30 },
+  };
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, ...offset[direction] }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      transition={{ duration, ease: [0.16, 1, 0.3, 1], delay }}
+      viewport={{ once: true }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function SectionHeader({ 
+  label, 
+  title, 
+  subtitle, 
+  centered = false,
+}: { 
+  label: string; 
+  title: string | React.ReactNode; 
+  subtitle?: string; 
+  centered?: boolean;
+}) {
+  return (
+    <Reveal className={`${centered ? "text-center" : ""}`}>
+      <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--jade)]">— {label}</span>
+      <h2 className="font-display text-[clamp(48px,7vw,96px)] leading-[0.9] tracking-tight text-[var(--ink)] mt-4">
+        {title}
+      </h2>
+      {subtitle && (
+        <p className={`text-[15px] text-[var(--ink-55)] mt-4 ${centered ? "max-w-2xl mx-auto" : "max-w-xl"}`}>
+          {subtitle}
+        </p>
+      )}
+    </Reveal>
+  );
+}
+
+function TearLine() {
+  return <div className="tear-line" />;
+}
+
+// ============================================================
+// CONTACT PAGE
+// ============================================================
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({
+  const [formState, setFormState] = useState({
     name: "",
-    company: "",
     email: "",
+    company: "",
     phone: "",
-    country: "",
-    enquiryType: "",
+    vertical: "",
     message: "",
+    howDidYouFind: "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = useCallback((
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { id, value } = e.target;
+    setFormState((prev) => ({ ...prev, [id]: value }));
+    if (errors[id]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[id];
+        return newErrors;
+      });
+    }
+  }, [errors]);
+
+  const validate = useCallback(() => {
+    const newErrors: Record<string, string> = {};
+    
+    if (formState.name.trim().length < 2) {
+      newErrors.name = "Please enter your full name";
+    }
+    
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    
+    if (formState.message.trim().length < 10) {
+      newErrors.message = "Please provide more detail (minimum 10 characters)";
+    }
+    
+    return newErrors;
+  }, [formState]);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-  };
+    
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      const firstError = Object.keys(validationErrors)[0];
+      document.getElementById(firstError)?.focus();
+      return;
+    }
 
-  const inputStyle: React.CSSProperties = {
-    width: "100%",
-    background: "#ffffff",
-    border: "1px solid rgba(0,0,0,0.12)",
-    padding: "13px 16px",
-    fontSize: "0.875rem",
-    color: "#0a0a0a",
-    outline: "none",
-    fontFamily: "'Jost', sans-serif",
-    borderRadius: 0,
-    transition: "border-color 0.2s",
-    boxSizing: "border-box",
-  };
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    
+    // Reset form after 5 seconds
+    setTimeout(() => {
+      setIsSubmitted(false);
+      setFormState({
+        name: "",
+        email: "",
+        company: "",
+        phone: "",
+        vertical: "",
+        message: "",
+        howDidYouFind: "",
+      });
+    }, 5000);
+  }, [validate]);
 
-  const labelStyle: React.CSSProperties = {
-    display: "block",
-    fontSize: "0.6rem",
-    fontWeight: 600,
-    letterSpacing: "0.18em",
-    textTransform: "uppercase",
-    color: "#0a0a0a",
-    marginBottom: "7px",
-  };
+  const contactInfo = [
+    {
+      icon: MapPin,
+      label: "Visit Us",
+      details: [
+        "7550 East 53rd Place, STE 17125",
+        "Denver, CO 80217, USA",
+        "Sukhumvit Road, Bangkok 10110, Thailand",
+      ],
+    },
+    {
+      icon: Mail,
+      label: "Email Us",
+      details: ["info@globalgreenexport.com", "sales@globalgreenexport.com"],
+      action: "mailto:info@globalgreenexport.com",
+    },
+    {
+      icon: Phone,
+      label: "Call Us",
+      details: ["+66 2 123 4567", "+1 (303) 555-0123"],
+      action: "tel:+6621234567",
+    },
+    {
+      icon: Clock,
+      label: "Business Hours",
+      details: [
+        "Monday - Friday: 8:00 AM - 6:00 PM ICT",
+        "Saturday: 9:00 AM - 2:00 PM ICT",
+        "Sunday: Closed",
+      ],
+    },
+  ];
+
+  const verticals = [
+    "Cannabis",
+    "Hemp Derivatives",
+    "Housing Materials",
+    "Appliances",
+    "HVAC Equipment",
+  ];
+
+  const howDidYouFindOptions = [
+    "Search Engine",
+    "LinkedIn",
+    "Referral",
+    "Trade Show",
+    "Social Media",
+    "Industry Publication",
+    "Other",
+  ];
 
   return (
     <>
       {/* ── HERO ── */}
-      <section
-        style={{
-          background: "#0a0a0a",
-          minHeight: "52vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          position: "relative",
-          overflow: "hidden",
-          paddingTop: "160px",
-          paddingBottom: "72px",
-        }}
-      >
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: "50%",
-            width: "1px",
-            height: "120px",
-            background: "linear-gradient(to bottom, rgba(58,128,66,0.4), transparent)",
-          }}
-        />
-
-        <div
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "0 20px",
-            width: "100%",
-            position: "relative",
-            zIndex: 1,
-            textAlign: "center",
-          }}
-        >
-          <p style={{ ...TAG, justifyContent: "center", marginBottom: "20px" }}>
-            Get in Touch
-          </p>
-          <h1
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(3rem, 6vw, 5rem)",
-              fontWeight: 400,
-              color: "#ffffff",
-              lineHeight: 1.05,
-              letterSpacing: "-0.025em",
-              marginBottom: "24px",
-            }}
-          >
-            Contact{" "}
-            <em style={{ color: "rgba(255,255,255,0.35)" }}>Global Green Exports</em>
-          </h1>
-          <p
-            style={{
-              fontSize: "0.95rem",
-              lineHeight: 1.85,
-              color: "rgba(255,255,255,0.38)",
-              fontWeight: 300,
-              maxWidth: "540px",
-              margin: "0 auto",
-            }}
-          >
-            Whether you're enquiring about wholesale pricing, escrow services, export
-            documentation, or simply want to learn more — our team is ready to assist.
-          </p>
+      <section className="relative bg-[var(--ink)] py-32 md:py-48 overflow-hidden" aria-label="Contact hero">
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--jade)_1px,_transparent_1px)] bg-[size:40px_40px]" />
         </div>
-      </section>
 
-      <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
-
-      {/* ── CONTACT SECTION ── */}
-      <section style={{ background: "#f5f5f5", padding: "96px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 20px" }}>
-          <div style={{ display: "grid", gap: "64px" }} className="lg:grid-cols-[340px_1fr]">
-
-            {/* Left: details */}
-            <div>
-              <p style={TAG}>
-                <span style={LINE} />
-                Our Details
+        <div className="px-5 md:px-12 max-w-[1800px] mx-auto relative z-10">
+          <div className="max-w-4xl">
+            <Reveal>
+              <div className="flex items-center gap-4 mb-8">
+                <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-[var(--jade)]">— Get In Touch</span>
+                <StampSeal label="Connect" size="sm" rotate={-6} />
+              </div>
+              <h1 className="font-display text-[clamp(48px,10vw,120px)] leading-[0.85] tracking-tight text-white/90">
+                Let's Start a
+                <br />
+                <span className="text-[var(--jade)] italic">Conversation</span>
+              </h1>
+              <p className="text-[15px] text-white/55 max-w-lg mt-6">
+                Ready to source from Thailand? Have questions about compliance, pricing, or documentation? 
+                Our team is here to help.
               </p>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "24px", marginBottom: "36px" }}>
-                {[
-                  {
-                    icon: MapPin,
-                    label: "Location",
-                    value: "Bangkok, Thailand",
-                    sub: "Export Operations Hub",
-                    href: undefined,
-                  },
-                  {
-                    icon: Mail,
-                    label: "Email",
-                    value: "contact@globalgreenexport.com",
-                    sub: undefined,
-                    href: "mailto:contact@globalgreenexport.com",
-                  },
-                  {
-                    icon: Phone,
-                    label: "Phone / WhatsApp",
-                    value: "+1 (561) 400-9455",
-                    sub: undefined,
-                    href: "tel:+15614009455",
-                  },
-                ].map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div
-                      key={item.label}
-                      style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}
-                    >
-                      <div
-                        style={{
-                          width: "40px",
-                          height: "40px",
-                          border: "1px solid rgba(0,0,0,0.1)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
-                          background: "#ffffff",
-                        }}
-                      >
-                        <Icon size={14} strokeWidth={1.5} color="#1a3d1e" />
-                      </div>
-                      <div>
-                        <p
-                          style={{
-                            fontSize: "0.6rem",
-                            letterSpacing: "0.18em",
-                            textTransform: "uppercase",
-                            color: "#3a8042",
-                            fontWeight: 600,
-                            marginBottom: "4px",
-                          }}
-                        >
-                          {item.label}
-                        </p>
-                        {item.href ? (
-                          <a
-                            href={item.href}
-                            style={{
-                              fontSize: "0.85rem",
-                              color: "#0a0a0a",
-                              fontWeight: 400,
-                              textDecoration: "none",
-                            }}
-                          >
-                            {item.value}
-                          </a>
-                        ) : (
-                          <div>
-                            <p style={{ fontSize: "0.85rem", color: "#0a0a0a" }}>{item.value}</p>
-                            {item.sub && (
-                              <p
-                                style={{
-                                  fontSize: "0.78rem",
-                                  color: "rgba(0,0,0,0.38)",
-                                  fontWeight: 300,
-                                }}
-                              >
-                                {item.sub}
-                              </p>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Response time */}
-              <div
-                style={{
-                  background: "#0a0a0a",
-                  padding: "28px",
-                  marginBottom: "16px",
-                  position: "relative",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: "2px",
-                    background: "#1a3d1e",
-                  }}
-                />
-                <h3
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "1.2rem",
-                    fontWeight: 400,
-                    color: "#ffffff",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Response Time
-                </h3>
-                <p
-                  style={{
-                    fontSize: "0.82rem",
-                    lineHeight: 1.75,
-                    color: "rgba(255,255,255,0.38)",
-                    fontWeight: 300,
-                  }}
-                >
-                  We aim to respond within{" "}
-                  <strong style={{ color: "#ffffff", fontWeight: 500 }}>
-                    24–48 business hours
-                  </strong>
-                  . For urgent enquiries, please indicate this in your message or reach us via
-                  WhatsApp.
-                </p>
-              </div>
-
-              {/* Licence note */}
-              <div
-                style={{
-                  background: "#ffffff",
-                  borderLeft: "3px solid #1a3d1e",
-                  padding: "18px 22px",
-                }}
-              >
-                <p style={{ fontSize: "0.78rem", lineHeight: 1.7, color: "rgba(0,0,0,0.48)", fontWeight: 300 }}>
-                  <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>Export Licence:</strong>{" "}
-                  GGE is actively pursuing Thai export licensure. All product and trade enquiries are
-                  welcome — we will advise on timelines accordingly.
-                </p>
-              </div>
-            </div>
-
-            {/* Right: form */}
-            <div>
-              {submitted ? (
-                <div
-                  style={{
-                    minHeight: "480px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "center",
-                    background: "#ffffff",
-                    padding: "60px",
-                    position: "relative",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: "2px",
-                      background: "#1a3d1e",
-                    }}
-                  />
-                  <CheckCircle
-                    size={44}
-                    strokeWidth={1}
-                    style={{ color: "#1a3d1e", marginBottom: "24px" }}
-                  />
-                  <h3
-                    style={{
-                      fontFamily: "'Cormorant Garamond', serif",
-                      fontSize: "2rem",
-                      fontWeight: 400,
-                      color: "#0a0a0a",
-                      marginBottom: "12px",
-                    }}
-                  >
-                    Message Received
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "0.88rem",
-                      lineHeight: 1.75,
-                      color: "rgba(0,0,0,0.45)",
-                      fontWeight: 300,
-                      maxWidth: "380px",
-                    }}
-                  >
-                    Thank you for reaching out. A member of the Global Green Exports team will be
-                    in contact within 24–48 business hours.
-                  </p>
-                </div>
-              ) : (
-                <form
-                  onSubmit={handleSubmit}
-                  style={{
-                    background: "#ffffff",
-                    padding: "48px",
-                    position: "relative",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: "2px",
-                      background: "#1a3d1e",
-                    }}
-                  />
-
-                  <h2
-                    style={{
-                      fontFamily: "'Cormorant Garamond', serif",
-                      fontSize: "1.8rem",
-                      fontWeight: 400,
-                      color: "#0a0a0a",
-                      marginBottom: "32px",
-                      letterSpacing: "-0.01em",
-                    }}
-                  >
-                    Send us a message
-                  </h2>
-
-                  <div
-                    style={{ display: "grid", gap: "20px", marginBottom: "20px" }}
-                    className="md:grid-cols-2"
-                  >
-                    {[
-                      { key: "name", label: "Full Name", type: "text", required: true, placeholder: "Your full name" },
-                      { key: "company", label: "Company", type: "text", required: false, placeholder: "Company or organisation" },
-                      { key: "email", label: "Email Address", type: "email", required: true, placeholder: "your@email.com" },
-                      { key: "phone", label: "Phone / WhatsApp", type: "tel", required: false, placeholder: "+1 000 000 0000" },
-                      { key: "country", label: "Country", type: "text", required: true, placeholder: "Your country" },
-                    ].map((field) => (
-                      <div key={field.key}>
-                        <label style={labelStyle}>
-                          {field.label}
-                          {field.required && " *"}
-                        </label>
-                        <input
-                          type={field.type}
-                          required={field.required}
-                          placeholder={field.placeholder}
-                          style={inputStyle}
-                          value={(form as any)[field.key]}
-                          onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
-                        />
-                      </div>
-                    ))}
-                    <div>
-                      <label style={labelStyle}>Enquiry Type *</label>
-                      <select
-                        required
-                        style={{ ...inputStyle, cursor: "pointer" }}
-                        value={form.enquiryType}
-                        onChange={(e) => setForm({ ...form, enquiryType: e.target.value })}
-                      >
-                        <option value="">Select enquiry type</option>
-                        <option value="wholesale">Wholesale / Bulk Purchase</option>
-                        <option value="escrow">Escrow Services</option>
-                        <option value="products">Product Information</option>
-                        <option value="export">Export Documentation</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div style={{ marginBottom: "24px" }}>
-                    <label style={labelStyle}>Message *</label>
-                    <textarea
-                      required
-                      rows={5}
-                      placeholder="Please describe your requirements, quantities, destination country, and any other relevant details..."
-                      style={{ ...inputStyle, resize: "vertical" }}
-                      value={form.message}
-                      onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    />
-                  </div>
-
-                  {/* Legal notice */}
-                  <div
-                    style={{
-                      background: "#f5f5f5",
-                      borderLeft: "3px solid rgba(0,0,0,0.15)",
-                      padding: "16px 20px",
-                      marginBottom: "24px",
-                      fontSize: "0.75rem",
-                      lineHeight: 1.7,
-                      color: "rgba(0,0,0,0.4)",
-                      fontWeight: 300,
-                    }}
-                  >
-                    <strong style={{ color: "#0a0a0a", fontWeight: 500 }}>Legal Notice:</strong>{" "}
-                    Global Green Exports only conducts business with licensed entities in
-                    jurisdictions where medicinal cannabis importation is legal. By submitting this
-                    form, you confirm you are enquiring from a compliant legal context.
-                  </div>
-
-                  <button
-                    type="submit"
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "12px",
-                      background: "#0a0a0a",
-                      color: "#ffffff",
-                      padding: "16px",
-                      fontSize: "0.68rem",
-                      fontWeight: 600,
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <Send size={12} />
-                    Send Enquiry
-                    <ArrowRight size={12} />
-                  </button>
-                </form>
-              )}
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
+
+      {/* ── CONTACT FORM & INFO ── */}
+      <section className="bg-[var(--paper)] py-24">
+        <div className="px-5 md:px-12 max-w-[1800px] mx-auto">
+          <div className="grid lg:grid-cols-2 gap-20">
+            {/* Contact Info */}
+            <div>
+              <SectionHeader 
+                label="Contact Information" 
+                title="Reach Out Directly"
+                subtitle="Our team is available to answer your questions about sourcing, compliance, and logistics."
+              />
+
+              <div className="space-y-8 mt-12">
+                {contactInfo.map((info, index) => (
+                  <Reveal key={info.label} direction="left" delay={index * 0.1}>
+                    <div className="flex gap-4">
+                      <div className="w-12 h-12 rounded-full border border-[var(--line)] flex items-center justify-center shrink-0">
+                        <info.icon className="w-5 h-5 text-[var(--jade)]" />
+                      </div>
+                      <div>
+                        <h3 className="font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--ink-30)] mb-2">
+                          {info.label}
+                        </h3>
+                        {info.details.map((detail, i) => (
+                          <p key={i} className="text-[14px] text-[var(--ink-60)] leading-relaxed">
+                            {detail}
+                          </p>
+                        ))}
+                        {info.action && (
+                          <Link 
+                            href={info.action}
+                            className="inline-block mt-2 font-mono text-[10px] tracking-[0.15em] uppercase text-[var(--jade)] hover:text-[var(--jade-deep)] transition-colors"
+                          >
+                            Contact Now →
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+
+              {/* Map placeholder */}
+              <Reveal direction="up" delay={0.4} className="mt-12">
+                <div className="rounded-2xl overflow-hidden border border-[var(--line)] h-[200px] bg-[var(--paper-2)] relative">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <MapPin className="w-8 h-8 text-[var(--jade)] mx-auto mb-2" />
+                      <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--ink-30)]">
+                        Bangkok, Thailand
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+
+            {/* Contact Form */}
+            <div>
+              <Reveal direction="right">
+                <div className="bg-[var(--paper-2)] p-8 md:p-12 rounded-2xl border border-[var(--line)]">
+                  <h3 className="font-display text-[clamp(24px,3vw,36px)] text-[var(--ink)] mb-2">
+                    Send a Message
+                  </h3>
+                  <p className="text-[13px] text-[var(--ink-55)] mb-8">
+                    Complete the form below and we'll respond within 48 business hours.
+                  </p>
+
+                  {isSubmitted ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex flex-col items-center justify-center py-12 text-center"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-[var(--jade)]/10 flex items-center justify-center mb-4">
+                        <CheckCircle className="w-8 h-8 text-[var(--jade)]" />
+                      </div>
+                      <h4 className="font-display text-[24px] text-[var(--ink)] mb-2">
+                        Message Sent!
+                      </h4>
+                      <p className="text-[13px] text-[var(--ink-55)]">
+                        Thank you for reaching out. We'll get back to you within 48 hours.
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6" noValidate>
+                      {/* Name */}
+                      <div>
+                        <label htmlFor="name" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[var(--ink-40)] block mb-2">
+                          Full Name <span className="text-[var(--stamp)]">*</span>
+                        </label>
+                        <input
+                          id="name"
+                          type="text"
+                          value={formState.name}
+                          onChange={handleChange}
+                          className={`w-full bg-[var(--paper)] border ${
+                            errors.name ? "border-[var(--stamp)]" : "border-[var(--line)]"
+                          } rounded-lg px-4 py-3 text-[14px] text-[var(--ink)] outline-none transition-colors focus:border-[var(--jade)]`}
+                          placeholder="John Smith"
+                          aria-invalid={!!errors.name}
+                        />
+                        {errors.name && (
+                          <p className="font-mono text-[10px] text-[var(--stamp)] mt-1">{errors.name}</p>
+                        )}
+                      </div>
+
+                      {/* Email */}
+                      <div>
+                        <label htmlFor="email" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[var(--ink-40)] block mb-2">
+                          Email Address <span className="text-[var(--stamp)]">*</span>
+                        </label>
+                        <input
+                          id="email"
+                          type="email"
+                          value={formState.email}
+                          onChange={handleChange}
+                          className={`w-full bg-[var(--paper)] border ${
+                            errors.email ? "border-[var(--stamp)]" : "border-[var(--line)]"
+                          } rounded-lg px-4 py-3 text-[14px] text-[var(--ink)] outline-none transition-colors focus:border-[var(--jade)]`}
+                          placeholder="john@company.com"
+                          aria-invalid={!!errors.email}
+                        />
+                        {errors.email && (
+                          <p className="font-mono text-[10px] text-[var(--stamp)] mt-1">{errors.email}</p>
+                        )}
+                      </div>
+
+                      {/* Company & Phone */}
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label htmlFor="company" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[var(--ink-40)] block mb-2">
+                            Company
+                          </label>
+                          <input
+                            id="company"
+                            type="text"
+                            value={formState.company}
+                            onChange={handleChange}
+                            className="w-full bg-[var(--paper)] border border-[var(--line)] rounded-lg px-4 py-3 text-[14px] text-[var(--ink)] outline-none transition-colors focus:border-[var(--jade)]"
+                            placeholder="Company Name"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="phone" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[var(--ink-40)] block mb-2">
+                            Phone
+                          </label>
+                          <input
+                            id="phone"
+                            type="tel"
+                            value={formState.phone}
+                            onChange={handleChange}
+                            className="w-full bg-[var(--paper)] border border-[var(--line)] rounded-lg px-4 py-3 text-[14px] text-[var(--ink)] outline-none transition-colors focus:border-[var(--jade)]"
+                            placeholder="+66 2 123 4567"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Vertical */}
+                      <div>
+                        <label htmlFor="vertical" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[var(--ink-40)] block mb-2">
+                          Vertical of Interest
+                        </label>
+                        <select
+                          id="vertical"
+                          value={formState.vertical}
+                          onChange={handleChange}
+                          className="w-full bg-[var(--paper)] border border-[var(--line)] rounded-lg px-4 py-3 text-[14px] text-[var(--ink)] outline-none transition-colors focus:border-[var(--jade)] appearance-none"
+                        >
+                          <option value="">Select a vertical</option>
+                          {verticals.map((v) => (
+                            <option key={v} value={v}>{v}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* How Did You Find Us */}
+                      <div>
+                        <label htmlFor="howDidYouFind" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[var(--ink-40)] block mb-2">
+                          How Did You Find Us?
+                        </label>
+                        <select
+                          id="howDidYouFind"
+                          value={formState.howDidYouFind}
+                          onChange={handleChange}
+                          className="w-full bg-[var(--paper)] border border-[var(--line)] rounded-lg px-4 py-3 text-[14px] text-[var(--ink)] outline-none transition-colors focus:border-[var(--jade)] appearance-none"
+                        >
+                          <option value="">Select an option</option>
+                          {howDidYouFindOptions.map((option) => (
+                            <option key={option} value={option}>{option}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Message */}
+                      <div>
+                        <label htmlFor="message" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[var(--ink-40)] block mb-2">
+                          Message <span className="text-[var(--stamp)]">*</span>
+                        </label>
+                        <textarea
+                          id="message"
+                          rows={5}
+                          value={formState.message}
+                          onChange={handleChange}
+                          className={`w-full bg-[var(--paper)] border ${
+                            errors.message ? "border-[var(--stamp)]" : "border-[var(--line)]"
+                          } rounded-lg px-4 py-3 text-[14px] text-[var(--ink)] outline-none transition-colors focus:border-[var(--jade)] resize-none`}
+                          placeholder="Tell us about your requirements, volume, destination, and any specific questions..."
+                          aria-invalid={!!errors.message}
+                        />
+                        {errors.message && (
+                          <p className="font-mono text-[10px] text-[var(--stamp)] mt-1">{errors.message}</p>
+                        )}
+                      </div>
+
+                      {/* Submit */}
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full flex items-center justify-center gap-3 bg-[var(--ink)] text-[var(--paper)] font-mono text-[10px] tracking-[0.25em] uppercase px-6 py-4 rounded-lg hover:bg-[var(--jade-deep)] transition-colors duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <span className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white" />
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="w-4 h-4" />
+                            Send Message
+                          </>
+                        )}
+                      </button>
+
+                      <p className="text-[10px] text-[var(--ink-35)] text-center font-mono tracking-[0.15em] uppercase">
+                        We respect your privacy. Your information will never be shared.
+                      </p>
+                    </form>
+                  )}
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+        <TearLine />
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="bg-[var(--ink)] py-24">
+        <div className="px-5 md:px-12 max-w-[1800px] mx-auto text-center">
+          <Reveal>
+            <div className="inline-block px-6 py-2 border border-[var(--jade)]/30 rounded-full mb-8">
+              <span className="font-mono text-[9px] tracking-[0.2em] uppercase text-[var(--jade)]">We're Here to Help</span>
+            </div>
+            <h2 className="font-display text-[clamp(32px,5vw,72px)] leading-[0.9] tracking-tight text-white/90">
+              Ready to Build Your
+              <br />
+              <span className="text-[var(--jade)] italic">Global Supply Chain?</span>
+            </h2>
+            <p className="text-[15px] text-white/40 max-w-lg mx-auto mt-6">
+              Whether you're a licensed importer, pharmaceutical company, or commercial developer — we're ready to support your sourcing needs.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.25em] uppercase px-10 py-5 bg-[var(--jade)] text-[var(--paper)] hover:bg-white hover:text-[var(--ink)] transition-all duration-500 rounded-lg"
+              >
+                Explore Products
+              </Link>
+              <Link
+                href="/wholesale"
+                className="inline-flex items-center gap-3 font-mono text-[11px] tracking-[0.25em] uppercase px-10 py-5 border border-white/30 text-white/70 hover:bg-white/10 transition-colors rounded-lg"
+              >
+                View Wholesale
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+        <TearLine />
+      </section>
     </>
+  );
+}
+
+// ============================================================
+// STAMP SEAL COMPONENT (reused)
+// ============================================================
+
+function StampSeal({ label, sub, size = "md", rotate = -8, className = "" }: { 
+  label: string; 
+  sub?: string; 
+  size?: "sm" | "md" | "lg";
+  rotate?: number;
+  className?: string;
+}) {
+  const sizes = { sm: "w-12 h-12", md: "w-16 h-16", lg: "w-24 h-24" };
+  const textSizes = { sm: "text-[8px]", md: "text-[9px]", lg: "text-[11px]" };
+  
+  return (
+    <div 
+      className={`${sizes[size]} shrink-0 text-[var(--stamp)] ${className}`}
+      style={{ transform: `rotate(${rotate}deg)` }}
+      aria-hidden="true"
+    >
+      <div className="relative w-full h-full border-2 border-current rounded-full flex items-center justify-center">
+        <div className="absolute inset-1 border border-current rounded-full opacity-50" />
+        <div className={`text-center px-2 ${textSizes[size]}`}>
+          <div className="font-mono tracking-[0.15em] uppercase leading-tight">{label}</div>
+          {sub && <div className="font-mono tracking-[0.1em] uppercase opacity-60 text-[0.7em] mt-0.5">{sub}</div>}
+        </div>
+      </div>
+    </div>
   );
 }

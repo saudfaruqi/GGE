@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   THE MANIFEST — design tokens
+   A Thai export house's identity should feel like customs
+   paperwork and cargo documentation, not a luxury microsite.
+============================================================ */
+
+:root {
+  --paper: #f2ede1;       /* kraft / rice paper */
+  --paper-2: #ece5d4;     /* slightly deeper paper, for panels */
+  --paper-3: #e2d9c3;     /* deepest paper, for large recessed numerals */
+  --ink: #26231c;         /* teak-brown-black, primary text */
+  --ink-70: rgba(38, 35, 28, 0.7);
+  --ink-55: rgba(38, 35, 28, 0.55);
+  --ink-35: rgba(38, 35, 28, 0.35);
+  --ink-15: rgba(38, 35, 28, 0.15);
+
+  --jade: #3f6b52;        /* certification / trust green — used sparingly */
+  --jade-deep: #2b4d3b;
+
+  --stamp: #a8402e;       /* rubber-stamp red — accents only, never body text */
+  --stamp-dim: rgba(168, 64, 46, 0.12);
+
+  --brass: #ad8a54;       /* cargo-tag brass — numbering, hardware */
+  --brass-dim: rgba(173, 138, 84, 0.25);
+
+  --line: #d9cfbb;        /* warm hairline rule */
+  --line-strong: #c7ba9e;
+
+  --white: #fffdf8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Perforated / tear-line divider — the section-break signature,
+   standing in for the plain hairline rule of a generic template. */
+.tear-line {
+  position: relative;
+  height: 1px;
+  background: var(--line);
+}
+.tear-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--paper) 1.5px, transparent 1.6px);
+  background-size: 10px 1px;
+  background-position: center;
+}
+
+/* Ink-stamp signature element */
+.stamp-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  position: relative;
+}
+.stamp-seal::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  opacity: 0.5;
+}
+
+.font-display {
+  font-family: var(--font-fraunces), serif;
+}
+.font-body {
+  font-family: var(--font-plex-sans), sans-serif;
+}
+.font-mono {
+  font-family: var(--font-plex-mono), monospace;
+}
+
+.reveal,
+.reveal-left,
+.reveal-right {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-left { transform: translateX(-18px); }
+.reveal-right { transform: translateX(18px); }
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Focus visibility floor — applies everywhere, no exceptions */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--jade);
+  outline-offset: 2px;
+}
+
+/* Add to your global CSS file */
+
+/* Tear-line divider — replaces border-b */
+.tear-line {
+  position: relative;
+  height: 1px;
+  background: var(--line);
+  margin-top: -1px;
+}
+.tear-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--paper) 1.5px, transparent 1.6px);
+  background-size: 10px 1px;
+  background-position: center;
+}
+
+/* Numeral embossed effect for large numbers */
+.numeral-embossed {
+  color: var(--paper-3);
+  text-shadow: 1px 1px 0 var(--white), -1px -1px 0 var(--ink-15);
+}
+
+/* Paper grain texture */
+.paper-grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  opacity: 0.025;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Stamp seal base styles */
+.stamp-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
