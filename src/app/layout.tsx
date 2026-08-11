@@ -1,6 +1,6 @@
 // src/app/layout.tsx
 import type { Metadata, Viewport } from "next";
-import { Manrope, Inter, JetBrains_Mono } from "next/font/google";
+import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "../../styles/globals.css";
 
 import Navbar from "@/components/Navbar";
@@ -18,26 +18,30 @@ const DEFAULT_OG_IMAGE = "/images/og-image.jpg";
 
 // ============================================================
 // FONTS
+// globals.css maps .font-display/.font-body/.font-mono to
+// --font-fraunces / --font-plex-sans / --font-plex-mono — these
+// variable names must match exactly or the classes silently fall
+// back to generic serif/sans-serif/monospace.
 // ============================================================
 
-const manrope = Manrope({
+const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-fraunces",
   weight: ["500", "600", "700", "800"],
 });
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-plex-sans",
   weight: ["400", "500", "600"],
 });
 
-const jbMono = JetBrains_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-jbmono",
+  variable: "--font-plex-mono",
   weight: ["400", "500"],
 });
 
@@ -153,7 +157,11 @@ export const metadata: Metadata = {
   },
 
   category: "business",
-  
+
+  verification: {
+    google: "LWrmT9AGqp4e4l7BNBIQC_E1XPBO-9Yu7UvGMrP1YLE",
+  },
+
   other: {
     "geo.region": "TH",
     "geo.placename": "Bangkok",
@@ -314,7 +322,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${inter.variable} ${jbMono.variable}`}
+      className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col antialiased font-body bg-black text-[var(--ink)]">
