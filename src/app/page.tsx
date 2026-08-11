@@ -428,18 +428,20 @@ function Hero() {
             className="font-display leading-[0.92] tracking-tight text-white"
             style={{ fontSize: "clamp(48px, 10vw, 140px)" }}
           >
-            Global Supply.
+            <span className="sr-only">Global Supply. Without Compromise. Thailand's FDA-licensed cannabis, hemp, construction &amp; HVAC export partner. </span>
+            <span aria-hidden="true">Global Supply.</span>
           </motion.h1>
 
-          <motion.h1
+          <motion.div
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 60 }}
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
             className="font-display italic leading-[0.92] tracking-tight text-white/80"
             style={{ fontSize: "clamp(48px, 10vw, 140px)" }}
+            aria-hidden="true"
           >
             Without Compromise.
-          </motion.h1>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}

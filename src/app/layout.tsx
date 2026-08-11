@@ -102,12 +102,9 @@ export const metadata: Metadata = {
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
-    other: [
-      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#3f6b52" },
-    ],
   },
 
-  manifest: "/site.webmanifest",
+  manifest: "/manifest.webmanifest",
 
   openGraph: {
     type: "website",
@@ -201,7 +198,7 @@ export default function RootLayout({
     "@type": "Organization",
     name: BRAND_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    logo: `${SITE_URL}/logo1.png`,
     description:
       "Bangkok-based export house licensed under Thailand's FDA framework, specializing in GACP-certified cannabis, hemp derivatives, construction materials, appliances, and HVAC equipment.",
     email: "info@globalgreenexport.com",
