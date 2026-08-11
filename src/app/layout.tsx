@@ -161,7 +161,7 @@ export const metadata: Metadata = {
   verification: {
     google: "LWrmT9AGqp4e4l7BNBIQC_E1XPBO-9Yu7UvGMrP1YLE",
   },
-
+  
   other: {
     "geo.region": "TH",
     "geo.placename": "Bangkok",
