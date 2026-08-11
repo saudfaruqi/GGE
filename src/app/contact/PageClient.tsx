@@ -68,9 +68,6 @@ function SectionHeader({
   );
 }
 
-function TearLine() {
-  return <div className="tear-line" />;
-}
 
 // ============================================================
 // CONTACT PAGE
@@ -481,7 +478,7 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-        <TearLine />
+        
       </section>
 
       {/* ── CTA ── */}
@@ -515,7 +512,7 @@ export default function ContactPage() {
             </div>
           </Reveal>
         </div>
-        <TearLine />
+        
       </section>
     </>
   );

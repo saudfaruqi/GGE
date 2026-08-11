@@ -138,9 +138,6 @@ function StampSeal({ label, sub, size = "md", rotate = -8, className = "" }: {
   );
 }
 
-function TearLine() {
-  return <div className="tear-line" />;
-}
 
 function SectionWrapper({ children, className = "", id = "" }: { children: React.ReactNode; className?: string; id?: string }) {
   return (
@@ -529,7 +526,6 @@ function BrandStory() {
           </Reveal>
         </div>
       </div>
-      <TearLine />
     </SectionWrapper>
   );
 }
@@ -589,7 +585,6 @@ function VerticalPanels() {
           </MagneticButton>
         </Reveal>
       </div>
-      <TearLine />
     </SectionWrapper>
   );
 }
@@ -638,7 +633,7 @@ function GlobalReach() {
           </div>
         </Reveal>
       </div>
-      <TearLine />
+      
     </SectionWrapper>
   );
 }
@@ -671,7 +666,7 @@ function WhyUs() {
           ))}
         </div>
       </div>
-      <TearLine />
+      
     </SectionWrapper>
   );
 }
@@ -874,7 +869,7 @@ function ProcessTimeline() {
           </Reveal>
         </div>
       </div>
-      <TearLine />
+      
     </SectionWrapper>
   );
 }
@@ -923,7 +918,7 @@ function Certifications() {
           ))}
         </div>
       </div>
-      <TearLine />
+      
     </SectionWrapper>
   );
 }
@@ -979,7 +974,7 @@ function FaqSection() {
           })}
         </div>
       </div>
-      <TearLine />
+      
     </SectionWrapper>
   );
 }
@@ -1026,7 +1021,7 @@ function FinalCTA() {
           </div>
         </Reveal>
       </div>
-      <TearLine />
+      
     </SectionWrapper>
   );
 }
