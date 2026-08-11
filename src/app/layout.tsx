@@ -154,7 +154,7 @@ export const metadata: Metadata = {
       "en-GB": `${SITE_URL}/en-gb`,
       "th-TH": `${SITE_URL}/th-th`,
     },
-  },
+  }, 
 
   category: "business",
 
