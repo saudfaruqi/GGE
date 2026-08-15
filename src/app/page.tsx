@@ -305,6 +305,9 @@ const DESTINATIONS = [
   { country: "Poland", region: "Europe" },
   { country: "New Zealand", region: "Asia-Pacific" },
   { country: "United States", region: "North America" },
+  { country: "Brazil", region: "South America" },
+  { country: "Mexico", region: "North America" },
+  { country: "Costa Rica", region: "Central America" },
 ];
 
 const CERTIFICATES = [
@@ -335,7 +338,7 @@ const CERTIFICATES = [
 ];
 
 const STATS = [
-  { value: "30+", label: "Export Markets", description: "Active supply chains across Europe, North America, Asia-Pacific, and the United Kingdom with full regulatory clearance in each market." },
+  { value: "30+", label: "Export Markets", description: "Active supply chains across Europe, North America, South America, Central America, Asia-Pacific, and the United Kingdom with full regulatory clearance in each market." },
   { value: "100%", label: "Escrow Protected", description: "Every transaction is secured through neutral third-party escrow — funds held until delivery verification is confirmed by the buyer." },
   { value: "48h", label: "Response Time", description: "Feasibility assessment and initial response within 48 business hours of enquiry submission — no delays, no waiting." },
   { value: "FDA", label: "Thai Licensed", description: "Licensed by the Thai Food and Drug Administration to export regulated products globally — full compliance and documentation." },
@@ -369,7 +372,7 @@ const FAQS = [
   },
   {
     q: "Which countries do you export to?",
-    a: "We export to 30+ countries including Germany, Canada, Australia, United Kingdom, Netherlands, Switzerland, and the United States, among others."
+    a: "We export to 30+ countries including Germany, Canada, Australia, United Kingdom, Netherlands, Switzerland, Brazil, Mexico, and the United States, among others."
   },
   {
     q: "What documentation is provided with each order?",
@@ -418,27 +421,27 @@ function Hero() {
             <span className="font-mono text-[11px] tracking-[0.3em] uppercase text-white/70">Bangkok, Thailand</span>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 60 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-            className="font-display leading-[0.92] tracking-tight text-white"
-            style={{ fontSize: "clamp(48px, 10vw, 140px)" }}
-          >
-            <span className="sr-only">Global Supply. Without Compromise. Thailand's FDA-licensed cannabis, hemp, construction &amp; HVAC export partner. </span>
-            <span aria-hidden="true">Global Supply.</span>
-          </motion.h1>
+<motion.h1
+  initial={{ opacity: 0, y: 60 }}
+  animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 60 }}
+  transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+  className="font-display leading-[0.92] tracking-tight text-white"
+  style={{ fontSize: "clamp(24px, 4vw, 56px)" }}
+>
+  <span className="sr-only">Global Supply. Without Compromise. Thailand's FDA-licensed cannabis, hemp, construction &amp; HVAC export partner. </span>
+  <span aria-hidden="true">Global Supply.</span>
+</motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 60 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
-            className="font-display italic leading-[0.92] tracking-tight text-white/80"
-            style={{ fontSize: "clamp(48px, 10vw, 140px)" }}
-            aria-hidden="true"
-          >
-            Without Compromise.
-          </motion.div>
+<motion.div
+  initial={{ opacity: 0, y: 60 }}
+  animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 60 }}
+  transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
+  className="font-display italic leading-[0.92] tracking-tight text-white/80"
+  style={{ fontSize: "clamp(24px, 4vw, 56px)" }}
+  aria-hidden="true"
+>
+  Without Compromise.
+</motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -600,7 +603,7 @@ function GlobalReach() {
         <SectionHeader 
           label="Global Reach" 
           title="30+ Countries"
-          subtitle="We supply licensed importers across Europe, Asia-Pacific, North America, and the United Kingdom."
+          subtitle="We supply licensed importers across Europe, Asia-Pacific, North America, South America, Central America, and the United Kingdom."
           centered
           direction="up"
         />

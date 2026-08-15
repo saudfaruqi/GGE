@@ -68,6 +68,9 @@ function SectionHeader({
   );
 }
 
+function TearLine() {
+  return <div className="tear-line" />;
+}
 
 // ============================================================
 // CONTACT PAGE
@@ -86,6 +89,7 @@ export default function ContactPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleChange = useCallback((
@@ -131,28 +135,55 @@ export default function ContactPage() {
       return;
     }
 
+    setSubmitError(null);
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    // Reset form after 5 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormState({
-        name: "",
-        email: "",
-        company: "",
-        phone: "",
-        vertical: "",
-        message: "",
-        howDidYouFind: "",
+
+    try {
+      const res = await fetch("/contact-handler.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState),
       });
-    }, 5000);
-  }, [validate]);
+
+      let payload: { success?: boolean; error?: string; errors?: Record<string, string> } = {};
+      try {
+        payload = await res.json();
+      } catch {
+        // Non-JSON response (e.g. hosting error page) — treat as failure below.
+      }
+
+      if (!res.ok || !payload.success) {
+        if (payload.errors) {
+          setErrors(payload.errors);
+        }
+        throw new Error(payload.error || "Something went wrong sending your message.");
+      }
+
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormState({
+          name: "",
+          email: "",
+          company: "",
+          phone: "",
+          vertical: "",
+          message: "",
+          howDidYouFind: "",
+        });
+      }, 5000);
+    } catch (err) {
+      setIsSubmitting(false);
+      setSubmitError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please email info@globalgreenexport.com directly."
+      );
+    }
+  }, [validate, formState]);
 
   const contactInfo = [
     {
@@ -320,6 +351,26 @@ export default function ContactPage() {
                     </motion.div>
                   ) : (
                     <form ref={formRef} onSubmit={handleSubmit} className="space-y-6" noValidate>
+                      {/* Honeypot — hidden from real users, catches basic bots.
+                          Must stay named "website" to match contact-handler.php */}
+                      <input
+                        type="text"
+                        name="website"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                        className="absolute -left-[9999px] w-px h-px opacity-0"
+                        value={(formState as any).website || ""}
+                        onChange={handleChange}
+                        id="website"
+                      />
+
+                      {submitError && (
+                        <div className="rounded-md border border-[var(--stamp)]/30 bg-[var(--stamp)]/5 px-4 py-3 text-[13px] text-[var(--stamp)]">
+                          {submitError}
+                        </div>
+                      )}
+
                       {/* Name */}
                       <div>
                         <label htmlFor="name" className="font-mono text-[9px] tracking-[0.25em] uppercase text-[var(--ink-40)] block mb-2">
@@ -478,7 +529,7 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-        
+        <TearLine />
       </section>
 
       {/* ── CTA ── */}
@@ -512,7 +563,7 @@ export default function ContactPage() {
             </div>
           </Reveal>
         </div>
-        
+        <TearLine />
       </section>
     </>
   );

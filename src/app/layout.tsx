@@ -14,14 +14,14 @@ import SkipLink from "@/components/SkipLink";
 const BRAND_NAME = "Global Green Export";
 const SITE_URL = "https://www.globalgreenexport.com";
 const SITE_NAME = "Global Green Export";
+const SITE_TITLE = "Global Green Export | Thailand's Premier Export Partner";
+const SITE_DESCRIPTION = 
+  "Bangkok-based FDA-licensed export house specializing in GACP-certified cannabis, hemp derivatives, construction materials, appliances, and HVAC equipment. Escrow-protected global supply chains with full documentation.";
 const DEFAULT_OG_IMAGE = "/images/og-image.jpg";
+const TWITTER_HANDLE = "@globalgreenexp";
 
 // ============================================================
 // FONTS
-// globals.css maps .font-display/.font-body/.font-mono to
-// --font-fraunces / --font-plex-sans / --font-plex-mono — these
-// variable names must match exactly or the classes silently fall
-// back to generic serif/sans-serif/monospace.
 // ============================================================
 
 const fraunces = Fraunces({
@@ -46,6 +46,39 @@ const plexMono = IBM_Plex_Mono({
 });
 
 // ============================================================
+// KEYWORDS
+// ============================================================
+
+const KEYWORDS = [
+  "Thailand export partner",
+  "cannabis export Thailand",
+  "hemp derivatives wholesale",
+  "construction materials export",
+  "HVAC equipment supply",
+  "FDA licensed exporter",
+  "GACP certified cannabis",
+  "CBD isolate supplier Thailand",
+  "CBG CBN wholesale export",
+  "EU compliant hemp extract",
+  "structural steel supplier Thailand",
+  "prefab building materials wholesale",
+  "tropical climate HVAC export",
+  "commercial split system supplier",
+  "CE certified appliance export",
+  "container load white goods supplier",
+  "Thai FDA licensed exporter Bangkok",
+  "escrow protected trade Thailand",
+  "international supply chain Thailand",
+  "cross-border B2B trade Thailand",
+  "cannabis export to USA",
+  "hemp export to Europe",
+  "cannabis export to Brazil",
+  "hemp export to Mexico",
+  "construction materials to Australia",
+  "HVAC equipment to Middle East",
+].join(", ");
+
+// ============================================================
 // METADATA
 // ============================================================
 
@@ -53,37 +86,23 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   
   title: {
-    default: `${BRAND_NAME} | Thailand's Premier Export Partner for Cannabis, Hemp, Construction & HVAC`,
+    default: SITE_TITLE,
     template: `%s | ${BRAND_NAME}`,
   },
   
-  description:
-    `${BRAND_NAME} is a Bangkok-based FDA-licensed export house specializing in GACP-certified cannabis, hemp derivatives, construction materials, appliances, and HVAC equipment. Escrow-protected global supply chains with full documentation.`,
+  description: SITE_DESCRIPTION,
   
   applicationName: SITE_NAME,
-  authors: [{ name: BRAND_NAME }],
+  authors: [{ 
+    name: BRAND_NAME,
+    url: SITE_URL 
+  }],
   creator: BRAND_NAME,
   publisher: BRAND_NAME,
   generator: "Next.js",
   
-  keywords: [
-    "cannabis export Thailand",
-    "GACP certified cannabis",
-    "hemp derivatives wholesale",
-    "construction materials export",
-    "HVAC equipment supply",
-    "Thai FDA licensed exporter",
-    "escrow protected trade",
-    "international supply chain",
-    "Bangkok export house",
-    "medical cannabis export",
-    "CBD wholesale Thailand",
-    "THC export",
-    "pharmaceutical grade cannabis",
-    "Thai FDA export license",
-    "cross-border trade"
-  ].join(", "),
-
+  keywords: KEYWORDS,
+  
   robots: {
     index: true,
     follow: true,
@@ -106,6 +125,7 @@ export const metadata: Metadata = {
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
+    shortcut: ["/favicon.ico"],
   },
 
   manifest: "/manifest.webmanifest",
@@ -116,9 +136,8 @@ export const metadata: Metadata = {
     alternateLocale: ["en_US", "en_GB"],
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${BRAND_NAME} | Thailand's Premier Export Partner`,
-    description:
-      "Bangkok-based FDA-licensed export house specializing in GACP-certified cannabis, hemp derivatives, construction materials, appliances, and HVAC equipment. Escrow-protected global supply chains.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: [
       {
         url: DEFAULT_OG_IMAGE,
@@ -139,11 +158,10 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    site: "@globalgreenexp",
-    creator: "@globalgreenexp",
-    title: `${BRAND_NAME} | Thailand's Premier Export Partner`,
-    description:
-      "Bangkok-based FDA-licensed export house specializing in GACP-certified cannabis, hemp derivatives, construction materials, appliances, and HVAC equipment.",
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE],
   },
 
@@ -154,10 +172,10 @@ export const metadata: Metadata = {
       "en-GB": `${SITE_URL}/en-gb`,
       "th-TH": `${SITE_URL}/th-th`,
     },
-  }, 
+  },
 
   category: "business",
-
+  
   verification: {
     google: "LWrmT9AGqp4e4l7BNBIQC_E1XPBO-9Yu7UvGMrP1YLE",
   },
@@ -196,19 +214,18 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  
   // ============================================================
-  // STRUCTURED DATA
+  // STRUCTURED DATA (JSON-LD)
   // ============================================================
 
-  // 1. Organization Schema
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: BRAND_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/logo1.png`,
-    description:
-      "Bangkok-based export house licensed under Thailand's FDA framework, specializing in GACP-certified cannabis, hemp derivatives, construction materials, appliances, and HVAC equipment.",
+    description: SITE_DESCRIPTION,
     email: "info@globalgreenexport.com",
     telephone: "+6621234567",
     address: {
@@ -227,16 +244,35 @@ export default function RootLayout({
       "Australia",
       "Netherlands",
       "Switzerland",
+      "Brazil",
+      "Mexico",
       "Europe",
       "Asia",
+      "South America",
+      "Central America",
     ],
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "sales",
-      telephone: "+6621234567",
-      email: "sales@globalgreenexport.com",
-      availableLanguage: ["English", "Thai"],
-    },
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        telephone: "+6621234567",
+        email: "sales@globalgreenexport.com",
+        availableLanguage: ["English", "Thai"],
+        hoursAvailable: {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          opens: "08:00",
+          closes: "18:00",
+        },
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "customer service",
+        telephone: "+6621234567",
+        email: "support@globalgreenexport.com",
+        availableLanguage: ["English", "Thai"],
+      },
+    ],
     sameAs: [
       "https://linkedin.com/company/globalgreenexport",
       "https://twitter.com/globalgreenexp",
@@ -253,57 +289,24 @@ export default function RootLayout({
     },
   };
 
-  // 2. Website Schema
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: SITE_NAME,
     url: SITE_URL,
-    description:
-      "Bangkok-based export house licensed under Thailand's FDA framework, specializing in GACP-certified cannabis, hemp derivatives, construction materials, appliances, and HVAC equipment.",
+    description: SITE_DESCRIPTION,
     potentialAction: {
       "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
-      },
+      target: `${SITE_URL}/search?q={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
   };
 
-  // 3. Breadcrumb Schema
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: SITE_URL,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Products",
-        item: `${SITE_URL}/products`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Contact",
-        item: `${SITE_URL}/contact`,
-      },
-    ],
-  };
-
-  // 4. Local Business Schema
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "ExportCompany",
     name: BRAND_NAME,
-    description:
-      "Bangkok-based FDA-licensed export house specializing in GACP-certified cannabis, hemp derivatives, construction materials, appliances, and HVAC equipment.",
+    description: SITE_DESCRIPTION,
     address: {
       "@type": "PostalAddress",
       streetAddress: "Sukhumvit Road",
@@ -315,8 +318,21 @@ export default function RootLayout({
       latitude: 13.756331,
       longitude: 100.501765,
     },
-    openingHours: "Mo-Fr 08:00-18:00",
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "18:00",
+    },
     priceRange: "$$$",
+    hasMerchantReturnPolicy: {
+      "@type": "MerchantReturnPolicy",
+      applicableCountry: "TH",
+      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+      merchantReturnDays: 14,
+      returnMethod: "https://schema.org/ReturnByMail",
+      returnFees: "https://schema.org/FreeReturn",
+    },
   };
 
   return (
@@ -329,19 +345,21 @@ export default function RootLayout({
         {/* Structured Data Scripts */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(organizationSchema) 
+          }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(websiteSchema) 
+          }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          dangerouslySetInnerHTML={{ 
+            __html: JSON.stringify(localBusinessSchema) 
+          }}
         />
 
         <SkipLink />

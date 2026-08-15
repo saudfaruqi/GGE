@@ -18,6 +18,18 @@ const nextConfig = {
   // Enable static export
   trailingSlash: true,
   output: 'export',
+  
+  // Add this for proper asset handling in static export
+  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://www.globalgreenexport.com' : '',
+  
+  // Ensure static files are copied
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+    };
+    return config;
+  },
 };
 
 module.exports = nextConfig;

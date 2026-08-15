@@ -455,25 +455,25 @@ export default function ScrollVideoHero() {
 
       {/* Error Fallback */}
       {hasError && (
-        <div className="absolute inset-0 flex items-center justify-center z-10">
-          <div className="text-center px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-            >
-              <div className="font-display text-[clamp(48px,8vw,100px)] tracking-tight text-white/90 mb-2">
-                Global Supply.
-              </div>
-              <div className="font-display italic text-[clamp(40px,7vw,90px)] tracking-tight text-emerald-400/60 mb-6">
-                Without Compromise.
-              </div>
-              <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-white/30">
-                Premium cannabis genetics
-              </p>
-            </motion.div>
-          </div>
-        </div>
+<div className="absolute inset-0 flex items-center justify-center z-10">
+  <div className="text-center px-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+    >
+      <div className="font-display text-[clamp(20px,3vw,36px)] tracking-tight text-white/90 mb-1">
+        Global Supply.
+      </div>
+      <div className="font-display italic text-[clamp(16px,2.5vw,30px)] tracking-tight text-emerald-400/60 mb-3">
+        Without Compromise.
+      </div>
+      <p className="font-mono text-[6px] tracking-[0.2em] uppercase text-white/30">
+        Premium cannabis genetics
+      </p>
+    </motion.div>
+  </div>
+</div>
       )}
     </div>
   );
