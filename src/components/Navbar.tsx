@@ -73,7 +73,6 @@ export default function Navbar() {
       <nav className="mx-auto flex h-16 max-w-shell items-center justify-between px-5 sm:px-8 lg:px-12">
         <Link href="/" className="flex shrink-0 items-center gap-3" aria-label="Global Green Export — home">
           <Image src="/logo1.png" alt="Global Green Export" width={52} height={52} className="h-9 w-auto invert" priority />
-          <span className="micro hidden text-[var(--text-55)] sm:block">Global Green Export</span>
         </Link>
 
         <div className="hidden items-center gap-1 lg:flex">

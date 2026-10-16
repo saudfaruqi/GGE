@@ -129,10 +129,6 @@ export default function HomeContent() {
         </div>
 
         <Container className="relative z-10 flex flex-1 flex-col justify-between pb-10 pt-28">
-          <div className="flex items-center justify-between">
-            <Label className="text-[var(--text-55)]">Global Green Export — export house</Label>
-            <Label className="hidden text-[var(--text-40)] sm:block">BKK 13.75N 100.50E</Label>
-          </div>
 
           <div className="max-w-4xl py-16">
             <h1 className="h-display text-[clamp(40px,7vw,104px)] text-[var(--text)]">
