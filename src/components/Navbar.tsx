@@ -64,7 +64,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-[100] border-b transition-colors duration-300 ${
+      className={`fixed py-2 inset-x-0 top-0 z-[100] border-b transition-colors duration-300 ${
         scrolled
           ? "border-[var(--line)] bg-[rgba(18,17,16,0.82)] backdrop-blur-xl"
           : "border-transparent bg-transparent"
@@ -72,7 +72,7 @@ export default function Navbar() {
     >
       <nav className="mx-auto flex h-16 max-w-shell items-center justify-between px-5 sm:px-8 lg:px-12">
         <Link href="/" className="flex shrink-0 items-center gap-3" aria-label="Global Green Export — home">
-          <Image src="/logo1.png" alt="Global Green Export" width={52} height={52} className="h-9 w-auto invert" priority />
+          <Image src="/logo1.png" alt="Global Green Export" width={52} height={52} className="h-10 lg:h-16 w-auto invert" priority />
         </Link>
 
         <div className="hidden items-center gap-1 lg:flex">
