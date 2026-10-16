@@ -8,25 +8,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "var(--paper)",
-        "paper-2": "var(--paper-2)",
-        "paper-3": "var(--paper-3)",
-        ink: "var(--ink)",
-        jade: "var(--jade)",
-        "jade-deep": "var(--jade-deep)",
-        stamp: "var(--stamp)",
-        brass: "var(--brass)",
-        line: "var(--line)",
+        bg: "#121110",
+        "bg-1": "#181712",
+        "bg-2": "#201f19",
+        line: "#2c2a24",
+        "line-strong": "#3b392f",
+        ink: "#ece6d9",
+        bone: "#f5f0e6",
+        signal: "#ff5a17",
+        "signal-deep": "#d8470d",
       },
       fontFamily: {
-        // These match globals.css's .font-display/.font-body/.font-mono
-        // classes, which already set these vars directly. Kept in sync
-        // here too so the Tailwind utilities (font-display etc.) agree
-        // with the plain CSS classes instead of silently losing the
-        // cascade to whichever rule happens to load last.
-        display: ["var(--font-fraunces)", "serif"],
-        body: ["var(--font-plex-sans)", "sans-serif"],
-        mono: ["var(--font-plex-mono)", "monospace"],
+        display: ["var(--font-sans)", "system-ui", "sans-serif"],
+        body: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+      },
+      maxWidth: {
+        shell: "1280px",
       },
     },
   },

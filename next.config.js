@@ -2,27 +2,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "storage.googleapis.com" },
-    ],
-    // Required for static export
+    // Static export can't run the image optimizer.
     unoptimized: true,
   },
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    removeConsole: process.env.NODE_ENV === "production",
   },
-  // Enable static export
   trailingSlash: true,
-  output: 'export',
-  
-  // Add this for proper asset handling in static export
-  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://www.globalgreenexport.com' : '',
-  
-  // Ensure static files are copied
+  output: "export",
+  // NOTE: no assetPrefix. It was previously hardcoded to a single domain,
+  // which breaks every asset the moment the site is served from anywhere else
+  // (staging, a preview URL, or a different production domain).
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,

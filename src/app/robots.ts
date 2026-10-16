@@ -1,19 +1,17 @@
 // src/app/robots.ts
 import type { MetadataRoute } from "next";
-
-const SITE_URL = "https://www.globalgreenexport.com";
+import { SITE_URL } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/admin/", "/private/", "/_next/", "/static/"],
+      disallow: ["/api/"],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,
   };
 }
 
-// Add this for static export
-export const dynamic = 'force-static';
+export const dynamic = "force-static";

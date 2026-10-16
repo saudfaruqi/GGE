@@ -32,7 +32,7 @@ export default function SkipLink() {
     <a
       href="#main-content"
       onClick={handleSkip}
-      className={`fixed top-4 left-4 z-[9999] px-6 py-3 bg-[var(--jade-deep)] text-white font-medium text-sm tracking-wide rounded shadow-lg ring-2 ring-[var(--jade)] ring-offset-2 ring-offset-[var(--paper)] transition-all duration-200 focus:outline-none hover:bg-[var(--jade)] ${
+      className={`fixed top-4 left-4 z-[9999] px-6 py-3 bg-signal text-[#180800] font-semibold text-sm tracking-wide shadow-lg transition-all duration-200 focus:outline-none ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
       }`}
     >

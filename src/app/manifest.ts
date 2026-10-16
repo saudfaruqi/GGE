@@ -5,11 +5,11 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Global Green Export",
     short_name: "GGE",
-    description: "Thailand's Premier Export Partner for Cannabis, Hemp, Construction & HVAC",
+    description: "Thailand's export house for regulated supply — cannabis, hemp, construction, appliances and HVAC.",
     start_url: "/",
     display: "standalone",
-    background_color: "#f2ede1",
-    theme_color: "#3f6b52",
+    background_color: "#0a0b0d",
+    theme_color: "#0a0b0d",
     icons: [
       {
         src: "/android-chrome-192x192.png",

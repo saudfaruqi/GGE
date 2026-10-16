@@ -3,49 +3,56 @@
 @tailwind utilities;
 
 /* ============================================================
-   THE MANIFEST — design tokens
-   A Thai export house's identity should feel like customs
-   paperwork and cargo documentation, not a luxury microsite.
+   GLOBAL GREEN EXPORT — design tokens
+   Freight-native. Warm ink ground, safety-orange signal, bone
+   type. Documentation vernacular: mono data, hairline rules,
+   dotted leaders. Signal colour is used sparingly — never decoratively.
 ============================================================ */
 
 :root {
-  --paper: #f2ede1;       /* kraft / rice paper */
-  --paper-2: #ece5d4;     /* slightly deeper paper, for panels */
-  --paper-3: #e2d9c3;     /* deepest paper, for large recessed numerals */
-  --ink: #26231c;         /* teak-brown-black, primary text */
-  --ink-70: rgba(38, 35, 28, 0.7);
-  --ink-55: rgba(38, 35, 28, 0.55);
-  --ink-35: rgba(38, 35, 28, 0.35);
-  --ink-15: rgba(38, 35, 28, 0.15);
+  --bg: #121110;          /* warm charcoal ink */
+  --bg-1: #181712;
+  --bg-2: #201f19;
 
-  --jade: #3f6b52;        /* certification / trust green — used sparingly */
-  --jade-deep: #2b4d3b;
+  --line: #2c2a24;        /* hairline */
+  --line-strong: #3b392f;
 
-  --stamp: #a8402e;       /* rubber-stamp red — accents only, never body text */
-  --stamp-dim: rgba(168, 64, 46, 0.12);
+  --text: #ece6d9;        /* bone */
+  --text-70: rgba(236, 230, 217, 0.72);
+  --text-55: rgba(236, 230, 217, 0.55);
+  --text-40: rgba(236, 230, 217, 0.4);
+  --text-25: rgba(236, 230, 217, 0.24);
 
-  --brass: #ad8a54;       /* cargo-tag brass — numbering, hardware */
-  --brass-dim: rgba(173, 138, 84, 0.25);
+  --signal: #ff5a17;      /* safety orange — the one accent */
+  --signal-deep: #d8470d;
+  --signal-dim: rgba(255, 90, 23, 0.12);
 
-  --line: #d9cfbb;        /* warm hairline rule */
-  --line-strong: #c7ba9e;
+  --bone: #f5f0e6;        /* near-white for solid buttons */
 
-  --white: #fffdf8;
+  /* legacy aliases so nothing referencing them breaks mid-refactor */
+  --ink: var(--text);
+  --paper: var(--bg);
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--signal);
+  color: #180800;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
@@ -54,117 +61,124 @@ body {
   }
 }
 
-/* Perforated / tear-line divider — the section-break signature,
-   standing in for the plain hairline rule of a generic template. */
-.tear-line {
-  position: relative;
-  height: 1px;
-  background: var(--line);
-}
-.tear-line::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, var(--paper) 1.5px, transparent 1.6px);
-  background-size: 10px 1px;
-  background-position: center;
-}
+/* ============================================================
+   TYPE
+============================================================ */
 
-/* Ink-stamp signature element */
-.stamp-seal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid currentColor;
-  border-radius: 999px;
-  position: relative;
-}
-.stamp-seal::before {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  opacity: 0.5;
-}
-
-.font-display {
-  font-family: var(--font-fraunces), serif;
-}
+.font-display,
 .font-body {
-  font-family: var(--font-plex-sans), sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
 .font-mono {
-  font-family: var(--font-plex-mono), monospace;
+  font-family: var(--font-mono), ui-monospace, monospace;
 }
 
-.reveal,
-.reveal-left,
-.reveal-right {
+/* Display headings: grotesque at a considered weight, sizing does the work */
+.h-display {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+}
+
+/* Mono micro-label — uppercase, wide tracking, no decorative dash */
+.micro {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* ============================================================
+   SCROLL REVEAL — CSS + IntersectionObserver, no runtime bundle
+============================================================ */
+
+.reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(14px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal-left { transform: translateX(-18px); }
-.reveal-right { transform: translateX(18px); }
-.reveal.visible,
-.reveal-left.visible,
-.reveal-right.visible {
+.reveal.is-visible {
   opacity: 1;
-  transform: translate(0, 0);
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
 }
 
-/* Focus visibility floor — applies everywhere, no exceptions */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--jade);
-  outline-offset: 2px;
-}
+/* ============================================================
+   UTILITIES
+============================================================ */
 
-/* Add to your global CSS file */
-
-/* Tear-line divider — replaces border-b */
-.tear-line {
-  position: relative;
-  height: 1px;
-  background: var(--line);
-  margin-top: -1px;
+/* Dotted leader row — label ....... value (documentation vernacular) */
+.leader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
 }
-.tear-line::before {
+.leader::after {
   content: "";
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, var(--paper) 1.5px, transparent 1.6px);
-  background-size: 10px 1px;
-  background-position: center;
+  flex: 1;
+  border-bottom: 1px dotted var(--line-strong);
+  transform: translateY(-4px);
 }
 
-/* Numeral embossed effect for large numbers */
-.numeral-embossed {
-  color: var(--paper-3);
-  text-shadow: 1px 1px 0 var(--white), -1px -1px 0 var(--ink-15);
+/* Full-bleed hairline rule — the structural device between sections */
+.rule-t {
+  border-top: 1px solid var(--line);
 }
 
-/* Paper grain texture */
-.paper-grain::before {
+/* Atmospheric vignette — replaces multi-stop gradients */
+.vignette {
+  background:
+    radial-gradient(120% 90% at 15% 0%, rgba(255, 90, 23, 0.05) 0%, transparent 55%),
+    radial-gradient(90% 70% at 85% 10%, rgba(0, 0, 0, 0.5) 0%, transparent 60%);
+}
+
+/* Very subtle film grain (not the old paper texture) */
+.grain::after {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-  opacity: 0.025;
-  mix-blend-mode: multiply;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 60;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Stamp seal base styles */
-.stamp-seal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+/* Focus floor */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+/* Article body */
+.prose-article p {
+  margin-bottom: 1.3rem;
+  color: var(--text-70);
+  line-height: 1.8;
+}
+.prose-article h2 {
+  margin-top: 3rem;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+}
+.prose-article ul {
+  color: var(--text-70);
+  line-height: 1.8;
+}
+.prose-article a {
+  color: var(--signal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }

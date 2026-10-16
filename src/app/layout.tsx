@@ -1,130 +1,89 @@
 // src/app/layout.tsx
 import type { Metadata, Viewport } from "next";
-import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import "../../styles/globals.css";
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SkipLink from "@/components/SkipLink";
-
-// ============================================================
-// CONSTANTS
-// ============================================================
-
-const BRAND_NAME = "Global Green Export";
-const SITE_URL = "https://www.globalgreenexport.com";
-const SITE_NAME = "Global Green Export";
-const SITE_TITLE = "Global Green Export | Thailand's Premier Export Partner";
-const SITE_DESCRIPTION = 
-  "Bangkok-based FDA-licensed export house specializing in GACP-certified cannabis, hemp derivatives, construction materials, appliances, and HVAC equipment. Escrow-protected global supply chains with full documentation.";
-const DEFAULT_OG_IMAGE = "/images/og-image.jpg";
-const TWITTER_HANDLE = "@globalgreenexp";
+import CookieConsent from "@/components/CookieConsent";
+import ScrollToTop from "@/components/ScrollToTop";
+import { SITE, SITE_URL, BRAND } from "@/lib/site";
 
 // ============================================================
 // FONTS
 // ============================================================
 
-const fraunces = Fraunces({
+const archivo = Archivo({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-fraunces",
-  weight: ["500", "600", "700", "800"],
-});
-
-const plexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-plex-sans",
-  weight: ["400", "500", "600"],
+  variable: "--font-sans",
 });
 
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-plex-mono",
+  variable: "--font-mono",
   weight: ["400", "500"],
 });
-
-// ============================================================
-// KEYWORDS
-// ============================================================
-
-const KEYWORDS = [
-  "Thailand export partner",
-  "cannabis export Thailand",
-  "hemp derivatives wholesale",
-  "construction materials export",
-  "HVAC equipment supply",
-  "FDA licensed exporter",
-  "GACP certified cannabis",
-  "CBD isolate supplier Thailand",
-  "CBG CBN wholesale export",
-  "EU compliant hemp extract",
-  "structural steel supplier Thailand",
-  "prefab building materials wholesale",
-  "tropical climate HVAC export",
-  "commercial split system supplier",
-  "CE certified appliance export",
-  "container load white goods supplier",
-  "Thai FDA licensed exporter Bangkok",
-  "escrow protected trade Thailand",
-  "international supply chain Thailand",
-  "cross-border B2B trade Thailand",
-  "cannabis export to USA",
-  "hemp export to Europe",
-  "cannabis export to Brazil",
-  "hemp export to Mexico",
-  "construction materials to Australia",
-  "HVAC equipment to Middle East",
-].join(", ");
 
 // ============================================================
 // METADATA
 // ============================================================
 
+const SITE_TITLE =
+  "Global Green Export — Thailand's Export House for Regulated Supply";
+const SITE_DESCRIPTION =
+  "Thai FDA-licensed export house in Bangkok. GACP-certified cannabis and hemp derivatives, plus construction materials, appliances, and HVAC equipment. Escrow-settled, documented at every stage.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  
+
   title: {
     default: SITE_TITLE,
-    template: `%s | ${BRAND_NAME}`,
+    template: `%s | ${BRAND}`,
   },
-  
+
   description: SITE_DESCRIPTION,
-  
-  applicationName: SITE_NAME,
-  authors: [{ 
-    name: BRAND_NAME,
-    url: SITE_URL 
-  }],
-  creator: BRAND_NAME,
-  publisher: BRAND_NAME,
-  generator: "Next.js",
-  
-  keywords: KEYWORDS,
-  
+
+  applicationName: BRAND,
+  authors: [{ name: BRAND, url: SITE_URL }],
+  creator: BRAND,
+  publisher: BRAND,
+
+  keywords: [
+    "Thailand cannabis export",
+    "GACP certified cannabis",
+    "Thai FDA licensed exporter",
+    "hemp derivatives wholesale",
+    "CBD CBG CBN supplier",
+    "medical cannabis export Thailand",
+    "escrow protected B2B trade",
+    "construction materials export Thailand",
+    "appliances export Thailand",
+    "HVAC equipment export Thailand",
+    "Bangkok export house",
+  ],
+
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      noimageindex: false,
-      "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
+      "max-video-preview": -1,
     },
   },
 
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: ["/favicon.ico"],
   },
 
@@ -132,62 +91,33 @@ export const metadata: Metadata = {
 
   openGraph: {
     type: "website",
-    locale: "en_TH",
-    alternateLocale: ["en_US", "en_GB"],
+    locale: "en_US",
     url: SITE_URL,
-    siteName: SITE_NAME,
+    siteName: BRAND,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: DEFAULT_OG_IMAGE,
+        url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: `${BRAND_NAME} — Thailand's Premier Export Partner`,
-        type: "image/jpeg",
-      },
-      {
-        url: "/images/og-image-square.jpg",
-        width: 800,
-        height: 800,
-        alt: `${BRAND_NAME} Logo`,
-        type: "image/jpeg",
+        alt: `${BRAND} — Thailand's Export House for Regulated Supply`,
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    site: TWITTER_HANDLE,
-    creator: TWITTER_HANDLE,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [DEFAULT_OG_IMAGE],
+    images: ["/images/og-image.jpg"],
   },
 
   alternates: {
-    canonical: SITE_URL,
-    languages: {
-      "en-US": `${SITE_URL}/en-us`,
-      "en-GB": `${SITE_URL}/en-gb`,
-      "th-TH": `${SITE_URL}/th-th`,
-    },
+    canonical: "/",
   },
 
   category: "business",
-  
-  verification: {
-    google: "LWrmT9AGqp4e4l7BNBIQC_E1XPBO-9Yu7UvGMrP1YLE",
-  },
-  
-  other: {
-    "geo.region": "TH",
-    "geo.placename": "Bangkok",
-    "geo.position": "13.756331;100.501765",
-    ICBM: "13.756331,100.501765",
-    "og:phone_number": "+6621234567",
-    "og:email": "info@globalgreenexport.com",
-  },
 };
 
 // ============================================================
@@ -197,44 +127,31 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
   viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f2ede1" },
-    { media: "(prefers-color-scheme: dark)", color: "#26231c" },
-  ],
-  colorScheme: "light dark",
+  themeColor: "#0a0b0d",
+  colorScheme: "dark",
 };
 
 // ============================================================
-// ROOT LAYOUT
+// STRUCTURED DATA
 // ============================================================
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
-  
-  // ============================================================
-  // STRUCTURED DATA (JSON-LD)
-  // ============================================================
+function StructuredData() {
+  const sameAs = Object.values(SITE.social);
 
-  const organizationSchema = {
-    "@context": "https://schema.org",
+  const organization = {
     "@type": "Organization",
-    name: BRAND_NAME,
+    "@id": `${SITE_URL}/#organization`,
+    name: BRAND,
     url: SITE_URL,
     logo: `${SITE_URL}/logo1.png`,
     description: SITE_DESCRIPTION,
-    email: "info@globalgreenexport.com",
-    telephone: "+6621234567",
+    email: SITE.email.general,
+    ...(sameAs.length ? { sameAs } : {}),
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Sukhumvit Road",
-      addressLocality: "Bangkok",
-      addressRegion: "Bangkok",
-      postalCode: "10110",
-      addressCountry: "Thailand",
+      addressLocality: SITE.address.hub.region,
+      addressCountry: "TH",
     },
     areaServed: [
       "United States",
@@ -246,133 +163,65 @@ export default function RootLayout({
       "Switzerland",
       "Brazil",
       "Mexico",
-      "Europe",
-      "Asia",
-      "South America",
-      "Central America",
+      "European Union",
     ],
-    contactPoint: [
-      {
-        "@type": "ContactPoint",
-        contactType: "sales",
-        telephone: "+6621234567",
-        email: "sales@globalgreenexport.com",
-        availableLanguage: ["English", "Thai"],
-        hoursAvailable: {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          opens: "08:00",
-          closes: "18:00",
-        },
-      },
-      {
-        "@type": "ContactPoint",
-        contactType: "customer service",
-        telephone: "+6621234567",
-        email: "support@globalgreenexport.com",
-        availableLanguage: ["English", "Thai"],
-      },
+    knowsAbout: [
+      "Medical cannabis export",
+      "GACP certification",
+      "Hemp derivatives",
+      "Thai FDA export licensing",
+      "Escrow-protected trade",
+      "Construction materials sourcing",
+      "HVAC and appliance export",
     ],
-    sameAs: [
-      "https://linkedin.com/company/globalgreenexport",
-      "https://twitter.com/globalgreenexp",
-      "https://facebook.com/globalgreenexport",
-    ],
-    foundingDate: "2020",
-    foundingLocation: {
-      "@type": "Place",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Bangkok",
-        addressCountry: "Thailand",
-      },
-    },
+    foundingDate: SITE.founded,
   };
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
+  const website = {
     "@type": "WebSite",
-    name: SITE_NAME,
+    "@id": `${SITE_URL}/#website`,
     url: SITE_URL,
+    name: BRAND,
     description: SITE_DESCRIPTION,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SITE_URL}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
+    publisher: { "@id": `${SITE_URL}/#organization` },
   };
 
-  const localBusinessSchema = {
+  const graph = {
     "@context": "https://schema.org",
-    "@type": "ExportCompany",
-    name: BRAND_NAME,
-    description: SITE_DESCRIPTION,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Sukhumvit Road",
-      addressLocality: "Bangkok",
-      addressCountry: "Thailand",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: 13.756331,
-      longitude: 100.501765,
-    },
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "08:00",
-      closes: "18:00",
-    },
-    priceRange: "$$$",
-    hasMerchantReturnPolicy: {
-      "@type": "MerchantReturnPolicy",
-      applicableCountry: "TH",
-      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
-      merchantReturnDays: 14,
-      returnMethod: "https://schema.org/ReturnByMail",
-      returnFees: "https://schema.org/FreeReturn",
-    },
+    "@graph": [organization, website],
   };
 
   return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
+    />
+  );
+}
+
+// ============================================================
+// ROOT LAYOUT
+// ============================================================
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable}`}
+      className={`${archivo.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col antialiased font-body bg-black text-[var(--ink)]">
-        {/* Structured Data Scripts */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(organizationSchema) 
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(websiteSchema) 
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ 
-            __html: JSON.stringify(localBusinessSchema) 
-          }}
-        />
-
+      <body className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text)] font-body antialiased grain">
+        <StructuredData />
         <SkipLink />
-        
-        <div className="bg-black">
-          <Navbar />
-        </div>
-        
-        <main id="main-content" tabIndex={-1} className="flex-1 bg-[var(--paper)]">
+        <Navbar />
+        <main id="main-content" tabIndex={-1} className="flex-1">
           {children}
         </main>
-        
         <Footer />
+        <ScrollToTop />
+        <CookieConsent />
       </body>
     </html>
   );
