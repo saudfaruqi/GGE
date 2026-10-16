@@ -45,8 +45,7 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3">
-              <Image src="/logo1.png" alt="Global Green Export" width={44} height={44} className="h-9 w-auto invert" />
-              <span className="micro text-[var(--text-55)]">Global Green Export</span>
+              <Image src="/logo1.png" alt="Global Green Export" width={44} height={44} className="h-16 w-auto invert" />
             </Link>
             <p className="mt-6 max-w-sm text-[13px] leading-relaxed text-[var(--text-55)]">
               Bangkok-based export house handling regulated Thai supply chains under a Thai
